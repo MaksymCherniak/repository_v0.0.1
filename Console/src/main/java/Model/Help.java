@@ -29,6 +29,7 @@ public class Help implements Command{
         new ShowFolderStructure().printHelp();
         new CopyFile().printHelp();
         new CompareContentOfFiles().printHelp();
+	new Exit().printHelp();
         System.out.println();
     }
     public File execute(String args, File currentDirectory) {
