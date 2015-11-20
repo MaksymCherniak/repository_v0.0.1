@@ -3,6 +3,8 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java/Model/CompareContentOfFiles.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/Model/CopyFile.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/Model/CreateDir.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/Model/DeleteFile.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/Model/ShowFile.java" charset="UTF-8" />
   </component>
 </project>

@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * Created by Max on 18.11.2015.
  */
-public class CopyFile implements Command{
+public class CopyFile implements ICommand {
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private String name = "copy";
     private File copyFile;
@@ -18,9 +18,6 @@ public class CopyFile implements Command{
     public void printHelp() {
         System.out.println("-" + name + " -- copy file");
     }
-    public void execute() {
-
-    }
 
     public File execute(String args, File currentDirectory) {
         copyFile = new File(currentDirectory, args);
@@ -29,6 +26,8 @@ public class CopyFile implements Command{
         try {
             fileInputStream = new FileInputStream(s);
         } catch (FileNotFoundException e) {
+            System.out.println("Файл не найден. Выполните новую команду.");
+            return currentDirectory;
         }
         System.out.println("Введите имя файла в который нужно скопировать данные ");
         try {
@@ -46,13 +45,12 @@ public class CopyFile implements Command{
             fileInputStream.close();
             fileOutputStream.close();
         } catch (FileNotFoundException e) {
+            System.out.println("Файл не найден. Выполните новую команду.");
+            return currentDirectory;
         } catch (IOException e) {
         }
         return currentDirectory;
     }
 
-    public File execute(File currentDirectory) {
-        return null;
-    }
 }
 

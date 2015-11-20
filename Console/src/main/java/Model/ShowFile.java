@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * Created by Max on 18.11.2015.
  */
-public class ShowFile implements Command {
+public class ShowFile implements ICommand {
     private String name = "type";
     private File type;
     private FileInputStream inputStream;
@@ -15,9 +15,6 @@ public class ShowFile implements Command {
 
     public void printHelp() {
         System.out.println("-" + name + " -- show file ( content )");
-    }
-    public void execute() {
-
     }
 
     public File execute(String args, File currentDirectory) {
@@ -52,8 +49,5 @@ public class ShowFile implements Command {
             }
         }catch (IOException e)
         {}
-    }
-    public File execute(File currentDirectory) {
-        return null;
     }
 }

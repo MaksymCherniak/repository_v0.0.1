@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * Created by Max on 18.11.2015.
  */
-public class CompareContentOfFiles implements Command {
+public class CompareContentOfFiles implements ICommand {
     private String name = "fc";
     private String[] parts;
     private FileInputStream firstFile;
@@ -19,20 +19,29 @@ public class CompareContentOfFiles implements Command {
     public void printHelp() {
         System.out.println("-" + name + " -- compare content of files");
     }
-    public void execute() {
-    }
+
     public File execute(String args, File currentDirectory) {
         parts = args.split(" ");
         currentFirstDir = new File(currentDirectory, parts[0]);
         currentSecondDir = new File(currentDirectory, parts[1]);
+        if (currentFirstDir.isDirectory() || currentSecondDir.isDirectory())
+        {
+            System.out.println(currentFirstDir.getName() + " или " +currentSecondDir.getName() + " не являются файлами.\nВведите новую команду.");
+            return currentDirectory;
+        }
         try {
             firstFile = new FileInputStream(currentFirstDir.getPath());
             secondFile = new FileInputStream(currentSecondDir.getPath());
-        } catch (FileNotFoundException e) {}
+        } catch (FileNotFoundException e) {
+            System.out.println("Файл не найден. Выполните новую команду");
+        }
 
-        if (compare(firstFile, secondFile))
+        if (compare(firstFile, secondFile)) {
             System.out.println("Содержимое файлов \"" + currentFirstDir.getPath() + "\" и \"" + currentSecondDir.getPath() + "\" идентично. ");
-        else System.out.println("Содержимое файлов \"" + currentFirstDir.getPath() + "\" и \"" + currentSecondDir.getPath() + "\" не идентично. ");
+        }
+        else {
+            System.out.println("Содержимое файлов \"" + currentFirstDir.getPath() + "\" и \"" + currentSecondDir.getPath() + "\" не идентично. ");
+        }
         return currentDirectory;
     }
     public boolean compare(InputStream firstFile, InputStream secondFile)
@@ -51,8 +60,5 @@ public class CompareContentOfFiles implements Command {
             }
         } catch (IOException e) {}
         return compare;
-    }
-    public File execute(File currentDirectory) {
-        return null;
     }
 }

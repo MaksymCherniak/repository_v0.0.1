@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Created by Max on 18.11.2015.
  */
-public class Exit implements Command{
+public class Exit implements ICommand {
     private String name = "exit";
 
     public String getName() {
@@ -15,15 +15,9 @@ public class Exit implements Command{
     public void printHelp() {
         System.out.println("-" + name + " -- exit");
     }
-    public void execute() {
-        System.exit(0);
-    }
 
     public File execute(String args, File currentDirectory) {
+        System.exit(0);
         return currentDirectory;
-    }
-
-    public File execute(File currentDirectory) {
-        return null;
     }
 }

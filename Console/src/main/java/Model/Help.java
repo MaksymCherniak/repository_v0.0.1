@@ -6,7 +6,7 @@ import java.io.File;
 /**
  * Created by Max on 18.11.2015.
  */
-public class Help implements Command{
+public class Help implements ICommand {
     private static String name = "help";
 
     public String getName() {
@@ -15,8 +15,8 @@ public class Help implements Command{
     public void printHelp() {
         System.out.println("-" + name + " -- show all available commands");
     }
-    public void execute()
-    {
+
+    public File execute(String args, File currentDirectory) {
         System.out.println("All available commands: ");
         System.out.println();
         printHelp();
@@ -29,14 +29,8 @@ public class Help implements Command{
         new ShowFolderStructure().printHelp();
         new CopyFile().printHelp();
         new CompareContentOfFiles().printHelp();
-	new Exit().printHelp();
+        new Exit().printHelp();
         System.out.println();
-    }
-    public File execute(String args, File currentDirectory) {
         return currentDirectory;
-    }
-
-    public File execute(File currentDirectory) {
-        return null;
     }
 }
