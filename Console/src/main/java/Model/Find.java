@@ -7,7 +7,6 @@ import java.io.File;
  */
 public class Find implements ICommand {
     private String name = "find";
-
     public String getName() {
         return name;
     }
@@ -21,10 +20,12 @@ public class Find implements ICommand {
             if (currentDirectory.canRead()) {
                 for (File temp : currentDirectory.listFiles()) {
                     System.out.println(temp.getPath());
-                    if (temp.isDirectory())
+                    if (temp.isDirectory()) {
                         execute(args, temp);
-                    else if (args.equals(temp.getName()))
-                        System.out.println(temp.getAbsoluteFile().toString());
+                    }
+                    else if (args.equals(temp.getName())) {
+                        System.out.println(temp.getAbsoluteFile().toString() + " found");
+                    }
                 }
             }
         }

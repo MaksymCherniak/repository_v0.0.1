@@ -79,6 +79,10 @@ public class Controller {
             new CopyFile().execute(parsedCommand.args, currentDirectory);
         } else if (parsedCommand.command.equalsIgnoreCase("fc")) {
             new CompareContentOfFiles().execute(parsedCommand.args, currentDirectory);
-        } else System.out.println("Wrong command. ");
+        } else if (parsedCommand.command.equalsIgnoreCase("fnd")){
+            new FindWithTreads().execute(parsedCommand.args, currentDirectory);
+        } else {
+            System.out.println("Wrong command. ");
+        }
     }
 }

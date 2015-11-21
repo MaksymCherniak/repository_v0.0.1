@@ -22,6 +22,7 @@ public class Help implements ICommand {
         printHelp();
         new ChangeCurrentLocation().printHelp();
         new Find().printHelp();
+        new FindWithTreads().printHelp();
         new ShowDirectoryContent().printHelp();
         new ShowFile().printHelp();
         new DeleteFile().printHelp();
