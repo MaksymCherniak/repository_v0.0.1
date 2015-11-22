@@ -82,7 +82,7 @@ public class CommandController {
             new CompareContentOfFiles().execute(parsedCommand.args, currentDirectory);
         } else if (parsedCommand.command.equalsIgnoreCase("fnd")) {
             new FindWithTreads().execute(parsedCommand.args, currentDirectory);
-        }else if (parsedCommand.command.equalsIgnoreCase("findc")){
+        }else if (parsedCommand.command.equalsIgnoreCase("findcon")){
             new FindWithConcurrent().execute(parsedCommand.args, currentDirectory);
         } else {
             System.out.println("Wrong command. ");

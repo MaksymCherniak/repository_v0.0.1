@@ -60,6 +60,10 @@ public class FindWithConcurrent extends Thread implements ICommand{
                     }
                 }
             }
+        } else {
+            if (currentDirectory.getName().equals(fileName)){
+                System.out.println(currentDirectory.getAbsoluteFile().toString() + " found");
+            }
         }
     }
     public boolean checkParts(String fullLine)

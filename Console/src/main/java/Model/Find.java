@@ -29,19 +29,21 @@ public class Find implements ICommand {
         }
         return currentDirectory;
     }
-    public void find(String args, File currentDirectory)
-    {
+    public void find(String args, File currentDirectory) {
         if (currentDirectory.isDirectory()) {
             if (currentDirectory.canRead()) {
                 for (File temp : currentDirectory.listFiles()) {
                     System.out.println(temp.getPath());
                     if (temp.isDirectory()) {
                         find(args, temp);
-                    }
-                    else if (args.equals(temp.getName())) {
+                    } else if (args.equals(temp.getName())) {
                         result.add(temp.getAbsoluteFile().toString() + " found");
                     }
                 }
+            }
+        } else {
+            if (currentDirectory.getName().equals(args)) {
+                result.add(currentDirectory.getAbsoluteFile().toString() + " found");
             }
         }
     }
