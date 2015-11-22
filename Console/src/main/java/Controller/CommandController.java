@@ -1,4 +1,4 @@
-package CommandController;
+package Controller;
 
 import Model.*;
 
@@ -7,12 +7,13 @@ import java.io.File;
 /**
  * Created by Max on 18.11.2015.
  */
-public class Controller {
+public class CommandController {
     private File currentDirectory;
-    public Controller()
-    {
-        currentDirectory = new File("C:/");
+    public CommandController() {}
+    public void setCurrentDirectory(File currentDirectory) {
+        this.currentDirectory = currentDirectory;
     }
+
     public String getCurrentDirectory()
     {
         return currentDirectory.getPath();
@@ -79,8 +80,10 @@ public class Controller {
             new CopyFile().execute(parsedCommand.args, currentDirectory);
         } else if (parsedCommand.command.equalsIgnoreCase("fc")) {
             new CompareContentOfFiles().execute(parsedCommand.args, currentDirectory);
-        } else if (parsedCommand.command.equalsIgnoreCase("fnd")){
+        } else if (parsedCommand.command.equalsIgnoreCase("fnd")) {
             new FindWithTreads().execute(parsedCommand.args, currentDirectory);
+        }else if (parsedCommand.command.equalsIgnoreCase("findc")){
+            new FindWithConcurrent().execute(parsedCommand.args, currentDirectory);
         } else {
             System.out.println("Wrong command. ");
         }
