@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
  * Created by Max on 22.11.2015.
  */
 public class FindWithConcurrent extends Thread implements ICommand{
-    private static volatile List<String> result = new ArrayList<String>();
+   // private static volatile List<String> result = new ArrayList<String>();
     private static ExecutorService service;
     private static String name = "findcon";
     private String[] parts;
@@ -56,7 +56,7 @@ public class FindWithConcurrent extends Thread implements ICommand{
                     if (temp.isDirectory()) {
                         service.execute(new FindWithConcurrent(service, fileName, temp));
                     } else if (temp.getName().equals(fileName)) {
-                        result.add(temp.getAbsoluteFile().toString() + " found");
+                        System.out.println(temp.getAbsoluteFile().toString() + " found");
                     }
                 }
             }
