@@ -67,6 +67,7 @@ public class FindWithTreads extends Thread implements ICommand{
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {}
+        System.out.println();
         if (result.size() != 0){
             for (String s : result) {
                 System.out.println(s);
@@ -90,6 +91,8 @@ public class FindWithTreads extends Thread implements ICommand{
         } else if (currentDirectory.isFile()){
             if (currentDirectory.getName().equals(fileName)) {
                 result.add(currentDirectory.getPath() + " found");
+            } else {
+                System.out.println(currentDirectory.getPath() + " is not folder. Try another command");
             }
         } else {
             System.out.println(currentDirectory.getPath() + " is not folder. Try another command");
