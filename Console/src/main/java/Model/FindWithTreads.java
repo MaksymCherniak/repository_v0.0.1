@@ -88,7 +88,9 @@ public class FindWithTreads extends Thread implements ICommand{
                 }
             }
         } else if (currentDirectory.isFile()){
-            result.add(currentDirectory.getPath() + " found");
+            if (currentDirectory.getName().equals(fileName)) {
+                result.add(currentDirectory.getPath() + " found");
+            }
         } else {
             System.out.println(currentDirectory.getPath() + " is not folder. Try another command");
         }
