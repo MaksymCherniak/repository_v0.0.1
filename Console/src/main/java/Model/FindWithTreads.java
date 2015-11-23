@@ -116,15 +116,13 @@ class ThreadsForSearch extends Thread{
     public void run() {
         File file = FindWithTreads.dequeOfFiles.poll();
         System.out.println(Thread.currentThread());
-        if (file.isDirectory()){
-            if (file.canRead()){
-                for (File temp : file.listFiles()) {
-                    System.out.println(temp.getPath());
-                    if (temp.isDirectory()) {
-                        FindWithTreads.dequeOfFiles.add(temp);
-                    } else if (temp.getName().equals(FindWithTreads.fileName))
-                        FindWithTreads.result.add(temp.getPath() + " found");
-                }
+        if (file.canRead()){
+            for (File temp : file.listFiles()) {
+                System.out.println(temp.getPath());
+                if (temp.isDirectory()) {
+                    FindWithTreads.dequeOfFiles.add(temp);
+                } else if (temp.getName().equals(FindWithTreads.fileName))
+                    FindWithTreads.result.add(temp.getPath() + " found");
             }
         }
         System.out.println(Thread.currentThread() + " finished");
