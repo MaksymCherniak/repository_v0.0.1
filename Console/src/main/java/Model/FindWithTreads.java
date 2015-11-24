@@ -57,6 +57,10 @@ public class FindWithTreads implements ICommand{
             firstThread.join();
         } catch (InterruptedException e) {}
 
+        while (threadsForSearches.size() == 0 || dequeOfFiles.size() == 0){ //Запустить все очереди по доступным подпапкам
+            threadsForSearches.poll().start();
+        }
+
         threadsManager();
         printResult();
 
@@ -83,13 +87,14 @@ public class FindWithTreads implements ICommand{
                     try {
                         System.out.println(" Waiting ");
                         monitor.wait();
-                        threadsForSearches.poll().start();
                     } catch (InterruptedException e) {}
                 }
             } else {
-                threadsForSearches.poll().start();
+                synchronized (threadsForSearches) {
+                    threadsForSearches.poll().start();
+                }
             }
-        }while ((threadsForSearches.size() != quantityTreads) && (dequeOfFiles.size() != 0));
+        } while ((threadsForSearches.size() != quantityTreads) && (dequeOfFiles.size() != 0));
     }
 
     /**Вывод результата */
@@ -138,7 +143,9 @@ class ThreadsForSearch extends Thread{
             System.out.println(file.getPath() + " is not folder. Try another command");
         }
         System.out.println(Thread.currentThread() + " finished");
-        FindWithTreads.threadsForSearches.addLast(new ThreadsForSearch());
+        synchronized (FindWithTreads.threadsForSearches) {
+            FindWithTreads.threadsForSearches.addLast(new ThreadsForSearch());
+        }
         synchronized (FindWithTreads.monitor) {
             FindWithTreads.monitor.notify();
         }
