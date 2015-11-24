@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Max on 21.11.2015.
  */
-public class FindWithTreads extends Thread implements ICommand{
+public class FindWithTreads implements ICommand{
     protected static Object monitor;
     protected static Deque<File> dequeOfFiles = new ArrayDeque<File>();
     protected static List<String> result = new ArrayList<String>();
@@ -28,17 +28,16 @@ public class FindWithTreads extends Thread implements ICommand{
         this.fileName = fileName;
         this.currentDirectory = currentDirectory;
     }
-    public File getCurrentDirectory() {
-        return currentDirectory;
-    }
+    public File getCurrentDirectory() { return currentDirectory; }
+    public String getName() { return name; }
 
     public void printHelp() {
         System.out.println("-" + name + " \"name\" -- find file using threads, with quantity of threads by default");
         System.out.println("-" + name + " \"name\" N -- find file using threads, N - quantity of threads");}
 
     public File execute(String args, File currentDirectory) {
-        this.currentDirectory = currentDirectory;
         monitor = new Object();
+
         if (checkParts(args)) {
             fileName = args;
             quantityTreads = DEFAULT_QUANTITY_THREADS;
@@ -49,56 +48,16 @@ public class FindWithTreads extends Thread implements ICommand{
         for (int i = 0; i < quantityTreads; i++) {
             threadsForSearches.add(new ThreadsForSearch());
         }
-        this.start();
-        try {
-            this.join();
-        } catch (InterruptedException e) {}
-        while (!(dequeOfFiles.size() == 0)){
-            if (threadsForSearches.size() == 0) {
-                synchronized (monitor) {
-                    try {
-                        monitor.wait();
-                    } catch (InterruptedException e) {}
-                }
-            } else {
-                threadsForSearches.poll().start();
-            }
-        }
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {}
-        System.out.println();
-        if (result.size() != 0){
-            for (String s : result) {
-                System.out.println(s);
-            }
-        }else System.out.println("File not found.");
+
+        dequeOfFiles.add(currentDirectory); //Добавляем в очередь файлов текущую папку
+
+        threadsManager();
+        printResult();
+
         return currentDirectory;
     }
 
-    @Override
-    public void run() {
-        if (currentDirectory.isDirectory()){
-            if (currentDirectory.canRead()){
-                for (File temp : currentDirectory.listFiles()){
-                    if (temp.isDirectory()){
-                        dequeOfFiles.add(temp);
-                    }else if (temp.getName().equals(fileName)) {
-                        result.add(temp.getPath() + " found");
-                    }
-                }
-            }
-        } else if (currentDirectory.isFile()){
-            if (currentDirectory.getName().equals(fileName)) {
-                result.add(currentDirectory.getPath() + " found");
-            } else {
-                System.out.println(currentDirectory.getPath() + " is not folder. Try another command");
-            }
-        } else {
-            System.out.println(currentDirectory.getPath() + " is not folder. Try another command");
-        }
-    }
-
+    /**Проверка входящей строки на наявность аргумента(количество нитей) */
     public boolean checkParts(String fullLine)
     {
         if (fullLine.contains(" "))
@@ -109,21 +68,66 @@ public class FindWithTreads extends Thread implements ICommand{
             return true;
         }
     }
+
+    /**Менеджер потоков */
+    public void threadsManager(){
+        while (!(dequeOfFiles.size() == 0)){
+            if (threadsForSearches.size() == 0 || dequeOfFiles.size() == 0) {
+                synchronized (monitor) {
+                    try {
+                        monitor.wait();
+                    } catch (InterruptedException e) {}
+                }
+            } else {
+                threadsForSearches.poll().start();
+            }
+        }
+    }
+
+    /**Вывод результата */
+    public void printResult(){
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {}
+        int i = result.size();
+        System.out.println();
+        System.out.println("Найдено " + i + " файлов.");
+        for (String s : result){
+            System.out.println(s);
+        }
+        System.out.println();
+    }
 }
 
+/**Класс нитей */
 class ThreadsForSearch extends Thread{
     @Override
     public void run() {
-        File file = FindWithTreads.dequeOfFiles.poll();
+        File file;
+        synchronized (FindWithTreads.dequeOfFiles) {
+            file = FindWithTreads.dequeOfFiles.poll();
+        }
         System.out.println(Thread.currentThread());
-        if (file.canRead()){
-            for (File temp : file.listFiles()) {
-                System.out.println(temp.getPath());
-                if (temp.isDirectory()) {
-                    FindWithTreads.dequeOfFiles.add(temp);
-                } else if (temp.getName().equals(FindWithTreads.fileName))
-                    FindWithTreads.result.add(temp.getPath() + " found");
+        if (file.isDirectory()) {
+            if (file.canRead()) {
+                for (File temp : file.listFiles()) {
+                    System.out.println(temp.getPath());
+                    if (temp.isDirectory()) {
+                        synchronized (FindWithTreads.dequeOfFiles) {
+                            FindWithTreads.dequeOfFiles.add(temp);
+                        }
+                    } else if (temp.getName().equals(FindWithTreads.fileName))
+                        FindWithTreads.result.add(temp.getPath() + " found");
+                }
             }
+        } else if (file.isFile()){
+            if (file.getName().equals(FindWithTreads.fileName)) {
+                FindWithTreads.result.add(file.getPath() + " found");
+            } else {
+                System.out.println(file.getPath() + " is not folder. Try another command");
+            }
+        } else {
+            System.out.println(file.getPath() + " is not folder. Try another command");
         }
         System.out.println(Thread.currentThread() + " finished");
         FindWithTreads.threadsForSearches.addLast(new ThreadsForSearch());
