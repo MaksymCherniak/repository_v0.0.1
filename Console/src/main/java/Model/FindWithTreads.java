@@ -51,6 +51,12 @@ public class FindWithTreads implements ICommand{
 
         dequeOfFiles.add(currentDirectory); //Добавляем в очередь файлов текущую папку
 
+        ThreadsForSearch firstThread = threadsForSearches.poll();
+        firstThread.start();
+        try {
+            firstThread.join();
+        } catch (InterruptedException e) {}
+
         threadsManager();
         printResult();
 
@@ -71,23 +77,25 @@ public class FindWithTreads implements ICommand{
 
     /**Менеджер потоков */
     public void threadsManager(){
-        while (!(dequeOfFiles.size() == 0)){
+        do{
             if (threadsForSearches.size() == 0 || dequeOfFiles.size() == 0) {
                 synchronized (monitor) {
                     try {
+                        System.out.println(" Waiting ");
                         monitor.wait();
+                        threadsForSearches.poll().start();
                     } catch (InterruptedException e) {}
                 }
             } else {
                 threadsForSearches.poll().start();
             }
-        }
+        }while ((threadsForSearches.size() != quantityTreads) && (dequeOfFiles.size() != 0));
     }
 
     /**Вывод результата */
     public void printResult(){
         try {
-            Thread.sleep(100);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {}
         int i = result.size();
         System.out.println();
