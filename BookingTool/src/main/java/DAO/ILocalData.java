@@ -1,4 +1,4 @@
-package Model.DAOModel;
+package DAO;
 
 import Model.LocalModel.LocalData;
 import Model.LocalModel.User;

@@ -2,6 +2,7 @@ package View;
 
 import Controller.CommandController;
 import Model.LocalModel.LocalData;
+import Model.LocalModel.XmlData;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +16,8 @@ public class ConsoleView {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         CommandController commandController = new CommandController();
         new LocalData().create();
+        new XmlData().setIndex();
+
         System.out.println("Welcome. Please type some command.");
         do{
             String line = reader.readLine();

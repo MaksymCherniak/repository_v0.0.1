@@ -1,7 +1,8 @@
 package Model.LocalModel;
 
-import Model.DAOModel.ILocalData;
+import DAO.ILocalData;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.Map;
  */
 public class LocalData implements ILocalData{
     public static Map<Integer, AvailabilitySeats> collectionOfAvailabilitySeats = new HashMap<Integer, AvailabilitySeats>();
-    private static Map<Integer, User> collectionOfSeatsOccupiedByUsers = new HashMap<Integer, User>();
+    private static Map<Integer, Integer> collectionOfSeatsOccupiedByUsers = new HashMap<Integer, Integer>();
     public static int[] seatChecker = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 
     public void create() {
@@ -34,14 +35,14 @@ public class LocalData implements ILocalData{
     public void update(int seatNumber, User user) {
         Iterator<Map.Entry<Integer, AvailabilitySeats>> iteratorSeats =
                 collectionOfAvailabilitySeats.entrySet().iterator();
-        Iterator<Map.Entry<Integer, User>> iteratorUsers =
+        Iterator<Map.Entry<Integer, Integer>> iteratorUsers =
                 collectionOfSeatsOccupiedByUsers.entrySet().iterator();
         while (iteratorSeats.hasNext() && iteratorUsers.hasNext()){
             Map.Entry<Integer, AvailabilitySeats> pairSeats = iteratorSeats.next();
-            Map.Entry<Integer, User> pairUsers = iteratorUsers.next();
+            Map.Entry<Integer, Integer> pairUsers = iteratorUsers.next();
             if (pairSeats.getKey() == seatNumber){
                 pairSeats.setValue(AvailabilitySeats.OCCUPIED);
-                pairUsers.setValue(user);
+                pairUsers.setValue(user.getIndex());
             }
         }
     }

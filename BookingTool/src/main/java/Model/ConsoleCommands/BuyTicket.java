@@ -15,7 +15,7 @@ public class BuyTicket implements ICommand {
     }
 
     public void printHelp() {
-        System.out.println("- " + name + " buy some ticket.");
+        System.out.println("- " + name + " -- buy some ticket.");
         System.out.println("     " + name + " \"seatNumber\" \"Your surname\" \"Your name\"");
     }
 }

@@ -9,6 +9,7 @@ public class ParsedCommand {
     public String lastName;
     public String firstName;
     public String[] parts;
+    public String id;
 
     public boolean setCommand(String fullLine) {
         if (!fullLine.contains(" ")) {
@@ -22,6 +23,10 @@ public class ParsedCommand {
             seatNumber = Integer.parseInt(parts[1]);
             lastName = parts[2];
             firstName = parts[3];
+            return true;
+        } else if (parts != null && parts.length == 2) {
+            command = parts[0];
+            id = parts[1];
             return true;
         } else {
             return false;

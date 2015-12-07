@@ -1,9 +1,6 @@
 package Controller;
 
-import Model.ConsoleCommands.BuyTicket;
-import Model.ConsoleCommands.Exit;
-import Model.ConsoleCommands.Help;
-import Model.ConsoleCommands.PrintSeats;
+import Model.ConsoleCommands.*;
 import Model.LocalModel.AvailabilitySeats;
 import Model.LocalModel.LocalData;
 
@@ -25,11 +22,15 @@ public class CommandController {
                     new Exit().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                 } else if (parsedCommand.command.equals("print")){
                     new PrintSeats().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
+                } else if (parsedCommand.command.equals("printxml")){
+                    new PrintXmlFile().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                 }
             } else if (parsedCommand.parts != null) {
                 if (parsedCommand.command.equals("buy")) {
                     seatCheck(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
-                } else {
+                } else if (parsedCommand.command.equals("remove")) {
+                    new RemoveUserFromXmlFile().remove(parsedCommand.id);
+                }else {
                     System.out.println("Wrong command.");
                 }
             }
