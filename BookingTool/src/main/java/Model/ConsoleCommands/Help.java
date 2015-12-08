@@ -12,7 +12,7 @@ public class Help implements ICommand {
         new BuyTicket().printHelp();
         new Exit().printHelp();
         new RemoveUserFromXmlFile().printHelp();
-        new PrintXmlFile().printHelp();
+        new PrintAllUsersFromXmlFile().printHelp();
     }
 
     public void printHelp() {

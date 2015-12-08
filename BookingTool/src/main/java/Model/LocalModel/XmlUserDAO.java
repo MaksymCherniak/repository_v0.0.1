@@ -1,50 +1,107 @@
 package Model.LocalModel;
 
-import DAO.IXmlDAO;
-import org.w3c.dom.*;
+import DAO.IUserDAO;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.*;
-import java.util.List;
+import java.io.File;
 
 /**
- * Created by Max on 04.12.2015.
+ * Created by Max on 08.12.2015.
  */
-public class XmlData implements IXmlDAO {
+public class XmlUserDAO implements IUserDAO {
     private final File fileXml = new File("Users.xml");
     private DocumentBuilderFactory factory;
     private DocumentBuilder builder;
     private Document doc;
     private boolean idChecker = false;
-    public XmlData(){
+    public XmlUserDAO(){
         factory = DocumentBuilderFactory.newInstance();
         try {
             builder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {}
         if (!fileXml.exists()){
-            create();
+            createXmlFile();
         }
     }
-    public void create() {
+
+    public void createXmlFile() {
         try {
             doc = builder.newDocument();
 
             Element rootElement = doc.createElement("Users");
             doc.appendChild(rootElement);
 
-            Transformer t = TransformerFactory.newInstance().newTransformer();
-            t.setOutputProperty(OutputKeys.METHOD, "xml");
-            t.setOutputProperty(OutputKeys.INDENT, "yes");
-            t.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(fileXml.getName())));
+            initTransformer();
         } catch (Exception e) {}
     }
 
-    public void read(){
+    public int insertUser(User user) {
+        try{
+            doc = builder.parse(fileXml);
+            Node rootNode = doc.getFirstChild();
+
+            Element userElement = doc.createElement("User");
+            rootNode.appendChild(userElement);
+            userElement.setAttribute("id", String.valueOf(user.getIndex()));
+
+            Element lastNameElement = doc.createElement("lastName");
+            lastNameElement.appendChild(doc.createTextNode(user.getLastName()));
+            userElement.appendChild(lastNameElement);
+
+            Element firstNameElement = doc.createElement("firstName");
+            firstNameElement.appendChild(doc.createTextNode(user.getFirstName()));
+            userElement.appendChild(firstNameElement);
+
+            initTransformer();
+            return user.getIndex();
+        }catch (Exception e){
+            return -1;
+        }
+    }
+
+    public void deleteUser(String id) {
+        try{
+            doc = builder.parse(fileXml);
+            Node rootNode = doc.getFirstChild();
+            doc.getDocumentElement().normalize();
+
+            NodeList listOfUsers = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
+            for(int i = 0; i < listOfUsers.getLength(); i++)
+            {
+                Node node = listOfUsers.item(i);
+                if(node.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    Element element = (Element)node;
+                    if (element.getAttribute("id").equals(id)){
+                        rootNode.removeChild(node);
+                    }
+                }
+            }
+            initTransformer();
+        }catch (Exception e){}
+        System.out.println("User " + id + " removed");
+    }
+
+    public User findUser() {
+        return null;
+    }
+
+    public boolean updateUser() {
+        return false;
+    }
+
+    public void printAllUsers() {
         try{
             doc = builder.parse(fileXml);
             doc.getDocumentElement().normalize();
@@ -66,60 +123,6 @@ public class XmlData implements IXmlDAO {
         }catch (Exception e){}
     }
 
-    public void update(User user){
-        try{
-            doc = builder.parse(fileXml);
-            Node rootNode = doc.getFirstChild();
-
-            Element userElement = doc.createElement("User");
-            rootNode.appendChild(userElement);
-            userElement.setAttribute("id", String.valueOf(user.getIndex()));
-
-            Element lastNameElement = doc.createElement("lastName");
-            lastNameElement.appendChild(doc.createTextNode(user.getLastName()));
-            userElement.appendChild(lastNameElement);
-
-            Element firstNameElement = doc.createElement("firstName");
-            firstNameElement.appendChild(doc.createTextNode(user.getFirstName()));
-            userElement.appendChild(firstNameElement);
-
-            Transformer t = TransformerFactory.newInstance().newTransformer();
-            t.setOutputProperty(OutputKeys.METHOD, "xml");
-            t.setOutputProperty(OutputKeys.INDENT, "yes");
-            t.transform(new DOMSource(doc), new StreamResult(fileXml));
-        }catch (Exception e){}
-    }
-
-    public void delete(String id) {
-        try{
-            doc = builder.parse(fileXml);
-            Node rootNode = doc.getFirstChild();
-            doc.getDocumentElement().normalize();
-
-            NodeList listOfUsers = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
-            for(int i = 0; i < listOfUsers.getLength(); i++)
-            {
-                Node node = listOfUsers.item(i);
-                if(node.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element element = (Element)node;
-                    if (element.getAttribute("id").equals(id)){
-                        rootNode.removeChild(node);
-                    }
-                }
-            }
-            Transformer t = TransformerFactory.newInstance().newTransformer();
-            t.setOutputProperty(OutputKeys.METHOD, "xml");
-            t.setOutputProperty(OutputKeys.INDENT, "yes");
-            t.transform(new DOMSource(doc), new StreamResult(fileXml));
-        }catch (Exception e){}
-        System.out.println("User " + id + " removed");
-    }
-
-    public List<IXmlDAO> getAll() {
-        return null;
-    }
-
     public void setIndex(){
         try {
             doc = builder.parse(fileXml);
@@ -133,6 +136,7 @@ public class XmlData implements IXmlDAO {
             }
         }catch (Exception e){}
     }
+
     public boolean checkId(String id){
         try{
             doc = builder.parse(fileXml);
@@ -153,5 +157,14 @@ public class XmlData implements IXmlDAO {
             }
         }catch (Exception e){}
         return idChecker;
+    }
+
+    private void initTransformer(){
+        try {
+            Transformer t = TransformerFactory.newInstance().newTransformer();
+            t.setOutputProperty(OutputKeys.METHOD, "xml");
+            t.setOutputProperty(OutputKeys.INDENT, "yes");
+            t.transform(new DOMSource(doc), new StreamResult(fileXml));
+        }catch (Exception e){}
     }
 }

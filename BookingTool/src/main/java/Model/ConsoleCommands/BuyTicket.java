@@ -2,6 +2,7 @@ package Model.ConsoleCommands;
 
 import Model.LocalModel.LocalData;
 import Model.LocalModel.User;
+import Model.LocalModel.XmlUserDAO;
 
 /**
  * Created by Max on 02.12.2015.
@@ -10,7 +11,9 @@ public class BuyTicket implements ICommand {
     private static String name = "buy";
 
     public void execute(int seatNumber, String lastName, String firstName) {
-        new LocalData().update(seatNumber, new User().create(lastName, firstName));
+        User user = new User(lastName, firstName);
+        new LocalData().update(seatNumber, user);
+        new XmlUserDAO().insertUser(user);
         System.out.println("Thanks for your order. Your seat is number " + seatNumber + ".");
     }
 

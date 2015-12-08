@@ -1,7 +1,7 @@
 package Model.ConsoleCommands;
 
 import Model.LocalModel.User;
-import Model.LocalModel.XmlData;
+import Model.LocalModel.XmlUserDAO;
 
 /**
  * Created by Max on 08.12.2015.
@@ -10,8 +10,8 @@ public class RemoveUserFromXmlFile implements ICommand {
     private static String name = "remove";
     public void execute(int seatNumber, String lastName, String firstName) { }
     public void remove(String id){
-        if (new XmlData().checkId(id)) {
-            new User().delete(id);
+        if (new XmlUserDAO().checkId(id)) {
+            new XmlUserDAO().deleteUser(id);
         } else {
             System.out.println("User with id \"" + id + "\" not found.");
         }

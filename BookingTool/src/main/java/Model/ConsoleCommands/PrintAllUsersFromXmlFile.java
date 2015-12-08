@@ -1,17 +1,17 @@
 package Model.ConsoleCommands;
 
-import Model.LocalModel.XmlData;
+import Model.LocalModel.XmlUserDAO;
 
 /**
  * Created by Max on 08.12.2015.
  */
-public class PrintXmlFile implements ICommand{
+public class PrintAllUsersFromXmlFile implements ICommand{
     private static String name = "printxml";
     public void execute(int seatNumber, String lastName, String firstName) {
-        new XmlData().read();
+        new XmlUserDAO().printAllUsers();
     }
 
     public void printHelp() {
-        System.out.println("- " + name + " -- print xml file");
+        System.out.println("- " + name + " -- print all users from xml file");
     }
 }

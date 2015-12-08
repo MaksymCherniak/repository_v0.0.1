@@ -23,7 +23,7 @@ public class CommandController {
                 } else if (parsedCommand.command.equals("print")){
                     new PrintSeats().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                 } else if (parsedCommand.command.equals("printxml")){
-                    new PrintXmlFile().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
+                    new PrintAllUsersFromXmlFile().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                 }
             } else if (parsedCommand.parts != null) {
                 if (parsedCommand.command.equals("buy")) {
