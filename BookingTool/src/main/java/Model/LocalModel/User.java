@@ -32,6 +32,5 @@ public class User{
     public static void setIndex(String index) {
         int id = Integer.parseInt(index);
         User.index = id;
-        System.out.println(User.index);
     }
 }
