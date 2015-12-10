@@ -1,6 +1,6 @@
 package Model.ConsoleCommands;
 
-import Model.LocalModel.XmlUserDAO;
+import DAO.XmlUserDAO;
 
 /**
  * Created by Max on 08.12.2015.

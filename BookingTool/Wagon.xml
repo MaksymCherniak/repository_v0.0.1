@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Wagon>
+<Seat seatNumber="1" status="FREE"/>
+<Seat seatNumber="2" status="FREE"/>
+<Seat seatNumber="3" status="FREE"/>
+<Seat seatNumber="4" status="FREE"/>
+<Seat seatNumber="5" status="FREE"/>
+<Seat seatNumber="6" status="FREE"/>
+<Seat seatNumber="7" status="FREE"/>
+<Seat seatNumber="8" status="FREE"/>
+<Seat seatNumber="9" status="FREE"/>
+<Seat seatNumber="10" status="FREE"/>
+<Seat seatNumber="11" status="FREE"/>
+<Seat seatNumber="12" status="FREE"/>
+<Seat seatNumber="13" status="FREE"/>
+<Seat seatNumber="14" status="FREE"/>
+<Seat seatNumber="15" status="OCCUPIED" userId="1"/>
+<Seat seatNumber="16" status="FREE"/>
+<Seat seatNumber="17" status="FREE"/>
+<Seat seatNumber="18" status="FREE"/>
+<Seat seatNumber="19" status="FREE"/>
+<Seat seatNumber="20" status="FREE"/>
+</Wagon>

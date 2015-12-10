@@ -1,6 +1,7 @@
-package Model.LocalModel;
+package DAO;
 
 import DAO.IUserDAO;
+import Model.LocalModel.User;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
