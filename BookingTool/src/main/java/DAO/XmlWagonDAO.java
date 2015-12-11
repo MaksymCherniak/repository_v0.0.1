@@ -7,7 +7,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,8 +17,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,19 +26,15 @@ import java.util.List;
 public class XmlWagonDAO implements IWagonDAO{
     private final File fileXml = new File("Wagon.xml");
     private boolean seatChecker = false;
-    private DocumentBuilderFactory factory;
     private DocumentBuilder builder;
     private Document doc;
-    private Wagon wagon;
-    public XmlWagonDAO(Wagon wagon){
-        this.wagon = wagon;
-        factory = DocumentBuilderFactory.newInstance();
+    public XmlWagonDAO(){
         try {
-            builder = factory.newDocumentBuilder();
+            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {}
         if (!fileXml.exists()) {
             createXmlFile();
-            insertWagon(wagon);
+            insertWagon(new Wagon());
         }
     }
 
@@ -56,7 +50,7 @@ public class XmlWagonDAO implements IWagonDAO{
     }
 
     public boolean insertWagon(Wagon wagon) {
-        int[] seats = wagon.getSeatChecker();
+        int[] seats = wagon.getSeats();
         try {
             doc = builder.parse(fileXml);
             Node rootNode = doc.getFirstChild();
@@ -73,7 +67,7 @@ public class XmlWagonDAO implements IWagonDAO{
         return true;
     }
 
-    public boolean insertSeat(int seatNumber, int userId) {
+    public boolean insertSeat(int seatNumber, User user) {
         try {
             doc = builder.parse(fileXml);
             doc.getDocumentElement().normalize();
@@ -85,7 +79,7 @@ public class XmlWagonDAO implements IWagonDAO{
                     Element element = (Element) node;
                     if (element.getAttribute("seatNumber").equals(String.valueOf(seatNumber))) {
                         element.setAttribute("status", String.valueOf(AvailabilitySeats.OCCUPIED));
-                        element.setAttribute("userId", String.valueOf(userId));
+                        element.setAttribute("userId", String.valueOf(user.getIndex()));
                         initTransformer();
                         return true;
                     }
@@ -98,15 +92,7 @@ public class XmlWagonDAO implements IWagonDAO{
         return false;
     }
 
-    public void deleteWagon(String number) {
-
-    }
-
-    public Wagon findWagon(int number) {
-        return null;
-    }
-
-    public boolean updateWagon(int userId) {
+    public boolean updateWagon(String id) {
         try {
             doc = builder.parse(fileXml);
             doc.getDocumentElement().normalize();
@@ -116,7 +102,7 @@ public class XmlWagonDAO implements IWagonDAO{
                 Node node = listOfSeats.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
-                    if (element.getAttribute("userId").equals(String.valueOf(userId))) {
+                    if (element.getAttribute("userId").equals(id)) {
                         element.setAttribute("status", String.valueOf(AvailabilitySeats.FREE));
                         element.removeAttribute("userId");
                         System.out.println("Seat number " + element.getAttribute("seatNumber") + " is FREE now");
@@ -132,7 +118,8 @@ public class XmlWagonDAO implements IWagonDAO{
         return false;
     }
 
-    public void printWagon() {
+    public List getAllSeats() {
+        List<String> listOfSeats = new ArrayList<String>();
         try{
             doc = builder.parse(fileXml);
             doc.getDocumentElement().normalize();
@@ -142,15 +129,17 @@ public class XmlWagonDAO implements IWagonDAO{
                 if(node.getNodeType() == Node.ELEMENT_NODE)
                 {
                     Element element = (Element)node;
-                    System.out.print("Seat number " + element.getAttribute("seatNumber") + " is " + element.getAttribute("status"));
-                    System.out.print(" ");
+                    StringBuilder s = new StringBuilder();
+                    s.append("Seat number ").append(element.getAttribute("seatNumber")).append(" is ")
+                            .append(element.getAttribute("status"));
                     if (!element.getAttribute("userId").equals("")) {
-                        System.out.print(" by user with " + element.getAttribute("userId") + " ID");
+                        s.append(" by user with ").append(element.getAttribute("userId")).append(" ID");
                     }
-                    System.out.println();
+                    listOfSeats.add(String.valueOf(s));
                 }
             }
         }catch (Exception e){}
+        return listOfSeats;
     }
 
     private void initTransformer(){
@@ -173,8 +162,7 @@ public class XmlWagonDAO implements IWagonDAO{
                     Element element = (Element) node;
                     if (element.getAttribute("seatNumber").equals(String.valueOf(seatNumber)) &&
                             element.getAttribute("status").equals(String.valueOf(AvailabilitySeats.FREE))) {
-                        seatChecker = true;
-                        return seatChecker;
+                        return seatChecker = true;
                     }
                 }
             }

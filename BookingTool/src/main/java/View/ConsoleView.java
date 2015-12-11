@@ -1,10 +1,6 @@
 package View;
 
 import Controller.CommandController;
-import DAO.XmlUserDAO;
-import DAO.XmlWagonDAO;
-import Model.LocalModel.Wagon;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

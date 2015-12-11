@@ -10,8 +10,6 @@ import java.util.List;
 public interface IUserDAO {
     int insertUser(User user);
     void deleteUser(String id);
-    User findUser();
-    boolean updateUser();
-    void printAllUsers();
+    List getAllUsers();
 
 }

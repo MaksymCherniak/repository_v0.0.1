@@ -1,14 +1,9 @@
 package Model.LocalModel;
 
-
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by Max on 01.12.2015.
  */
 public class User{
-    public static Set<User> usersData = new HashSet<User>();
     private static volatile int index = 0;
     private String firstName;
     private String lastName;
@@ -16,7 +11,6 @@ public class User{
         incIndex();
         this.firstName = firstName;
         this.lastName = lastName;
-        usersData.add(this);
     }
 
     private synchronized static void incIndex(){ index ++; }

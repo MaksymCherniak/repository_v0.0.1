@@ -7,7 +7,7 @@ import Model.LocalModel.Wagon;
  * Created by Max on 02.12.2015.
  */
 public class CommandController {
-    private static boolean checker = false;
+    private boolean checker = false;
     public void searchCommand(String fullLine){
         ParsedCommand parsedCommand = new ParsedCommand();
         if (parsedCommand.setCommand(fullLine)){
@@ -36,13 +36,11 @@ public class CommandController {
             System.out.println("Wrong command.");
         }
     }
-    public static boolean seatCheck(int seatNumber){
-        for (int i = 0; i < new Wagon().seatChecker.length; i++){
-            if (Wagon.seatChecker[i] == seatNumber){
-                checker = true;
-                return checker;
-            } else {
-                checker = false;
+    public boolean seatCheck(int seatNumber){
+        int[] seats = Wagon.getSeats();
+        for (int i = 0; i < seats.length; i++){
+            if (seats[i] == seatNumber){
+                return checker = true;
             }
         }
         System.out.println("Wrong seat number");

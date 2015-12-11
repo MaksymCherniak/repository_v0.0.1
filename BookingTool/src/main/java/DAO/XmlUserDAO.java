@@ -1,6 +1,5 @@
 package DAO;
 
-import DAO.IUserDAO;
 import Model.LocalModel.User;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -16,20 +15,20 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Max on 08.12.2015.
  */
 public class XmlUserDAO implements IUserDAO {
     private final File fileXml = new File("Users.xml");
-    private DocumentBuilderFactory factory;
     private DocumentBuilder builder;
     private Document doc;
     private boolean idChecker = false;
     public XmlUserDAO(){
-        factory = DocumentBuilderFactory.newInstance();
         try {
-            builder = factory.newDocumentBuilder();
+            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {}
         if (!fileXml.exists()){
             createXmlFile();
@@ -94,15 +93,8 @@ public class XmlUserDAO implements IUserDAO {
         System.out.println("User " + id + " removed");
     }
 
-    public User findUser() {
-        return null;
-    }
-
-    public boolean updateUser() {
-        return false;
-    }
-
-    public void printAllUsers() {
+    public List getAllUsers() {
+        List<String> listOfUsers = new ArrayList<String>();
         try{
             doc = builder.parse(fileXml);
             doc.getDocumentElement().normalize();
@@ -113,15 +105,16 @@ public class XmlUserDAO implements IUserDAO {
                 if(node.getNodeType() == Node.ELEMENT_NODE)
                 {
                     Element element = (Element)node;
-                    System.out.print("ID: " + element.getAttribute("id") + " Full name: " + element.getElementsByTagName("lastName")
-                            .item(0).getChildNodes().item(0).getNodeValue());
-                    System.out.print(" ");
-                    System.out.print(element.getElementsByTagName("firstName").item(0).getChildNodes()
-                            .item(0).getNodeValue());
-                    System.out.println();
+                    StringBuilder s1 = new StringBuilder();
+                    s1.append("ID: " + element.getAttribute("id")).append(" Full name: ")
+                            .append(element.getElementsByTagName("lastName").item(0).getChildNodes().item(0).getNodeValue())
+                            .append(" " + element.getElementsByTagName("firstName").item(0).getChildNodes()
+                                    .item(0).getNodeValue());
+                    listOfUsers.add(String.valueOf(s1));
                 }
             }
         }catch (Exception e){}
+        return listOfUsers;
     }
 
     public void setIndex(){

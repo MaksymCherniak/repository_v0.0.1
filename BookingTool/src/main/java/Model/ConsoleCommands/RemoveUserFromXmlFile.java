@@ -2,8 +2,6 @@ package Model.ConsoleCommands;
 
 import DAO.XmlUserDAO;
 import DAO.XmlWagonDAO;
-import Model.LocalModel.User;
-import Model.LocalModel.Wagon;
 
 /**
  * Created by Max on 08.12.2015.
@@ -15,7 +13,7 @@ public class RemoveUserFromXmlFile implements ICommand {
         XmlUserDAO xmlUserDAO = new XmlUserDAO();
         if (xmlUserDAO.checkId(id)) {
             xmlUserDAO.deleteUser(id);
-            new XmlWagonDAO(new Wagon()).updateWagon(Integer.parseInt(id));
+            new XmlWagonDAO().updateWagon(id);
         } else {
             System.out.println("User with id \"" + id + "\" not found.");
         }

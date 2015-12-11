@@ -1,7 +1,7 @@
 package Model.ConsoleCommands;
 
 import DAO.XmlWagonDAO;
-import Model.LocalModel.Wagon;
+import java.util.List;
 
 /**
  * Created by Max on 02.12.2015.
@@ -9,7 +9,10 @@ import Model.LocalModel.Wagon;
 public class PrintSeatsFromXmlFile implements ICommand{
     private String name = "print";
     public void execute(int seatNumber, String lastName, String firstName) {
-        new XmlWagonDAO(new Wagon()).printWagon();
+        List<String> list = new XmlWagonDAO().getAllSeats();
+        for (String s : list){
+            System.out.println(s);
+        }
     }
     public void printHelp() {
         System.out.println("- " + name + " -- print all seats");
