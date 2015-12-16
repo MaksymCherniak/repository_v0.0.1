@@ -1,5 +1,7 @@
 package Model.ConsoleCommands;
 
+import DAO.MySQLUserDAO;
+import DAO.MySQLWagonDAO;
 import DAO.XmlWagonDAO;
 import Model.LocalModel.User;
 import DAO.XmlUserDAO;
@@ -15,9 +17,12 @@ public class BuyTicket implements ICommand {
         new XmlUserDAO().setIndex();
         User user = new User(lastName, firstName);
         XmlWagonDAO wagonXml = new XmlWagonDAO();
-        if (wagonXml.checkSeatAvailable(seatNumber)){
+        MySQLWagonDAO mySQLWagonDAO = new MySQLWagonDAO();
+        if (wagonXml.checkSeatAvailable(seatNumber) && mySQLWagonDAO.checkSeatAvailable(seatNumber)){
             new XmlUserDAO().insertUser(user);
+            new MySQLUserDAO().insertUser(user);
             wagonXml.insertSeat(seatNumber, user);
+            mySQLWagonDAO.insertSeat(seatNumber, user);
             System.out.println("Thanks for your order. Your seat is number " + seatNumber + ".");
         } else {
             System.out.println("Seat number " + seatNumber + " is occupied");

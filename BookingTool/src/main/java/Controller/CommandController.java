@@ -20,6 +20,10 @@ public class CommandController {
                     new PrintSeatsFromXmlFile().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                 } else if (parsedCommand.command.equals("printxml")){
                     new PrintAllUsersFromXmlFile().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
+                } else if (parsedCommand.command.equals("printdb")){
+                    new PrintSeatsFromDatabase().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
+                } else if (parsedCommand.command.equals("printdbu")){
+                    new PrintAllUsersFromDatabase().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                 }
             } else if (parsedCommand.parts != null) {
                 if (parsedCommand.command.equals("buy")) {
@@ -27,7 +31,7 @@ public class CommandController {
                         new BuyTicket().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                     }
                 } else if (parsedCommand.command.equals("remove")) {
-                    new RemoveUserFromXmlFile().remove(parsedCommand.id);
+                    new RemoveUser().remove(parsedCommand.id);
                 }else {
                     System.out.println("Wrong command.");
                 }

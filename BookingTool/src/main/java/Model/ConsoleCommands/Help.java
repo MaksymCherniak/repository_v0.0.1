@@ -11,8 +11,10 @@ public class Help implements ICommand {
         new PrintSeatsFromXmlFile().printHelp();
         new BuyTicket().printHelp();
         new Exit().printHelp();
-        new RemoveUserFromXmlFile().printHelp();
+        new RemoveUser().printHelp();
         new PrintAllUsersFromXmlFile().printHelp();
+        new PrintSeatsFromDatabase().printHelp();
+        new PrintAllUsersFromDatabase().printHelp();
     }
 
     public void printHelp() {
