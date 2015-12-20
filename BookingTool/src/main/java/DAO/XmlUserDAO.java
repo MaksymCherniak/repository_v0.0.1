@@ -46,6 +46,36 @@ public class XmlUserDAO implements IUserDAO {
         } catch (Exception e) {}
     }
 
+    public User findUser(String id) {
+        User user = new User();
+        try{
+            doc = builder.parse(fileXml);
+            doc.getDocumentElement().normalize();
+
+            NodeList listOfUsers = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
+            for(int i = 0; i < listOfUsers.getLength(); i++)
+            {
+                Node node = listOfUsers.item(i);
+                if(node.getNodeType() == Node.ELEMENT_NODE)
+                {
+                    Element element = (Element)node;
+                    if (element.getAttribute("id").equals(id)){
+                        String ticket = element.getAttribute("id");
+                        String name = element.getElementsByTagName("firstName").item(0).getChildNodes().item(0).getNodeValue();
+                        String surname = element.getElementsByTagName("lastName").item(0).getChildNodes().item(0).getNodeValue();
+                        user.setTicket(ticket);
+                        user.setFirstName(name);
+                        user.setLastName(surname);
+                        break;
+                    }
+                }
+            }
+            initTransformer();
+            return user;
+        }catch (Exception e){}
+        return null;
+    }
+
     public int insertUser(User user) {
         try{
             doc = builder.parse(fileXml);
@@ -70,7 +100,7 @@ public class XmlUserDAO implements IUserDAO {
         }
     }
 
-    public void deleteUser(String id) {
+    public void deleteUser(User user) {
         try{
             doc = builder.parse(fileXml);
             Node rootNode = doc.getFirstChild();
@@ -83,14 +113,14 @@ public class XmlUserDAO implements IUserDAO {
                 if(node.getNodeType() == Node.ELEMENT_NODE)
                 {
                     Element element = (Element)node;
-                    if (element.getAttribute("id").equals(id)){
+                    if (element.getAttribute("id").equals(user.getTicket())){
                         rootNode.removeChild(node);
                     }
                 }
             }
             initTransformer();
         }catch (Exception e){}
-        System.out.println("User " + id + " removed");
+        System.out.println("User " + user.getTicket() + " removed");
     }
 
     public List getAllUsers() {

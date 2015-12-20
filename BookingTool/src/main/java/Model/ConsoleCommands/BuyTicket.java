@@ -1,10 +1,7 @@
 package Model.ConsoleCommands;
 
-import DAO.MySQLUserDAO;
-import DAO.MySQLWagonDAO;
-import DAO.XmlWagonDAO;
+import DAO.*;
 import Model.LocalModel.User;
-import DAO.XmlUserDAO;
 import Model.LocalModel.Wagon;
 
 /**
@@ -21,6 +18,7 @@ public class BuyTicket implements ICommand {
         if (wagonXml.checkSeatAvailable(seatNumber) && mySQLWagonDAO.checkSeatAvailable(seatNumber)){
             new XmlUserDAO().insertUser(user);
             new MySQLUserDAO().insertUser(user);
+            new UserDAOImpl().insertUser(user);
             wagonXml.insertSeat(seatNumber, user);
             mySQLWagonDAO.insertSeat(seatNumber, user);
             System.out.println("Thanks for your order. Your seat is number " + seatNumber + ".");

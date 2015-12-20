@@ -31,6 +31,7 @@ public class CommandController {
                         new BuyTicket().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                     }
                 } else if (parsedCommand.command.equals("remove")) {
+
                     new RemoveUser().remove(parsedCommand.id);
                 }else {
                     System.out.println("Wrong command.");
