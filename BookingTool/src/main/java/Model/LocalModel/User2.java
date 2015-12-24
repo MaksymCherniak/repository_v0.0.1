@@ -4,9 +4,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users2")
-public class User{
+public class User2{
     @Id
-    @Column ( name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column( name = "id")
     private static Integer index;
     @Column (name = "name", length = 64)
     private String firstName;
@@ -14,9 +15,8 @@ public class User{
     private String lastName;
     @Column (name = "ticket")
     private Integer ticket;
-    public User(){}
-    public User(String lastName, String firstName){
-        incIndex();
+    public User2(){}
+    public User2(String lastName, String firstName){
         ticket = index;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -32,7 +32,7 @@ public class User{
     public void setTicket(Integer ticket) { this.ticket = ticket; }
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
-    public static synchronized void setIndex(Integer index) { User.index = index; }
+    public static synchronized void setIndex(Integer index) { User2.index = index; }
 
     private static synchronized void incIndex(){ index ++; }
 
@@ -47,7 +47,7 @@ public class User{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        User other = (User) obj;
+        User2 other = (User2) obj;
         if (!firstName.equals(other.getFirstName())) {
             return false;
         }

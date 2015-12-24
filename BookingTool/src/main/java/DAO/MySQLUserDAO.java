@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.LocalModel.JDBCDriver;
+import Model.LocalModel.Ticket;
 import Model.LocalModel.User;
 
 import java.sql.Connection;
@@ -19,20 +20,19 @@ public class MySQLUserDAO implements IUserDAO{
     private final String NAME = "name";
     private final String SURNAME = "surname";
     private final String TICKET = "ticket";
-
-    public int insertUser(User user) {
+    public MySQLUserDAO(){
         connection = JDBCDriver.getConnection();
+    }
+    public int insertUser(User user) {
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("insert into " + USERS + " (" + NAME + ", " + SURNAME + ", " + TICKET + ") values ('" +
-                    user.getFirstName() + "', '" + user.getLastName() + "', " + user.getIndex() + ");");
-            connection.close();
+            statement.executeUpdate("insert into " + USERS + " (id, " + NAME + ", " + SURNAME + ", " + TICKET + ") values ('"
+                    + user.getIndex() + "', '" + user.getFirstName() + "', '" + user.getLastName() + "', " + user.getTicket() + ");");
         } catch (SQLException e) { e.printStackTrace(); }
         return 0;
     }
 
     public User findUser(String id) {
-        connection = JDBCDriver.getConnection();
         User user = new User();
         try {
             Statement statement = connection.createStatement();
@@ -40,43 +40,50 @@ public class MySQLUserDAO implements IUserDAO{
             while (resultSet.next()){
                 String ticket = resultSet.getString(TICKET);
                 if (ticket.equals(id)) {
-                    String name = resultSet.getString(NAME);
-                    String surname = resultSet.getString(SURNAME);
-                    user.setFirstName(name);
-                    user.setLastName(surname);
-                    user.setTicket(ticket);
-                    break;
+                    user.setFirstName(resultSet.getString(NAME));
+                    user.setLastName(resultSet.getString(SURNAME));
+                    user.setTicket(Integer.parseInt(ticket));
+                    return user;
                 }
             }
-            connection.close();
-            return user;
         } catch (SQLException e) { e.printStackTrace(); }
         return null;
     }
 
     public void deleteUser(User user) {
-        connection = JDBCDriver.getConnection();
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate("delete from " + USERS +" where " + TICKET + "='" + user.getTicket() + "';");
-            connection.close();
+            System.out.println("User with ticket number " + user.getTicket() + " removed.");
         } catch (SQLException e) { e.printStackTrace(); }
     }
 
     public List getAllUsers() {
-        List<String> listOfUsers = new ArrayList<String>();
-        connection = JDBCDriver.getConnection();
+        List<User> listOfUsers = new ArrayList<User>();
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from " + USERS);
             while (resultSet.next()){
-                StringBuilder s = new StringBuilder();
-                s.append("ID ").append(resultSet.getString(TICKET)).append(" Full name:  ")
-                        .append(resultSet.getString(SURNAME)).append(" ").append(resultSet.getString(NAME));
-                listOfUsers.add(String.valueOf(s));
+                User user = new User();
+                user.setTicket(Integer.parseInt(resultSet.getString(TICKET)));
+                user.setFirstName(resultSet.getString(NAME));
+                user.setLastName(resultSet.getString(SURNAME));
+                listOfUsers.add(user);
             }
-            connection.close();
         } catch (SQLException e) { e.printStackTrace(); }
         return listOfUsers;
+    }
+    public void setIndex(){
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from " + USERS);
+            Integer index = 0;
+            while (resultSet.next()){
+                if (index < Integer.parseInt(resultSet.getString(TICKET))){
+                    index = Integer.parseInt(resultSet.getString(TICKET));
+                }
+            }
+            User.setIndex(index);
+        }catch (Exception e){}
     }
 }

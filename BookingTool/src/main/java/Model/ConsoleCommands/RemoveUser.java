@@ -1,6 +1,7 @@
 package Model.ConsoleCommands;
 
 import DAO.*;
+import Model.LocalModel.Ticket;
 import Model.LocalModel.User;
 
 /**
@@ -10,17 +11,11 @@ public class RemoveUser implements ICommand {
     private static String name = "remove";
     public void execute(int seatNumber, String lastName, String firstName) { }
     public void remove(String id){
-        User userFromXml = new XmlUserDAO().findUser(id);
-        User userFromMySQL = new MySQLUserDAO().findUser(id);
-        //User userFromDBUsedHibernate = new UserDAOImpl().findUser(id);
-        if (userFromXml != null && userFromMySQL != null) {
-            if (userFromXml.equals(userFromMySQL)) {
-                new XmlUserDAO().deleteUser(userFromXml);
-                new XmlWagonDAO().updateWagon(id);
-                new MySQLWagonDAO().updateWagon(id);
-                new MySQLUserDAO().deleteUser(userFromMySQL);
-                //new UserDAOImpl().deleteUser(userFromDBUsedHibernate);
-            }
+        Ticket ticket = Factory.getInstance().getMySQLTicketDAO().find(Integer.parseInt(id));
+        if (ticket != null && ticket.getNumber() != null) {
+            Factory.getInstance().getMySQLTicketDAO().delete(ticket);
+            Factory.getInstance().getMySQLWagonDAO().updateWagon(ticket);
+            Factory.getInstance().getMySQLUserDAO().deleteUser(ticket.getUser());
         } else {
             System.out.println("User with id \"" + id + "\" not found.");
         }

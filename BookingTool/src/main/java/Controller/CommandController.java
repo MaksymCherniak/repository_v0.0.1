@@ -3,6 +3,8 @@ package Controller;
 import Model.ConsoleCommands.*;
 import Model.LocalModel.Wagon;
 
+import java.util.List;
+
 /**
  * Created by Max on 02.12.2015.
  */
@@ -17,23 +19,24 @@ public class CommandController {
                 } else if (parsedCommand.command.equals("exit")){
                     new Exit().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                 } else if (parsedCommand.command.equals("print")){
-                    new PrintSeatsFromXmlFile().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
-                } else if (parsedCommand.command.equals("printxml")){
-                    new PrintAllUsersFromXmlFile().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
-                } else if (parsedCommand.command.equals("printdb")){
-                    new PrintSeatsFromDatabase().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
+                    new PrintAllWagons().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
+                } else if (parsedCommand.command.equals("printt")){
+                    new PrintAllTickets().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                 } else if (parsedCommand.command.equals("printdbu")){
                     new PrintAllUsersFromDatabase().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                 }
             } else if (parsedCommand.parts != null) {
                 if (parsedCommand.command.equals("buy")) {
                     if (seatCheck(parsedCommand.seatNumber)){
-                        new BuyTicket().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
+                        new BuyTicket().buyTicket(parsedCommand.wagonNumber, parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
                     }
+                } else if (parsedCommand.command.equals("printwagon")){
+                    new PrintWagon().execute(Integer.parseInt(parsedCommand.id), parsedCommand.lastName, parsedCommand.firstName);
                 } else if (parsedCommand.command.equals("remove")) {
-
                     new RemoveUser().remove(parsedCommand.id);
-                }else {
+                } else if (parsedCommand.command.equals("insertwagon")){
+                    new InsertWagon().insertWagon(parsedCommand.wagonNumber, parsedCommand.wagonType);
+                } else {
                     System.out.println("Wrong command.");
                 }
             }
@@ -42,9 +45,9 @@ public class CommandController {
         }
     }
     public boolean seatCheck(int seatNumber){
-        int[] seats = Wagon.getSeats();
-        for (int i = 0; i < seats.length; i++){
-            if (seats[i] == seatNumber){
+        List<Integer> seats = Wagon.getEconomyWagonList();
+        for (int i = 0; i < seats.size(); i++){
+            if (seats.get(i) == seatNumber){
                 return checker = true;
             }
         }

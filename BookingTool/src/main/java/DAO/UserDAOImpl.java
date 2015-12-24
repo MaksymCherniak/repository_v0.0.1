@@ -3,6 +3,9 @@ package DAO;
 import Model.LocalModel.User;
 import org.hibernate.Session;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,35 +13,36 @@ import java.util.List;
  * Created by Max on 20.12.2015.
  */
 public class UserDAOImpl implements IUserDAO{
+    private static EntityManager entityManager;
+    public UserDAOImpl(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("hibernate-unit");
+        entityManager = emf.createEntityManager();
+    }
     public int insertUser(User user) {
-        Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
-            session.beginTransaction();
-            session.save(user);
-            session.getTransaction().commit();
+            entityManager.getTransaction().begin();
+            entityManager.persist(user);
+            entityManager.getTransaction().commit();
+            entityManager.close();
         } catch (Exception e) {}
         finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
         return 0;
     }
 
     public User findUser(String id) {
         Session session = null;
-        User user = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            user = (User) session.load(User.class, id);
-        } catch (Exception e) {}
+            return  (User) session.load(User.class, id);
+        } catch (Exception e) {
+            return null;
+        }
         finally {
             if (session != null && session.isOpen()) {
                 session.close();
             }
         }
-        return user;
     }
 
     public void deleteUser(User user) {

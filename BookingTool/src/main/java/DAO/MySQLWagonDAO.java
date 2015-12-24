@@ -1,9 +1,6 @@
 package DAO;
 
-import Model.LocalModel.AvailabilitySeats;
-import Model.LocalModel.JDBCDriver;
-import Model.LocalModel.User;
-import Model.LocalModel.Wagon;
+import Model.LocalModel.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,99 +15,125 @@ import java.util.List;
 public class MySQLWagonDAO implements IWagonDAO{
     private Connection connection;
     public MySQLWagonDAO(){
-        if (!wagonInitChecker()){
-            insertWagon(new Wagon());
-        }
-    }
-    public boolean insertSeat(int seatNumber, User user) {
         connection = JDBCDriver.getConnection();
+    }
+    public boolean insertSeat(Ticket ticket) {
         try {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("update wagon_1 set status='" + AvailabilitySeats.OCCUPIED  + "', " +
-                    "ticket='" + user.getIndex() + "' where seat='" + seatNumber + "';");
-            connection.close();
-
+            statement.executeUpdate("update wagon_" + ticket.getWagon() + " set status='" + AvailabilitySeats.OCCUPIED  + "', " +
+                    "ticket='" + ticket.getIndex() + "' where seat='" + ticket.getSeat() + "';");
         } catch (SQLException e) { e.printStackTrace(); }
         return false;
     }
 
     public boolean insertWagon(Wagon wagon) {
-        int[] seats = wagon.getSeats();
-        connection = JDBCDriver.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            for (int i = 0; i < seats.length; i++) {
-                statement.addBatch("INSERT INTO wagon_1 (seat, status) values (" + seats[i] + ", '" + AvailabilitySeats.FREE + "')");
-            }
-            statement.executeBatch();
-            connection.close();
-        } catch (SQLException e) { e.printStackTrace(); }
-        return false;
-    }
-
-    public boolean updateWagon(String id) {
-        connection = JDBCDriver.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("update wagon_1 set status='" + AvailabilitySeats.FREE  + "', " +
-                    "ticket=null where ticket='" + id + "';");
-            connection.close();
-        } catch (SQLException e) { e.printStackTrace(); }
-        return false;
-    }
-
-    public List getAllSeats() {
-        List<String> listOfSeats = new ArrayList<String>();
-        connection = JDBCDriver.getConnection();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from wagon_1");
-            while (resultSet.next()){
-                StringBuilder s = new StringBuilder();
-                s.append("Seat number ").append(resultSet.getString("seat")).append(" is ")
-                        .append(resultSet.getString("status"));
-                if (resultSet.getString("ticket") != null) {
-                    s.append(" by user with ").append(resultSet.getString("ticket")).append(" ID");
+        List<Integer> seats = new ArrayList<Integer>();
+        Integer wagonNumber = wagon.getNumber();
+        if (String.valueOf(wagon.getWagonType()).equalsIgnoreCase("COMFORTABLE")) {
+            seats = wagon.getComfortableWagonSeats();
+        } else if (String.valueOf(wagon.getWagonType()).equalsIgnoreCase("COMPARTMENT")){
+            seats = wagon.getCompartmentWagonList();
+        } else if (String.valueOf(wagon.getWagonType()).equalsIgnoreCase("ECONOMY")){
+            seats = wagon.getEconomyWagonList();
+        }
+        if (!wagonInitChecker(wagonNumber)) {
+            try {
+                Statement statement = connection.createStatement();
+                for (int i = 0; i < seats.size(); i++) {
+                    statement.addBatch("INSERT INTO wagon_" + wagonNumber + " (seat, status) values (" +
+                            (seats.get(i) + 1) + ", '" + AvailabilitySeats.FREE + "')");
                 }
-                listOfSeats.add(String.valueOf(s));
+                statement.executeBatch();
+                System.out.println("Wagon " + wagonNumber + " is initialize");
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            connection.close();
+        } else {
+            System.out.println("Wagon " + wagonNumber + " already initialized.");
+        }
+        return false;
+    }
+
+    public boolean updateWagon(Ticket ticket) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("update wagon_" + ticket.getWagon() + " set status='" + AvailabilitySeats.FREE  + "', " +
+                    "ticket=null where ticket='" + ticket.getNumber() + "';");
+        } catch (SQLException e) { e.printStackTrace(); }
+        return false;
+    }
+
+    public List getAllSeats(int wagonNumber) {
+        List<Seat> listOfSeats = new ArrayList<Seat>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from wagon_" + wagonNumber);
+            while (resultSet.next()){
+                Seat seat = new Seat();
+                seat.setNumber(Integer.parseInt(resultSet.getString("seat")));
+                seat.setStatus(resultSet.getString("status"));
+                if (resultSet.getString("ticket") != null) {
+                    seat.setTicket(resultSet.getString("ticket"));
+                }
+                listOfSeats.add(seat);
+            }
         } catch (SQLException e) { e.printStackTrace(); }
         return listOfSeats;
     }
 
-    private boolean wagonInitChecker(){
-        connection = JDBCDriver.getConnection();
+    public List getAllWagons() {
+        List<Wagon> listOfWagons = new ArrayList<Wagon>();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from train");
+            while (resultSet.next()){
+                Wagon wagon = new Wagon();
+                wagon.setNumber(Integer.parseInt(resultSet.getString("wagon")));
+                wagon.setWagonType(resultSet.getString("type"));
+                wagon.setFreeSeats(getFreeSeats(Integer.parseInt(resultSet.getString("wagon"))));
+                listOfWagons.add(wagon);
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return listOfWagons;
+    }
+
+    private int getFreeSeats(int wagonNumber){
+        List<Seat> listOfSeats = getAllSeats(wagonNumber);
+        int freeSeats = 0;
+        for (Seat seat : listOfSeats){
+            if (String.valueOf(seat.getStatus()).equalsIgnoreCase("free")){
+                freeSeats ++;
+            }
+        }
+        return freeSeats;
+    }
+
+    private boolean wagonInitChecker(int wagonNumber){
         int count = 0;
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from wagon_1");
+            ResultSet resultSet = statement.executeQuery("select * from wagon_" + wagonNumber);
             while (resultSet.next()){
                 count++;
             }
             if (count == 0){
-                connection.close();
                 return false;
             }else {
-                connection.close();
                 return true;
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return false;
     }
 
-    public boolean checkSeatAvailable(int seatNumber) {
-        connection = JDBCDriver.getConnection();
+    public boolean checkSeatAvailable(Ticket ticket) {
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select status from wagon_1 where seat='" + seatNumber + "'");
+            ResultSet resultSet = statement.executeQuery("select status from wagon_" + ticket.getWagon() + " where seat='" + ticket.getSeat() + "'");
             while (resultSet.next()) {
                 String s = resultSet.getString("status");
                 if (s.equals(String.valueOf(AvailabilitySeats.FREE))){
-                    connection.close();
                     return true;
                 } else {
-                    connection.close();
                     return false;
                 }
             }

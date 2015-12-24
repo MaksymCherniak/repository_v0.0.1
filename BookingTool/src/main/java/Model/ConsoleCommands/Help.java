@@ -8,13 +8,14 @@ public class Help implements ICommand {
 
     public void execute(int seatNumber, String lastName, String firstName) {
         new Help().printHelp();
-        new PrintSeatsFromXmlFile().printHelp();
         new BuyTicket().printHelp();
         new Exit().printHelp();
         new RemoveUser().printHelp();
-        new PrintAllUsersFromXmlFile().printHelp();
-        new PrintSeatsFromDatabase().printHelp();
         new PrintAllUsersFromDatabase().printHelp();
+        new InsertWagon().printHelp();
+        new PrintWagon().printHelp();
+        new PrintAllWagons().printHelp();
+        new PrintAllTickets().printHelp();
     }
 
     public void printHelp() {
