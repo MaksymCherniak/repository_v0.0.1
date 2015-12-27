@@ -10,14 +10,17 @@ import java.io.File;
 
 public class HibernateUtil {
     private static SessionFactory sessionFactory = null;
-    public HibernateUtil(){
+
+    public HibernateUtil() {
         try {
             setUp();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
+
     public static void setUp() throws Exception {
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure(new File("hibernate.cfg.xml"))
+                .configure(new File("persistence.xml"))
                 .build();
         try {
             sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
@@ -25,10 +28,12 @@ public class HibernateUtil {
             StandardServiceRegistryBuilder.destroy(registry);
         }
     }
+
     public static SessionFactory getSessionFactory() {
         try {
             setUp();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return sessionFactory;
     }
 }

@@ -15,8 +15,8 @@ public class ConsoleView {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         CommandController commandController = new CommandController();
         System.out.println("Welcome. Please type some command.");
-        do{
+        do {
             commandController.searchCommand(reader.readLine());
-        }while (true);
+        } while (true);
     }
 }

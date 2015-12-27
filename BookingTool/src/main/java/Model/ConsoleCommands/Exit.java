@@ -3,7 +3,7 @@ package Model.ConsoleCommands;
 /**
  * Created by Max on 02.12.2015.
  */
-public class Exit implements ICommand{
+public class Exit implements ICommand {
     private static String name = "exit";
 
     public void execute(int seatNumber, String lastName, String firstName) {

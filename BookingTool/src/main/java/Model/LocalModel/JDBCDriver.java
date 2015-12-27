@@ -12,12 +12,15 @@ public class JDBCDriver {
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
     private static Connection connection;
-    public static Connection getConnection(){
+
+    public static Connection getConnection() {
         try {
             Driver driver = new FabricMySQLDriver();
             DriverManager.registerDriver(driver);
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return connection;
     }
 }

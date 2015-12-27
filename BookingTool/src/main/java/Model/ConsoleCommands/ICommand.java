@@ -5,5 +5,6 @@ package Model.ConsoleCommands;
  */
 public interface ICommand {
     void execute(int seatNumber, String lastName, String firstName);
+
     void printHelp();
 }

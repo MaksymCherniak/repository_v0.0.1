@@ -4,37 +4,57 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "users2")
-public class User2{
+public class User2 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column( name = "id")
-    private static Integer index;
-    @Column (name = "name", length = 64)
+    private static Integer id;
+    @Column(name = "name", length = 64)
     private String firstName;
-    @Column (name = "surname", length = 64)
+    @Column(name = "surname", length = 64)
     private String lastName;
-    @Column (name = "ticket")
+    @Column(name = "ticket")
     private Integer ticket;
-    public User2(){}
-    public User2(String lastName, String firstName){
-        ticket = index;
+
+    public User2() {
+    }
+
+    public User2(String lastName, String firstName) {
+        ticket = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
-    public Integer getIndex() {
-        return index;
+    public Integer getId() {
+        return id;
     }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public Integer getTicket() {return ticket;}
 
-    public void setTicket(Integer ticket) { this.ticket = ticket; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
-    public static synchronized void setIndex(Integer index) { User2.index = index; }
+    public String getFirstName() {
+        return firstName;
+    }
 
-    private static synchronized void incIndex(){ index ++; }
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Integer getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Integer ticket) {
+        this.ticket = ticket;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public static synchronized void setIndex(Integer index) {
+        User2.id = index;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -48,16 +68,7 @@ public class User2{
             return false;
         }
         User2 other = (User2) obj;
-        if (!firstName.equals(other.getFirstName())) {
-            return false;
-        }
-        if (!lastName.equals(other.getLastName())) {
-            return false;
-        }
-        if (!ticket.equals(other.ticket)) {
-            return false;
-        }
-        return true;
+        return firstName.equals(other.getFirstName()) && lastName.equals(other.getLastName()) && ticket.equals(other.ticket);
     }
 
     @Override
