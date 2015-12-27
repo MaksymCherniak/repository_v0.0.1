@@ -1,4 +1,6 @@
 *.txt
 *.iml
-\.idea
-\target
+*.class
+.idea/
+out/
+target/
