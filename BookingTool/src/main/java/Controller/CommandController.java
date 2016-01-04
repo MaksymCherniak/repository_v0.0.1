@@ -12,7 +12,6 @@ public class CommandController {
     private static Logger log = Logger.getLogger(CommandController.class.getName());
     private String command;
     private String[] parts;
-    private boolean checker = false;
     private static Map<String, ICommand> mapOfCommands = new HashMap<>();
 
     static {
@@ -37,16 +36,4 @@ public class CommandController {
             cmnd.execute(fullLine);
         }
     }
-
-    public boolean seatCheck(int seatNumber) {
-        List<Integer> seats = Wagon.getEconomyWagonList();
-        for (Integer seat : seats) {
-            if (seat == seatNumber) {
-                return checker = true;
-            }
-        }
-        System.out.println("Wrong seat number");
-        return checker;
-    }
-
 }
