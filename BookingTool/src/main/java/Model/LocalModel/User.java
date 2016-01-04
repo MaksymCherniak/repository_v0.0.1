@@ -1,40 +1,59 @@
 package Model.LocalModel;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
-@Table(name = "users2")
+@Table(name="user")
+@NamedQuery(name = "User.getAll", query = "SELECT c from User c")
 public class User{
     @Id
-    @Column ( name = "id")
-    private static Integer index;
-    @Column (name = "name", length = 64)
-    private String firstName;
-    @Column (name = "surname", length = 64)
-    private String lastName;
-    @Column (name = "ticket")
-    private Integer ticket;
+    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column
+    private String name;
+    @Column
+    private String surname;
+    @OneToMany(mappedBy="user")
+    private Set<Ticket> ticket;
     public User(){}
-    public User(String lastName, String firstName){
-        incIndex();
-        ticket = index;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String surname, String name){
+        this.name = name;
+        this.surname = surname;
     }
 
-    public Integer getIndex() {
-        return index;
+    public Set<Ticket> getTicket() {
+        return ticket;
     }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public Integer getTicket() {return ticket;}
 
-    public void setTicket(Integer ticket) { this.ticket = ticket; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
-    public static synchronized void setIndex(Integer index) { User.index = index; }
+    public void setTicket(Set<Ticket> ticket) {
+        this.ticket = ticket;
+    }
 
-    private static synchronized void incIndex(){ index ++; }
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setId(int id) { this.id = id; }
+
+    private synchronized void incIndex(){ id ++; }
 
     @Override
     public boolean equals(Object obj) {
@@ -48,20 +67,11 @@ public class User{
             return false;
         }
         User other = (User) obj;
-        if (!firstName.equals(other.getFirstName())) {
-            return false;
-        }
-        if (!lastName.equals(other.getLastName())) {
-            return false;
-        }
-        if (!ticket.equals(other.ticket)) {
-            return false;
-        }
-        return true;
+        return name.equals(other.getName()) && surname.equals(other.getSurname());
     }
 
     @Override
     public String toString() {
-        return "Full name: " + lastName + " " + firstName + ", ticket: " + ticket;
+        return "User ID: " + id + ", Full name: " + surname + " " + name;
     }
 }

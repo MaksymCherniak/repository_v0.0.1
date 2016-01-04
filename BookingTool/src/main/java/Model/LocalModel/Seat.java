@@ -1,40 +1,46 @@
 package Model.LocalModel;
 
-/**
- * Created by Max on 21.12.2015.
- */
+import javax.persistence.*;
+
+@Entity
+@Table(name="seat")
+@NamedQuery(name = "Seat.getAll", query = "SELECT c from Seat c")
 public class Seat {
-    private AvailabilitySeats status;
-    private Integer number;
-    private String ticket = null;
+    @Id
+    @Column(name = "seat_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column
+    private int number;
+    @Column
+    private String status;
+    @Column
+    private String ticket;
+    @ManyToOne
+    @JoinColumn(name="wagon_id")
+    private Wagon wagon;
 
-    public AvailabilitySeats getStatus() {
-        return status;
-    }
+    public String getStatus() { return status; }
 
-    public Integer getNumber() {
-        return number;
-    }
+    public Wagon getWagon() { return wagon; }
 
-    public String getTicket() {
-        return ticket;
-    }
+    public Integer getNumber() { return number; }
+
+    public String getTicket() { return ticket; }
 
     public void setStatus(String status) {
         if (status.equalsIgnoreCase("free")) {
-            this.status = AvailabilitySeats.FREE;
+            this.status = String.valueOf(AvailabilitySeats.FREE);
         } else if (status.equalsIgnoreCase("occupied")) {
-            this.status = AvailabilitySeats.OCCUPIED;
+            this.status = String.valueOf(AvailabilitySeats.OCCUPIED);
         }
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
+    public void setWagon(Wagon wagon) { this.wagon = wagon; }
 
-    public void setTicket(String ticket) {
-        this.ticket = ticket;
-    }
+    public void setNumber(Integer number) { this.number = number; }
+
+    public void setTicket(String ticket) { this.ticket = ticket; }
 
     @Override
     public String toString() {

@@ -5,35 +5,26 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.io.File;
-
+import java.util.logging.Logger;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory = null;
+    private static final String PERSISTENT_UNIT_NAME = "Hello";
 
-    public HibernateUtil() {
+    private static final EntityManagerFactory emf;
+
+    static {
         try {
-            setUp();
-        } catch (Exception e) {
+            emf = Persistence.createEntityManagerFactory(PERSISTENT_UNIT_NAME);
+        } catch (Throwable ex) {
+            throw new ExceptionInInitializerError(ex);
         }
     }
 
-    public static void setUp() throws Exception {
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure(new File("persistence.xml"))
-                .build();
-        try {
-            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        } catch (Exception e) {
-            StandardServiceRegistryBuilder.destroy(registry);
-        }
-    }
-
-    public static SessionFactory getSessionFactory() {
-        try {
-            setUp();
-        } catch (Exception e) {
-        }
-        return sessionFactory;
+    public static EntityManager getEm() {
+        return emf.createEntityManager();
     }
 }

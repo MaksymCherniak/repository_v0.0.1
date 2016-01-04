@@ -2,36 +2,64 @@ package DAO;
 
 import Model.LocalModel.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- * Created by Max on 16.12.2015.
- */
 public class MySQLWagonDAO implements IWagonDAO {
-    private Connection connection;
+    private static EntityManager entityManager;
+    private static Logger log = Logger.getLogger(MySQLWagonDAO.class.getName());
 
     public MySQLWagonDAO() {
-        connection = JDBCDriver.getConnection();
+        entityManager = HibernateUtil.getEm();
     }
 
-    public boolean insertSeat(Ticket ticket) {
+    public boolean updateSeat(Ticket ticket) {
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("update wagon_" + ticket.getWagon() + " set status='" + AvailabilitySeats.OCCUPIED + "', " +
-                    "ticket='" + ticket.getIndex() + "' where seat='" + ticket.getSeat() + "';");
-        } catch (SQLException e) {
-            e.printStackTrace();
+            entityManager.getTransaction().begin();
+            entityManager.createQuery("UPDATE Seat c set c.status='OCCUPIED' WHERE wagon_id LIKE :wagon AND c.number LIKE :number")
+                    .setParameter("wagon", ticket.getWagon().getId()).setParameter("number", ticket.getSeat()).executeUpdate();
+            entityManager.createQuery("UPDATE Wagon c set c.freeSeats=" + getFreeSeats(ticket.getWagon()) + " WHERE c.number LIKE :number")
+                    .setParameter("number", ticket.getWagon().getNumber()).executeUpdate();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            log.log(Level.WARNING, "Exception: ", e);
         }
         return false;
     }
 
+    public boolean updateWagon(Ticket ticket){
+        try{
+            entityManager.getTransaction().begin();
+            entityManager.createQuery("UPDATE Seat c set c.status='FREE' WHERE wagon_id LIKE :wagon AND c.number LIKE :number")
+                    .setParameter("wagon", ticket.getWagon().getId()).setParameter("number", ticket.getSeat()).executeUpdate();
+            entityManager.createQuery("UPDATE Wagon c set c.freeSeats=" + getFreeSeats(ticket.getWagon()) + " WHERE c.number LIKE :number")
+                    .setParameter("number", ticket.getWagon().getNumber()).executeUpdate();
+            entityManager.getTransaction().commit();
+        } catch (Exception e){
+            log.log(Level.WARNING, "Exception: ", e);
+        }
+        return false;
+    }
+
+    public Wagon findWagon(int wagonNumber){
+        List<Wagon> wagons = entityManager.createQuery("SELECT w FROM Wagon w WHERE w.number LIKE :number")
+                .setParameter("number", wagonNumber).getResultList();
+        if (wagons.size() == 0){
+            return null;
+        } else {
+            return wagons.get(0);
+        }
+    }
     public boolean insertWagon(Wagon wagon) {
-        List<Integer> seats = new ArrayList<>();
+        List<Integer> seats = new ArrayList<Integer>();
         Integer wagonNumber = wagon.getNumber();
         if (String.valueOf(wagon.getWagonType()).equalsIgnoreCase("COMFORTABLE")) {
             seats = Wagon.getComfortableWagonSeats();
@@ -40,108 +68,64 @@ public class MySQLWagonDAO implements IWagonDAO {
         } else if (String.valueOf(wagon.getWagonType()).equalsIgnoreCase("ECONOMY")) {
             seats = Wagon.getEconomyWagonList();
         }
-        if (!wagonInitChecker(wagonNumber)) {
+        if (findWagon(wagonNumber) == null) {
             try {
-                Statement statement = connection.createStatement();
-                for (Integer seat : seats) {
-                    statement.addBatch("INSERT INTO wagon_" + wagonNumber + " (seat, status) values (" +
-                            (seat + 1) + ", '" + AvailabilitySeats.FREE + "')");
+                entityManager.getTransaction().begin();
+                entityManager.persist(wagon);
+                for (Integer s : seats) {
+                    Seat seat = new Seat();
+                    seat.setStatus("FREE");
+                    seat.setWagon(wagon);
+                    seat.setNumber(s + 1);
+                    entityManager.persist(seat);
                 }
-                statement.executeBatch();
-                System.out.println("Wagon " + wagonNumber + " is initialize");
-            } catch (SQLException e) {
-                e.printStackTrace();
+                entityManager.getTransaction().commit();
+                log.info("Wagon " + wagonNumber + " is initialize");
+            } catch (Exception e) {
+                log.log(Level.WARNING, "Exception: ", e);
+                entityManager.getTransaction().rollback();
             }
         } else {
-            System.out.println("Wagon " + wagonNumber + " already initialized.");
+            log.info("Wagon " + wagonNumber + " already initialized.");
         }
+        seats.clear();
         return false;
     }
 
-    public boolean updateWagon(Ticket ticket) {
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("update wagon_" + ticket.getWagon() + " set status='" + AvailabilitySeats.FREE + "', " +
-                    "ticket=null where ticket='" + ticket.getNumber() + "';");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    public List<Seat> getAllSeats(int wagonNumber) {
-        List<Seat> listOfSeats = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from wagon_" + wagonNumber);
-            while (resultSet.next()) {
-                Seat seat = new Seat();
-                seat.setNumber(Integer.parseInt(resultSet.getString("seat")));
-                seat.setStatus(resultSet.getString("status"));
-                if (resultSet.getString("ticket") != null) {
-                    seat.setTicket(resultSet.getString("ticket"));
-                }
-                listOfSeats.add(seat);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listOfSeats;
+    public List<Seat> getAllSeats(Wagon wagon) {
+        return entityManager.createQuery("SELECT s FROM Seat s WHERE wagon_id LIKE :wagon")
+                .setParameter("wagon", wagon.getId()).getResultList();
     }
 
     public List<Wagon> getAllWagons() {
-        List<Wagon> listOfWagons = new ArrayList<>();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from train");
-            while (resultSet.next()) {
-                Wagon wagon = new Wagon();
-                wagon.setNumber(Integer.parseInt(resultSet.getString("wagon")));
-                wagon.setWagonType(resultSet.getString("type"));
-                wagon.setFreeSeats(getFreeSeats(Integer.parseInt(resultSet.getString("wagon"))));
-                listOfWagons.add(wagon);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return listOfWagons;
+        TypedQuery<Wagon> namedQuery = entityManager.createNamedQuery("Wagon.getAll", Wagon.class);
+        return namedQuery.getResultList();
     }
 
-    private int getFreeSeats(int wagonNumber) {
-        List<Seat> listOfSeats = getAllSeats(wagonNumber);
-        int freeSeats = 0;
-        for (Seat seat : listOfSeats) {
-            if (String.valueOf(seat.getStatus()).equalsIgnoreCase("free")) {
-                freeSeats++;
-            }
-        }
-        return freeSeats;
-    }
-
-    private boolean wagonInitChecker(int wagonNumber) {
-        int count = 0;
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from wagon_" + wagonNumber);
-            while (resultSet.next()) {
-                count++;
-            }
-            return count != 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+    private int getFreeSeats(Wagon wagon) {
+        List<Seat> listOfSeats = entityManager.createQuery("SELECT s FROM Seat s WHERE wagon_id LIKE :wagon AND s.status='FREE'")
+                .setParameter("wagon", wagon.getId()).getResultList();
+        return listOfSeats.size();
     }
 
     public boolean checkSeatAvailable(Ticket ticket) {
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select status from wagon_" + ticket.getWagon() + " where seat='" + ticket.getSeat() + "'");
-            resultSet.next();
-            String s = resultSet.getString("status");
-            return s.equals(String.valueOf(AvailabilitySeats.FREE));
-
+            List<Seat> seat = entityManager.createQuery("SELECT s FROM Seat s WHERE wagon_id LIKE :wagon AND s.number LIKE :number")
+                    .setParameter("wagon", ticket.getWagon().getId()).setParameter("number", ticket.getSeat()).getResultList();
+            System.out.println(seat.size());
+            if (seat.size() != 0){
+                if (String.valueOf(seat.get(0).getStatus()).equalsIgnoreCase("OCCUPIED")){
+                    log.warning("Seat number " + ticket.getSeat() + " is occupied");
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                log.warning("Wrong seat number");
+                return false;
+            }
         } catch (Exception e) {
+            log.log(Level.WARNING, "Exception: ", e);
         }
         return false;
     }

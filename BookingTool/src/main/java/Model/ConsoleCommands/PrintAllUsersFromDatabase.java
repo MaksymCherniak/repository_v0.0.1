@@ -4,17 +4,22 @@ import DAO.Factory;
 import Model.LocalModel.User;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-/**
- * Created by Max on 16.12.2015.
- */
 public class PrintAllUsersFromDatabase implements ICommand {
-    private String name = "printdbu";
+    private static Logger log = Logger.getLogger(PrintAllUsersFromDatabase.class.getName());
+    private final static String name = "printdbu";
+    private String[] parts;
 
-    public void execute(int seatNumber, String lastName, String firstName) {
-        List<User> list = Factory.getInstance().getMySQLUserDAO().getAllUsers();
-        for (User user : list) {
-            System.out.println(user.toString());
+    public void execute(String fullLine) {
+        parts = fullLine.split(" ");
+        if (parts.length == 1) {
+            List<User> list = Factory.getInstance().getMySQLUserDAO().getAllUsers();
+            for (User user : list) {
+                System.out.println(user.toString());
+            }
+        } else {
+            log.warning("Wrong command");
         }
     }
 

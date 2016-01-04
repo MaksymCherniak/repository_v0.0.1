@@ -1,20 +1,32 @@
 package Model.ConsoleCommands;
 
 import DAO.Factory;
+import DAO.MySQLWagonDAO;
 import Model.LocalModel.Seat;
+import Model.LocalModel.Wagon;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-/**
- * Created by Max on 22.12.2015.
- */
 public class PrintWagon implements ICommand {
-    private String name = "printwagon";
+    private static Logger log = Logger.getLogger(PrintWagon.class.getName());
+    private final static String name = "printwagon";
+    private String[] parts;
 
-    public void execute(int wagonNumber, String lastName, String firstName) {
-        List<Seat> list = Factory.getMySQLWagonDAO().getAllSeats(wagonNumber);
-        for (Seat seat : list) {
-            System.out.println(seat.toString());
+    public void execute(String fullLine) {
+        parts = fullLine.split(" ");
+        if (parts.length == 2) {
+            Wagon wagon = Factory.getMySQLWagonDAO().findWagon(Integer.parseInt(parts[1]));
+            if (wagon != null){
+                List<Seat> list = Factory.getMySQLWagonDAO().getAllSeats(wagon);
+                for (Seat seat : list) {
+                    System.out.println(seat.toString());
+                }
+            } else {
+                log.warning("Wagon number " + parts[1] + " not found");
+            }
+        } else {
+            log.warning("Wrong command");
         }
     }
 

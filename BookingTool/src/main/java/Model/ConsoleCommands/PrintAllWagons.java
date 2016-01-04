@@ -4,17 +4,22 @@ import DAO.Factory;
 import Model.LocalModel.Wagon;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-/**
- * Created by Max on 22.12.2015.
- */
 public class PrintAllWagons implements ICommand {
-    private static String name = "print";
+    private static Logger log = Logger.getLogger(PrintAllWagons.class.getName());
+    private final static String name = "print";
+    private String[] parts;
 
-    public void execute(int seatNumber, String lastName, String firstName) {
-        List<Wagon> list = Factory.getMySQLWagonDAO().getAllWagons();
-        for (Wagon wagon : list) {
-            System.out.println(wagon.toString());
+    public void execute(String fullLine) {
+        parts = fullLine.split(" ");
+        if (parts.length == 1) {
+            List<Wagon> list = Factory.getMySQLWagonDAO().getAllWagons();
+            for (Wagon wagon : list) {
+                System.out.println(wagon.toString());
+            }
+        } else {
+            log.warning("Wrong command");
         }
     }
 

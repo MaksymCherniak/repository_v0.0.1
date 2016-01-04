@@ -1,8 +1,5 @@
 package Controller;
 
-/**
- * Created by Max on 02.12.2015.
- */
 public class ParsedCommand {
     public String command;
     public int wagonNumber;

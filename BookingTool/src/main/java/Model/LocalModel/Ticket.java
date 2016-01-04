@@ -1,76 +1,67 @@
 package Model.LocalModel;
 
-/**
- * Created by Max on 21.12.2015.
- */
+import javax.persistence.*;
+
+@Entity
+@Table(name="ticket")
+@NamedQuery(name = "Ticket.getAll", query = "SELECT c from Ticket c")
 public class Ticket {
-    private static volatile Integer index = 0;
+    @Id
+    @Column(name = "ticket_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column
+    private int train;
+    @ManyToOne
+    @JoinColumn(name="wagon_id")
+    private Wagon wagon;
+    @Column
+    private int seat;
+    @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
-    private Integer train;
-    private Integer seat;
-    private Integer wagon;
-    private Integer number;
 
-    public Ticket() {
-        incIndex();
-        number = index;
-    }
-
-    public Integer getTrain() {
-        return train;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
+    public Ticket() {}
 
     public User getUser() {
         return user;
-    }
-
-    public Integer getSeat() {
-        return seat;
-    }
-
-    public Integer getWagon() {
-        return wagon;
-    }
-
-    public synchronized static Integer getIndex() {
-        return index;
-    }
-
-    public void setTrain(Integer train) {
-        this.train = train;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
 
-    public void setSeat(Integer seat) {
-        this.seat = seat;
+    public Integer getTrain() {
+        return train;
     }
 
-    public void setWagon(Integer wagon) {
+    public Integer getSeat() {
+        return seat;
+    }
+
+    public Wagon getWagon() {
+        return wagon;
+    }
+
+    public Integer getIndex() {
+        return id;
+    }
+
+    public void setTrain(int train) {
+        this.train = train;
+    }
+
+    public void setWagon(Wagon wagon) {
         this.wagon = wagon;
     }
 
-    public static void setIndex(int index) {
-        Ticket.index = index;
-    }
-
-    private synchronized static void incIndex() {
-        index++;
+    public void setSeat(int seat) {
+        this.seat = seat;
     }
 
     @Override
     public String toString() {
-        return "Ticket: " + number + ", Train: " + train + ", Wagon: " + wagon + ", Seat: " + seat
-                + ", User: " + user.getLastName() + " " + user.getFirstName();
+        return "Ticket: " + id + ", Train: " + train + ", " + wagon.printForTicket() + ", Seat: " +
+                seat + " -- " + user.toString();
     }
 }

@@ -1,24 +1,41 @@
 package Model.LocalModel;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-/**
- * Created by Max on 10.12.2015.
- */
+@Entity
+@Table(name="wagon")
+@NamedQuery(name = "Wagon.getAll", query = "SELECT c from Wagon c")
 public class Wagon {
-    private WagonType wagonType;
-    private Integer number;
-    private Integer freeSeats;
-    private final static Integer comfortableWagonCapacity = 16;
-    private final static Integer compartmentWagonCapacity = 32;
+    @Id
+    @Column(name = "wagon_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column
+    private int number;
+    @Column
+    private String wagonType;
+    @Column
+    private int totalSeats;
+    @Column
+    private int freeSeats;
+    @OneToMany(mappedBy = "wagon")
+    private Set<Seat> seats;
+    @OneToMany(mappedBy = "wagon")
+    private Set<Ticket> tickets;
+
+    private final static Integer comfortableWagonCapacity = 18;
+    private final static Integer compartmentWagonCapacity = 36;
     private final static Integer economyWagonCapacity = 54;
     private static List<Integer> comfortableWagonList = new ArrayList<Integer>();
     private static List<Integer> compartmentWagonList = new ArrayList<Integer>();
     private static List<Integer> economyWagonList = new ArrayList<Integer>();
 
-    public Wagon() {
-    }
+    public Wagon() {}
+
+    public int getId() { return id; }
 
     public void setFreeSeats(Integer freeSeats) {
         this.freeSeats = freeSeats;
@@ -28,13 +45,18 @@ public class Wagon {
         this.number = number;
     }
 
+    public void setTotalSeats(int totalSeats) { this.totalSeats = totalSeats; }
+
     public void setWagonType(String type) {
         if (type.equalsIgnoreCase("comfortable")) {
-            wagonType = WagonType.COMFORTABLE;
+            wagonType = String.valueOf(WagonType.COMFORTABLE);
+            totalSeats = freeSeats = comfortableWagonCapacity;
         } else if (type.equalsIgnoreCase("compartment")) {
-            wagonType = WagonType.COMPARTMENT;
+            wagonType = String.valueOf(WagonType.COMPARTMENT);
+            totalSeats = freeSeats = compartmentWagonCapacity;
         } else if (type.equalsIgnoreCase("economy")) {
-            wagonType = WagonType.ECONOMY;
+            wagonType = String.valueOf(WagonType.ECONOMY);
+            totalSeats = freeSeats = economyWagonCapacity;
         }
     }
 
@@ -46,7 +68,7 @@ public class Wagon {
         return number;
     }
 
-    public WagonType getWagonType() {
+    public String getWagonType() {
         return wagonType;
     }
 
@@ -71,9 +93,11 @@ public class Wagon {
         return economyWagonList;
     }
 
+    public String printForTicket(){
+        return "Wagon number: " + number + ", wagon type: " + wagonType;
+    }
     @Override
     public String toString() {
-        Integer totalSeats = 0;
         if (String.valueOf(wagonType).equalsIgnoreCase("comfortable")) {
             totalSeats = comfortableWagonCapacity;
         } else if (String.valueOf(wagonType).equalsIgnoreCase("compartment")) {

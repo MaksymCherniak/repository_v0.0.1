@@ -3,20 +3,24 @@ package Model.ConsoleCommands;
 import DAO.Factory;
 import Model.LocalModel.Wagon;
 
-/**
- * Created by Max on 21.12.2015.
- */
+import java.util.logging.Logger;
+
 public class InsertWagon implements ICommand {
-    private String name = "insertwagon";
+    private static Logger log = Logger.getLogger(InsertWagon.class.getName());
+    private final static String name = "insertwagon";
+    private String[] parts;
 
-    public void execute(int seatNumber, String lastName, String firstName) {
-    }
-
-    public void insertWagon(int number, String type) {
-        Wagon wagon = new Wagon();
-        wagon.setNumber(number);
-        wagon.setWagonType(type);
-        Factory.getMySQLWagonDAO().insertWagon(wagon);
+    public void execute(String fullLine) {
+        parts = fullLine.split(" ");
+        if (parts.length == 3 && (parts[2].equalsIgnoreCase("comfortable") || parts[2].equalsIgnoreCase("compartment") ||
+                parts[2].equalsIgnoreCase("economy"))){
+            Wagon wagon = new Wagon();
+            wagon.setNumber(Integer.parseInt(parts[1]));
+            wagon.setWagonType(parts[2]);
+            Factory.getMySQLWagonDAO().insertWagon(wagon);
+        } else {
+            log.warning("Wrong command");
+        }
     }
 
     public void printHelp() {

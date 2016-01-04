@@ -1,13 +1,19 @@
 package Model.ConsoleCommands;
 
-/**
- * Created by Max on 02.12.2015.
- */
-public class Exit implements ICommand {
-    private static String name = "exit";
+import java.util.logging.Logger;
 
-    public void execute(int seatNumber, String lastName, String firstName) {
-        System.exit(0);
+public class Exit implements ICommand {
+    private static Logger log = Logger.getLogger(Exit.class.getName());
+    private final static String name = "exit";
+    private String[] parts;
+
+    public void execute(String fullLine) {
+        parts = fullLine.split(" ");
+        if (parts.length == 1) {
+            System.exit(0);
+        } else {
+            log.warning("Wrong command");
+        }
     }
 
     public void printHelp() {

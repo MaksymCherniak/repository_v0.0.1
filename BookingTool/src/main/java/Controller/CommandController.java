@@ -3,58 +3,38 @@ package Controller;
 import Model.ConsoleCommands.*;
 import Model.LocalModel.Wagon;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
-/**
- * Created by Max on 02.12.2015.
- */
 public class CommandController {
+    private static Logger log = Logger.getLogger(CommandController.class.getName());
+    private String command;
+    private String[] parts;
     private boolean checker = false;
+    private static Map<String, ICommand> mapOfCommands = new HashMap<>();
+
+    static {
+        mapOfCommands.put("help", new Help());
+        mapOfCommands.put("exit", new Exit());
+        mapOfCommands.put("print", new PrintAllWagons());
+        mapOfCommands.put("printt", new PrintAllTickets());
+        mapOfCommands.put("printdbu", new PrintAllUsersFromDatabase());
+        mapOfCommands.put("buy", new BuyTicket());
+        mapOfCommands.put("printwagon", new PrintWagon());
+        mapOfCommands.put("remove", new RemoveTicket());
+        mapOfCommands.put("insertwagon", new InsertWagon());
+    }
 
     public void searchCommand(String fullLine) {
-        ParsedCommand parsedCommand = new ParsedCommand();
-        if (parsedCommand.setCommand(fullLine)) {
-            if (parsedCommand.parts == null) {
-                switch (parsedCommand.command) {
-                    case "help":
-                        new Help().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
-                        break;
-                    case "exit":
-                        new Exit().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
-                        break;
-                    case "print":
-                        new PrintAllWagons().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
-                        break;
-                    case "printt":
-                        new PrintAllTickets().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
-                        break;
-                    case "printdbu":
-                        new PrintAllUsersFromDatabase().execute(parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
-                        break;
-                }
-            } else {
-                switch (parsedCommand.command) {
-                    case "buy":
-                        if (seatCheck(parsedCommand.seatNumber)) {
-                            new BuyTicket().buyTicket(parsedCommand.wagonNumber, parsedCommand.seatNumber, parsedCommand.lastName, parsedCommand.firstName);
-                        }
-                        break;
-                    case "printwagon":
-                        new PrintWagon().execute(Integer.parseInt(parsedCommand.id), parsedCommand.lastName, parsedCommand.firstName);
-                        break;
-                    case "remove":
-                        new RemoveUser().remove(parsedCommand.id);
-                        break;
-                    case "insertwagon":
-                        new InsertWagon().insertWagon(parsedCommand.wagonNumber, parsedCommand.wagonType);
-                        break;
-                    default:
-                        System.out.println("Wrong command.");
-                        break;
-                }
-            }
+        parts = fullLine.split(" ");
+        command = parts[0];
+        ICommand cmnd = mapOfCommands.get(command);
+        if (cmnd == null){
+            log.warning("Wrong command");
         } else {
-            System.out.println("Wrong command.");
+            cmnd.execute(fullLine);
         }
     }
 

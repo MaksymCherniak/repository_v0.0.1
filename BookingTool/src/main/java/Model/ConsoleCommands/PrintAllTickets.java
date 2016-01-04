@@ -4,17 +4,22 @@ import DAO.Factory;
 import Model.LocalModel.Ticket;
 
 import java.util.List;
+import java.util.logging.Logger;
 
-/**
- * Created by Max on 24.12.2015.
- */
 public class PrintAllTickets implements ICommand {
-    private static String name = "printt";
+    private static Logger log = Logger.getLogger(PrintAllTickets.class.getName());
+    private final static String name = "printt";
+    private String[] parts;
 
-    public void execute(int seatNumber, String lastName, String firstName) {
-        List<Ticket> list = Factory.getMySQLTicketDAO().getAllTickets();
-        for (Ticket ticket : list) {
-            System.out.println(ticket.toString());
+    public void execute(String fullLine) {
+        parts = fullLine.split(" ");
+        if (parts.length == 1) {
+            List<Ticket> list = Factory.getMySQLTicketDAO().getAllTickets();
+            for (Ticket ticket : list) {
+                System.out.println(ticket.toString());
+            }
+        } else {
+            log.warning("Wrong command");
         }
     }
 
