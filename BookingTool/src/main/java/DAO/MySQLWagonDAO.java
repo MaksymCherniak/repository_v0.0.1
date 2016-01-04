@@ -1,13 +1,10 @@
 package DAO;
 
-import Model.LocalModel.*;
+import Model.LocalModel.Seat;
+import Model.LocalModel.Ticket;
+import Model.LocalModel.Wagon;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,29 +32,30 @@ public class MySQLWagonDAO implements IWagonDAO {
         return false;
     }
 
-    public boolean updateWagon(Ticket ticket){
-        try{
+    public boolean updateWagon(Ticket ticket) {
+        try {
             entityManager.getTransaction().begin();
             entityManager.createQuery("UPDATE Seat c set c.status='FREE' WHERE wagon_id LIKE :wagon AND c.number LIKE :number")
                     .setParameter("wagon", ticket.getWagon().getId()).setParameter("number", ticket.getSeat()).executeUpdate();
             entityManager.createQuery("UPDATE Wagon c set c.freeSeats=" + getFreeSeats(ticket.getWagon()) + " WHERE c.number LIKE :number")
                     .setParameter("number", ticket.getWagon().getNumber()).executeUpdate();
             entityManager.getTransaction().commit();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.log(Level.WARNING, "Exception: ", e);
         }
         return false;
     }
 
-    public Wagon findWagon(int wagonNumber){
+    public Wagon findWagon(int wagonNumber) {
         List<Wagon> wagons = entityManager.createQuery("SELECT w FROM Wagon w WHERE w.number LIKE :number")
                 .setParameter("number", wagonNumber).getResultList();
-        if (wagons.size() == 0){
+        if (wagons.size() == 0) {
             return null;
         } else {
             return wagons.get(0);
         }
     }
+
     public boolean insertWagon(Wagon wagon) {
         List<Integer> seats = new ArrayList<Integer>();
         Integer wagonNumber = wagon.getNumber();
@@ -111,8 +109,8 @@ public class MySQLWagonDAO implements IWagonDAO {
             List<Seat> seat = entityManager.createQuery("SELECT s FROM Seat s WHERE wagon_id LIKE :wagon AND s.number LIKE :number")
                     .setParameter("wagon", ticket.getWagon().getId()).setParameter("number", ticket.getSeat()).getResultList();
             System.out.println(seat.size());
-            if (seat.size() != 0){
-                if (String.valueOf(seat.get(0).getStatus()).equalsIgnoreCase("OCCUPIED")){
+            if (seat.size() != 0) {
+                if (String.valueOf(seat.get(0).getStatus()).equalsIgnoreCase("OCCUPIED")) {
                     log.warning("Seat number " + ticket.getSeat() + " is occupied");
                     return false;
                 } else {

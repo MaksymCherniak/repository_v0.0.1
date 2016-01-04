@@ -3,7 +3,7 @@ package Model.LocalModel;
 import javax.persistence.*;
 
 @Entity
-@Table(name="ticket")
+@Table(name = "ticket")
 @NamedQuery(name = "Ticket.getAll", query = "SELECT c from Ticket c")
 public class Ticket {
     @Id
@@ -13,15 +13,16 @@ public class Ticket {
     @Column
     private int train;
     @ManyToOne
-    @JoinColumn(name="wagon_id")
+    @JoinColumn(name = "wagon_id")
     private Wagon wagon;
     @Column
     private int seat;
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    public Ticket() {}
+    public Ticket() {
+    }
 
     public User getUser() {
         return user;

@@ -13,7 +13,7 @@ public class InsertWagon implements ICommand {
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 3 && (parts[2].equalsIgnoreCase("comfortable") || parts[2].equalsIgnoreCase("compartment") ||
-                parts[2].equalsIgnoreCase("economy"))){
+                parts[2].equalsIgnoreCase("economy"))) {
             Wagon wagon = new Wagon();
             wagon.setNumber(Integer.parseInt(parts[1]));
             wagon.setWagonType(parts[2]);

@@ -20,8 +20,7 @@ public class MySQLTicketDAO implements ITicketDAO {
             entityManager.getTransaction().begin();
             entityManager.persist(ticket);
             entityManager.getTransaction().commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.log(Level.WARNING, "Exception: ", e);
             entityManager.getTransaction().rollback();
         }
@@ -40,7 +39,7 @@ public class MySQLTicketDAO implements ITicketDAO {
 
     public boolean delete(Integer id) {
         Ticket ticket = find(id);
-        if (ticket != null){
+        if (ticket != null) {
             entityManager.getTransaction().begin();
             entityManager.remove(ticket);
             entityManager.getTransaction().commit();

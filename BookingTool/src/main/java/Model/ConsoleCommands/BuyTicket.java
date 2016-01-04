@@ -15,7 +15,7 @@ public class BuyTicket implements ICommand {
 
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
-        if (parts.length == 5){
+        if (parts.length == 5) {
             buyTicket(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), parts[3], parts[4]);
         } else {
             log.warning("Wrong command");

@@ -1,11 +1,7 @@
 package View;
 
 import Controller.CommandController;
-import Model.LocalModel.Wagon;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

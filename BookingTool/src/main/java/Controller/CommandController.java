@@ -1,10 +1,8 @@
 package Controller;
 
 import Model.ConsoleCommands.*;
-import Model.LocalModel.Wagon;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -30,7 +28,7 @@ public class CommandController {
         parts = fullLine.split(" ");
         command = parts[0];
         ICommand cmnd = mapOfCommands.get(command);
-        if (cmnd == null){
+        if (cmnd == null) {
             log.warning("Wrong command");
         } else {
             cmnd.execute(fullLine);

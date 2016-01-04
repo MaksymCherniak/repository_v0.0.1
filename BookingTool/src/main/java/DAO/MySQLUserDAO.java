@@ -3,7 +3,6 @@ package DAO;
 import Model.LocalModel.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,8 +20,7 @@ public class MySQLUserDAO implements IUserDAO {
             entityManager.getTransaction().begin();
             entityManager.persist(user);
             entityManager.getTransaction().commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             entityManager.getTransaction().rollback();
             log.log(Level.WARNING, "Exception: ", e);
         }

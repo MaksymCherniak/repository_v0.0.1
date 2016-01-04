@@ -19,8 +19,7 @@ public class Help implements ICommand {
             new PrintWagon().printHelp();
             new PrintAllWagons().printHelp();
             new PrintAllTickets().printHelp();
-        }
-        else {
+        } else {
             log.warning("Wrong command");
         }
     }

@@ -12,7 +12,7 @@ public class RemoveTicket implements ICommand {
 
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
-        if (parts.length == 2){
+        if (parts.length == 2) {
             remove(parts[1]);
         } else {
             log.warning("Wrong command");

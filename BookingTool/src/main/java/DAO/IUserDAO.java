@@ -12,5 +12,4 @@ public interface IUserDAO {
     User findUser(Integer id);
 
     List getAllUsers();
-
 }

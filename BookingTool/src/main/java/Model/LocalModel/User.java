@@ -4,9 +4,9 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 @NamedQuery(name = "User.getAll", query = "SELECT c from User c")
-public class User{
+public class User {
     @Id
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,10 +15,13 @@ public class User{
     private String name;
     @Column
     private String surname;
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy = "user")
     private Set<Ticket> ticket;
-    public User(){}
-    public User(String surname, String name){
+
+    public User() {
+    }
+
+    public User(String surname, String name) {
         this.name = name;
         this.surname = surname;
     }
@@ -51,9 +54,9 @@ public class User{
         this.surname = surname;
     }
 
-    public void setId(int id) { this.id = id; }
-
-    private synchronized void incIndex(){ id ++; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object obj) {

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="wagon")
+@Table(name = "wagon")
 @NamedQuery(name = "Wagon.getAll", query = "SELECT c from Wagon c")
 public class Wagon {
     @Id
@@ -33,9 +33,12 @@ public class Wagon {
     private static List<Integer> compartmentWagonList = new ArrayList<Integer>();
     private static List<Integer> economyWagonList = new ArrayList<Integer>();
 
-    public Wagon() {}
+    public Wagon() {
+    }
 
-    public int getId() { return id; }
+    public int getId() {
+        return id;
+    }
 
     public void setFreeSeats(Integer freeSeats) {
         this.freeSeats = freeSeats;
@@ -45,7 +48,9 @@ public class Wagon {
         this.number = number;
     }
 
-    public void setTotalSeats(int totalSeats) { this.totalSeats = totalSeats; }
+    public void setTotalSeats(int totalSeats) {
+        this.totalSeats = totalSeats;
+    }
 
     public void setWagonType(String type) {
         if (type.equalsIgnoreCase("comfortable")) {
@@ -93,9 +98,10 @@ public class Wagon {
         return economyWagonList;
     }
 
-    public String printForTicket(){
+    public String printForTicket() {
         return "Wagon number: " + number + ", wagon type: " + wagonType;
     }
+
     @Override
     public String toString() {
         if (String.valueOf(wagonType).equalsIgnoreCase("comfortable")) {

@@ -3,7 +3,7 @@ package Model.LocalModel;
 import javax.persistence.*;
 
 @Entity
-@Table(name="seat")
+@Table(name = "seat")
 @NamedQuery(name = "Seat.getAll", query = "SELECT c from Seat c")
 public class Seat {
     @Id
@@ -17,16 +17,24 @@ public class Seat {
     @Column
     private String ticket;
     @ManyToOne
-    @JoinColumn(name="wagon_id")
+    @JoinColumn(name = "wagon_id")
     private Wagon wagon;
 
-    public String getStatus() { return status; }
+    public String getStatus() {
+        return status;
+    }
 
-    public Wagon getWagon() { return wagon; }
+    public Wagon getWagon() {
+        return wagon;
+    }
 
-    public Integer getNumber() { return number; }
+    public Integer getNumber() {
+        return number;
+    }
 
-    public String getTicket() { return ticket; }
+    public String getTicket() {
+        return ticket;
+    }
 
     public void setStatus(String status) {
         if (status.equalsIgnoreCase("free")) {
@@ -36,11 +44,17 @@ public class Seat {
         }
     }
 
-    public void setWagon(Wagon wagon) { this.wagon = wagon; }
+    public void setWagon(Wagon wagon) {
+        this.wagon = wagon;
+    }
 
-    public void setNumber(Integer number) { this.number = number; }
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
-    public void setTicket(String ticket) { this.ticket = ticket; }
+    public void setTicket(String ticket) {
+        this.ticket = ticket;
+    }
 
     @Override
     public String toString() {
