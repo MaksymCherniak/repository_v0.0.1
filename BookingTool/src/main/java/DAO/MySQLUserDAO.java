@@ -40,8 +40,6 @@ public class MySQLUserDAO implements IUserDAO {
     }
 
     public List<User> getAllUsers() {
-        TypedQuery<User> namedQuery = entityManager.createNamedQuery("User.getAll", User.class);
-        return namedQuery.getResultList();
+        return entityManager.createNamedQuery("User.getAll", User.class).getResultList();
     }
-
 }

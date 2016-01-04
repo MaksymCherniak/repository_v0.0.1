@@ -3,7 +3,6 @@ package DAO;
 import Model.LocalModel.Ticket;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +52,6 @@ public class MySQLTicketDAO implements ITicketDAO {
     }
 
     public List<Ticket> getAllTickets() {
-        TypedQuery<Ticket> namedQuery = entityManager.createNamedQuery("Ticket.getAll", Ticket.class);
-        return namedQuery.getResultList();
+        return entityManager.createNamedQuery("Ticket.getAll", Ticket.class).getResultList();
     }
 }
