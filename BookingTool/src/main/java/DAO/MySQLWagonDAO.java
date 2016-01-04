@@ -98,14 +98,12 @@ public class MySQLWagonDAO implements IWagonDAO {
     }
 
     public List<Wagon> getAllWagons() {
-        TypedQuery<Wagon> namedQuery = entityManager.createNamedQuery("Wagon.getAll", Wagon.class);
-        return namedQuery.getResultList();
+        return entityManager.createNamedQuery("Wagon.getAll", Wagon.class).getResultList();
     }
 
     private int getFreeSeats(Wagon wagon) {
-        List<Seat> listOfSeats = entityManager.createQuery("SELECT s FROM Seat s WHERE wagon_id LIKE :wagon AND s.status='FREE'")
-                .setParameter("wagon", wagon.getId()).getResultList();
-        return listOfSeats.size();
+        return entityManager.createQuery("SELECT s FROM Seat s WHERE wagon_id LIKE :wagon AND s.status='FREE'")
+                .setParameter("wagon", wagon.getId()).getResultList().size();
     }
 
     public boolean checkSeatAvailable(Ticket ticket) {
