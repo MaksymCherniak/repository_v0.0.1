@@ -1,5 +1,7 @@
 package DAO;
 
+import Model.LocalModel.NotFoundException;
+import Model.LocalModel.Ticket;
 import Model.LocalModel.User;
 
 import javax.persistence.EntityManager;
@@ -28,7 +30,17 @@ public class MySQLUserDAO implements IUserDAO {
     }
 
     public User findUser(Integer id) {
-        return entityManager.find(User.class, id);
+        User user = entityManager.find(User.class, id);
+        try {
+            if (user != null) {
+                return user;
+            } else {
+                throw new NotFoundException("User not found");
+            }
+        } catch (NotFoundException e){
+            log.log(Level.WARNING, "Exception: ", e);
+            return user;
+        }
     }
 
     public void deleteUser(User user) {

@@ -1,5 +1,6 @@
 package DAO;
 
+import Model.LocalModel.NotFoundException;
 import Model.LocalModel.Seat;
 import Model.LocalModel.Ticket;
 import Model.LocalModel.Wagon;
@@ -49,10 +50,15 @@ public class MySQLWagonDAO implements IWagonDAO {
     public Wagon findWagon(int wagonNumber) {
         List<Wagon> wagons = entityManager.createQuery("SELECT w FROM Wagon w WHERE w.number LIKE :number")
                 .setParameter("number", wagonNumber).getResultList();
-        if (wagons.size() == 0) {
+        try {
+            if (wagons.size() == 0) {
+                throw new NotFoundException("Wagon not found");
+            } else {
+                return wagons.get(0);
+            }
+        } catch (NotFoundException e){
+            log.log(Level.WARNING, "Exception: ", e);
             return null;
-        } else {
-            return wagons.get(0);
         }
     }
 
