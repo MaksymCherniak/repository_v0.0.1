@@ -5,9 +5,9 @@ import Model.LocalModel.User;
 import java.util.List;
 
 public interface IUserDAO {
-    int insertUser(User user);
+    boolean insertUser(User user);
 
-    void deleteUser(User user);
+    boolean deleteUser(User user);
 
     User findUser(Integer id);
 

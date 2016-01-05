@@ -17,16 +17,17 @@ public class MySQLUserDAO implements IUserDAO {
         entityManager = HibernateUtil.getEm();
     }
 
-    public int insertUser(User user) {
+    public boolean insertUser(User user) {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(user);
             entityManager.getTransaction().commit();
+            return true;
         } catch (Exception e) {
             entityManager.getTransaction().rollback();
             log.log(Level.WARNING, "Exception: ", e);
+            return false;
         }
-        return 0;
     }
 
     public User findUser(Integer id) {
@@ -43,10 +44,16 @@ public class MySQLUserDAO implements IUserDAO {
         }
     }
 
-    public void deleteUser(User user) {
-        entityManager.getTransaction().begin();
-        entityManager.remove(user);
-        entityManager.getTransaction().commit();
+    public boolean deleteUser(User user) {
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(user);
+            entityManager.getTransaction().commit();
+            return true;
+        } catch (Exception e){
+            log.log(Level.WARNING, "Exception: ", e);
+            return false;
+        }
     }
 
     public List<User> getAllUsers() {

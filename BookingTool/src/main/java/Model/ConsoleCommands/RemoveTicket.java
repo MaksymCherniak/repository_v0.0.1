@@ -24,8 +24,6 @@ public class RemoveTicket implements ICommand {
         if (ticket != null && ticket.getTrain() != null) {
             Factory.getInstance().getMySQLTicketDAO().delete(Integer.parseInt(id));
             Factory.getInstance().getMySQLWagonDAO().updateWagon(ticket);
-        } else {
-            log.warning("Model.LocalModel.User with id \"" + id + "\" not found.");
         }
     }
 

@@ -20,7 +20,7 @@ public class Factory {
         return mySQLTicketDAO;
     }
 
-    public MySQLUserDAO getMySQLUserDAO() {
+    public static MySQLUserDAO getMySQLUserDAO() {
         if (mySQLUserDAO == null) {
             mySQLUserDAO = new MySQLUserDAO();
         }

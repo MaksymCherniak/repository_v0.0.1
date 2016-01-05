@@ -27,10 +27,11 @@ public class MySQLWagonDAO implements IWagonDAO {
             entityManager.createQuery("UPDATE Wagon c set c.freeSeats=" + getFreeSeats(ticket.getWagon()) + " WHERE c.number LIKE :number")
                     .setParameter("number", ticket.getWagon().getNumber()).executeUpdate();
             entityManager.getTransaction().commit();
+            return true;
         } catch (Exception e) {
             log.log(Level.WARNING, "Exception: ", e);
+            return false;
         }
-        return false;
     }
 
     public boolean updateWagon(Ticket ticket) {
@@ -41,10 +42,11 @@ public class MySQLWagonDAO implements IWagonDAO {
             entityManager.createQuery("UPDATE Wagon c set c.freeSeats=" + getFreeSeats(ticket.getWagon()) + " WHERE c.number LIKE :number")
                     .setParameter("number", ticket.getWagon().getNumber()).executeUpdate();
             entityManager.getTransaction().commit();
+            return true;
         } catch (Exception e) {
             log.log(Level.WARNING, "Exception: ", e);
+            return false;
         }
-        return false;
     }
 
     public Wagon findWagon(int wagonNumber) {
@@ -56,7 +58,7 @@ public class MySQLWagonDAO implements IWagonDAO {
             } else {
                 return wagons.get(0);
             }
-        } catch (NotFoundException e){
+        } catch (NotFoundException e) {
             log.log(Level.WARNING, "Exception: ", e);
             return null;
         }
@@ -85,15 +87,19 @@ public class MySQLWagonDAO implements IWagonDAO {
                 }
                 entityManager.getTransaction().commit();
                 log.info("Wagon " + wagonNumber + " is initialize");
+                seats.clear();
+                return true;
             } catch (Exception e) {
                 log.log(Level.WARNING, "Exception: ", e);
                 entityManager.getTransaction().rollback();
+                seats.clear();
+                return false;
             }
         } else {
             log.info("Wagon " + wagonNumber + " already initialized.");
+            seats.clear();
+            return false;
         }
-        seats.clear();
-        return false;
     }
 
     public List<Seat> getAllSeats(Wagon wagon) {
@@ -114,7 +120,6 @@ public class MySQLWagonDAO implements IWagonDAO {
         try {
             List<Seat> seat = entityManager.createQuery("SELECT s FROM Seat s WHERE wagon_id LIKE :wagon AND s.number LIKE :number")
                     .setParameter("wagon", ticket.getWagon().getId()).setParameter("number", ticket.getSeat()).getResultList();
-            System.out.println(seat.size());
             if (seat.size() != 0) {
                 if (String.valueOf(seat.get(0).getStatus()).equalsIgnoreCase("OCCUPIED")) {
                     log.warning("Seat number " + ticket.getSeat() + " is occupied");
@@ -123,12 +128,14 @@ public class MySQLWagonDAO implements IWagonDAO {
                     return true;
                 }
             } else {
-                log.warning("Wrong seat number");
-                return false;
+                throw new NotFoundException("Wrong seat number");
             }
+        } catch (NotFoundException e) {
+            log.log(Level.WARNING, "Exception: ", e);
+            return false;
         } catch (Exception e) {
             log.log(Level.WARNING, "Exception: ", e);
+            return false;
         }
-        return false;
     }
 }

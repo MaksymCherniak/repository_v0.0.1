@@ -4,9 +4,9 @@ import DAO.Factory;
 import DAO.MySQLWagonDAO;
 import Model.LocalModel.Ticket;
 import Model.LocalModel.User;
+import Model.LocalModel.Wagon;
 
 import java.util.logging.Logger;
-
 
 public class BuyTicket implements ICommand {
     private static Logger log = Logger.getLogger(BuyTicket.class.getName());
@@ -22,19 +22,27 @@ public class BuyTicket implements ICommand {
         }
     }
 
-    public void buyTicket(int wagonNumber, int seatNumber, String lastName, String firstName) {
+    public boolean buyTicket(int wagonNumber, int seatNumber, String lastName, String firstName) {
         MySQLWagonDAO mySQLWagonDAO = Factory.getMySQLWagonDAO();
-        Ticket ticket = new Ticket();
-        ticket.setWagon(mySQLWagonDAO.findWagon(wagonNumber));
-        ticket.setSeat(seatNumber);
-        ticket.setTrain(567);
-        User user = new User(lastName, firstName);
-        if (mySQLWagonDAO.checkSeatAvailable(ticket)) {
-            Factory.getInstance().getMySQLUserDAO().insertUser(user);
-            ticket.setUser(user);
-            Factory.getMySQLTicketDAO().insertTicket(ticket);
-            mySQLWagonDAO.updateSeat(ticket);
-            log.info("Thanks for your order. Your seat is number " + seatNumber + ", Ticket number: " + ticket.getIndex());
+        Wagon wagon = mySQLWagonDAO.findWagon(wagonNumber);
+        if (wagon != null) {
+            Ticket ticket = new Ticket();
+            ticket.setWagon(wagon);
+            ticket.setSeat(seatNumber);
+            ticket.setTrain(567);
+            User user = new User(lastName, firstName);
+            if (mySQLWagonDAO.checkSeatAvailable(ticket)) {
+                Factory.getMySQLUserDAO().insertUser(user);
+                ticket.setUser(user);
+                Factory.getMySQLTicketDAO().insertTicket(ticket);
+                mySQLWagonDAO.updateSeat(ticket);
+                log.info("Thanks for your order. Your seat is number " + seatNumber + ", Ticket number: " + ticket.getIndex());
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
     }
 

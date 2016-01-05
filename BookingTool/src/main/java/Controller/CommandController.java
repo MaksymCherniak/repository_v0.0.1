@@ -10,7 +10,7 @@ public class CommandController {
     private static Logger log = Logger.getLogger(CommandController.class.getName());
     private String command;
     private String[] parts;
-    private static Map<String, ICommand> mapOfCommands = new HashMap<>();
+    private static Map<String, ICommand> mapOfCommands = new HashMap<String, ICommand>();
 
     static {
         mapOfCommands.put("help", new Help());
