@@ -5,7 +5,7 @@ import Model.LocalModel.Ticket;
 import java.util.List;
 
 public interface ITicketDAO {
-    int insertTicket(Ticket ticket);
+    boolean insertTicket(Ticket ticket);
 
     Ticket find(Integer id);
 

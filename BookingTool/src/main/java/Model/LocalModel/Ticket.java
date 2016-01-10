@@ -36,7 +36,7 @@ public class Ticket {
         return train;
     }
 
-    public Integer getSeat() {
+    public int getSeat() {
         return seat;
     }
 

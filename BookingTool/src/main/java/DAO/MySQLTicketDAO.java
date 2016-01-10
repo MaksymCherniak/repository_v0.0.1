@@ -1,7 +1,6 @@
 package DAO;
 
 import Model.LocalModel.Ticket;
-import Model.LocalModel.NotFoundException;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -16,29 +15,26 @@ public class MySQLTicketDAO implements ITicketDAO {
         entityManager = HibernateUtil.getEm();
     }
 
-    public int insertTicket(Ticket ticket) {
+    public boolean insertTicket(Ticket ticket) {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(ticket);
             entityManager.getTransaction().commit();
+            return true;
         } catch (Exception e) {
             log.log(Level.WARNING, "Exception: ", e);
             entityManager.getTransaction().rollback();
+            return false;
         }
-        return 0;
     }
 
     public Ticket find(Integer id) {
         Ticket ticket = entityManager.find(Ticket.class, id);
-        try {
-            if (ticket != null) {
-                return ticket;
-            } else {
-                throw new NotFoundException("Ticket not found");
-            }
-        } catch (NotFoundException e){
-            log.log(Level.WARNING, "Exception: ", e);
+        if (ticket != null) {
             return ticket;
+        } else {
+            log.info("Ticket not found");
+            return null;
         }
     }
 

@@ -1,5 +1,5 @@
 package Model.LocalModel;
 
-public enum AvailabilitySeats {
+public enum SeatStatus {
     FREE, OCCUPIED
 }

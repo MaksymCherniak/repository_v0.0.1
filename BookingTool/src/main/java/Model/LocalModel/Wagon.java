@@ -15,8 +15,8 @@ public class Wagon {
     private int id;
     @Column
     private int number;
-    @Column
-    private String wagonType;
+    @Enumerated(EnumType.STRING)
+    private WagonType wagonType;
     @Column
     private int totalSeats;
     @Column
@@ -40,40 +40,28 @@ public class Wagon {
         return id;
     }
 
-    public void setFreeSeats(Integer freeSeats) {
-        this.freeSeats = freeSeats;
-    }
-
     public void setNumber(Integer number) {
         this.number = number;
     }
 
-    public void setTotalSeats(int totalSeats) {
-        this.totalSeats = totalSeats;
-    }
-
     public void setWagonType(String type) {
         if (type.equalsIgnoreCase("comfortable")) {
-            wagonType = String.valueOf(WagonType.COMFORTABLE);
+            wagonType = WagonType.COMFORTABLE;
             totalSeats = freeSeats = comfortableWagonCapacity;
         } else if (type.equalsIgnoreCase("compartment")) {
-            wagonType = String.valueOf(WagonType.COMPARTMENT);
+            wagonType = WagonType.COMPARTMENT;
             totalSeats = freeSeats = compartmentWagonCapacity;
         } else if (type.equalsIgnoreCase("economy")) {
-            wagonType = String.valueOf(WagonType.ECONOMY);
+            wagonType = WagonType.ECONOMY;
             totalSeats = freeSeats = economyWagonCapacity;
         }
-    }
-
-    public Integer getFreeSeats() {
-        return freeSeats;
     }
 
     public Integer getNumber() {
         return number;
     }
 
-    public String getWagonType() {
+    public WagonType getWagonType() {
         return wagonType;
     }
 

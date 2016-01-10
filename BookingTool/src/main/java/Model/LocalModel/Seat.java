@@ -12,15 +12,15 @@ public class Seat {
     private int id;
     @Column
     private int number;
+    @Enumerated(EnumType.STRING)
+    private SeatStatus status;
     @Column
-    private String status;
-    @Column
-    private String ticket;
+    private Integer ticket;
     @ManyToOne
     @JoinColumn(name = "wagon_id")
     private Wagon wagon;
 
-    public String getStatus() {
+    public SeatStatus getStatus() {
         return status;
     }
 
@@ -32,15 +32,15 @@ public class Seat {
         return number;
     }
 
-    public String getTicket() {
+    public Integer getTicket() {
         return ticket;
     }
 
     public void setStatus(String status) {
         if (status.equalsIgnoreCase("free")) {
-            this.status = String.valueOf(AvailabilitySeats.FREE);
+            this.status = SeatStatus.FREE;
         } else if (status.equalsIgnoreCase("occupied")) {
-            this.status = String.valueOf(AvailabilitySeats.OCCUPIED);
+            this.status = SeatStatus.OCCUPIED;
         }
     }
 
@@ -52,7 +52,7 @@ public class Seat {
         this.number = number;
     }
 
-    public void setTicket(String ticket) {
+    public void setTicket(Integer ticket) {
         this.ticket = ticket;
     }
 

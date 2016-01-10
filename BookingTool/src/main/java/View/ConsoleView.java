@@ -1,10 +1,15 @@
 package View;
 
 import Controller.CommandController;
+import DAO.Factory;
+import Model.ConsoleCommands.InsertRoute;
+import Model.LocalModel.Route;
+import Model.LocalModel.Ticket;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 
 /**

@@ -15,7 +15,7 @@ public class User {
     private String name;
     @Column
     private String surname;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Ticket> ticket;
 
     public User() {

@@ -22,6 +22,8 @@ public class CommandController {
         mapOfCommands.put("printwagon", new PrintWagon());
         mapOfCommands.put("remove", new RemoveTicket());
         mapOfCommands.put("insertwagon", new InsertWagon());
+        mapOfCommands.put("printroute", new PrintRoute());
+        mapOfCommands.put("insertroute", new InsertRoute());
     }
 
     public void searchCommand(String fullLine) {
