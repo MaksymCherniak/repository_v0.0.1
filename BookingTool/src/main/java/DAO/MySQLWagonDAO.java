@@ -22,11 +22,15 @@ public class MySQLWagonDAO implements IWagonDAO {
     private static final String WAGON = "wagon";
     private static final String STATUS = "status";
     private static final String SEATS = "seats";
-    public static EntityManager entityManager;
+    private static EntityManager entityManager;
     private static Logger log = Logger.getLogger(MySQLWagonDAO.class.getName());
 
     public MySQLWagonDAO() {
         entityManager = HibernateUtil.getEm();
+    }
+
+    public static void setEntityManager(EntityManager entityManager) {
+        MySQLWagonDAO.entityManager = entityManager;
     }
 
     public boolean updateSeat(Ticket ticket) {
@@ -47,17 +51,20 @@ public class MySQLWagonDAO implements IWagonDAO {
 
     public boolean updateWagon(Ticket ticket) {
         try {
-            entityManager.getTransaction().begin();
-            entityManager.createQuery(UPDATE_SEAT).setParameter(WAGON, ticket.getWagon().getId())
-                    .setParameter(STATUS, SeatStatus.FREE).setParameter(NUMBER, ticket.getSeat()).executeUpdate();
-            entityManager.createQuery(UPDATE_WAGON).setParameter(NUMBER, ticket.getWagon().getNumber())
-                    .setParameter(SEATS, getFreeSeats(ticket.getWagon())).executeUpdate();
-            entityManager.getTransaction().commit();
-            return true;
+            if (!checkSeatAvailable(ticket)) {
+                entityManager.getTransaction().begin();
+                entityManager.createQuery(UPDATE_SEAT).setParameter(WAGON, ticket.getWagon().getId())
+                        .setParameter(STATUS, SeatStatus.FREE).setParameter(NUMBER, ticket.getSeat()).executeUpdate();
+                entityManager.createQuery(UPDATE_WAGON).setParameter(NUMBER, ticket.getWagon().getNumber())
+                        .setParameter(SEATS, getFreeSeats(ticket.getWagon())).executeUpdate();
+                entityManager.getTransaction().commit();
+                entityManager.clear();
+                return true;
+            }
         } catch (Exception e) {
             log.log(Level.WARNING, "Exception: ", e);
-            return false;
         }
+        return false;
     }
 
     public Wagon findWagon(int wagonNumber) {
@@ -128,9 +135,6 @@ public class MySQLWagonDAO implements IWagonDAO {
         try {
             List<Seat> seat = entityManager.createQuery(CHECK_SEAT).setParameter(WAGON, ticket.getWagon().getId())
                     .setParameter(NUMBER, ticket.getSeat()).getResultList();
-            for (Seat seat1 : seat) {
-                System.out.println(seat1.toString());
-            }
             if (seat.size() != 0) {
                 if (String.valueOf(seat.get(0).getStatus()).equalsIgnoreCase("OCCUPIED")) {
                     log.info("Seat number " + ticket.getSeat() + " is occupied");

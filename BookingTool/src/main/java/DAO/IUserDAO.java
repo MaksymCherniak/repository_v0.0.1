@@ -9,7 +9,7 @@ public interface IUserDAO {
 
     boolean deleteUser(User user);
 
-    User findUser(Integer id);
+    User findUserById(Integer id);
 
     List getAllUsers();
 }

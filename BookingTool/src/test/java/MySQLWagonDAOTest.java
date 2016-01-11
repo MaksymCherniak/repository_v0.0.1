@@ -5,18 +5,22 @@ import Model.LocalModel.Wagon;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class MySQLWagonDAOTest {
     private MySQLWagonDAO mySQLWagonDAO;
+    private EntityManager entityManager;
 
     @Before
     public void initializeDependencies() {
-        mySQLWagonDAO = new MySQLWagonDAO();
-        mySQLWagonDAO.entityManager = Persistence.createEntityManagerFactory("test").
+        entityManager = Persistence.createEntityManagerFactory("test").
                 createEntityManager();
+        mySQLWagonDAO = new MySQLWagonDAO();
+        mySQLWagonDAO.setEntityManager(entityManager);
     }
 
     @Test
@@ -24,34 +28,36 @@ public class MySQLWagonDAOTest {
         Wagon wagon = new Wagon();
         wagon.setNumber(1);
         wagon.setWagonType("COMFORTABLE");
-        Wagon wagon1 = new Wagon();
-        wagon1.setNumber(1);
-        wagon1.setWagonType("COMFORTABLE");
 
         mySQLWagonDAO.insertWagon(wagon);
-        boolean wagonCheck = mySQLWagonDAO.insertWagon(wagon1);
+        boolean wagonCheck = mySQLWagonDAO.insertWagon(wagon);
 
         assertFalse(wagonCheck);
 
-        Ticket ticket = new Ticket();
-        Ticket ticket2 = new Ticket();
-        wagon = mySQLWagonDAO.findWagon(1);
+        boolean findCheck;
+        wagon = mySQLWagonDAO.findWagon(wagon.getNumber());
+        if (wagon == null){
+            findCheck = false;
+        } else {
+            findCheck = true;
+        }
+        assertTrue(findCheck);
 
+        Ticket ticket = new Ticket();
         ticket.setTrain(10);
         ticket.setWagon(wagon);
-        ticket.setUser(new User("jsdhk", "askdla"));
+        ticket.setUser(new User("UserSurname", "UserName"));
         ticket.setSeat(1);
 
-        ticket2.setTrain(10);
-        ticket2.setWagon(wagon);
-        ticket2.setUser(new User("jsdhk", "askdla"));
-        ticket2.setSeat(1);
-
         mySQLWagonDAO.updateSeat(ticket);
-        boolean seatChecker = false;
-        if (mySQLWagonDAO.checkSeatAvailable(ticket2)) {
-            seatChecker = mySQLWagonDAO.updateSeat(ticket2);
+        boolean updateSeatChecker = false;
+        if (mySQLWagonDAO.checkSeatAvailable(ticket)) {
+            updateSeatChecker = mySQLWagonDAO.updateSeat(ticket);
         }
-        assertFalse(seatChecker);
+        assertFalse(updateSeatChecker);
+
+        mySQLWagonDAO.updateWagon(ticket);
+        boolean updateWagonChecker = mySQLWagonDAO.updateWagon(ticket);
+        assertFalse(updateWagonChecker);
     }
 }
