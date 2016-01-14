@@ -91,14 +91,22 @@ public class Wagon {
     }
 
     @Override
-    public String toString() {
-        if (String.valueOf(wagonType).equalsIgnoreCase("comfortable")) {
-            totalSeats = comfortableWagonCapacity;
-        } else if (String.valueOf(wagonType).equalsIgnoreCase("compartment")) {
-            totalSeats = compartmentWagonCapacity;
-        } else if (String.valueOf(wagonType).equalsIgnoreCase("economy")) {
-            totalSeats = economyWagonCapacity;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Wagon other = (Wagon) obj;
+        return number == other.number && wagonType.equals(other.getWagonType());
+    }
+
+    @Override
+    public String toString() {
         return "Wagon number: " + number + " is " + wagonType + ". Total seats: " + totalSeats + ", Free seats: " + freeSeats;
     }
 }

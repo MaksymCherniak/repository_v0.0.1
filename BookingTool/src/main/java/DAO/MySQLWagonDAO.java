@@ -35,18 +35,20 @@ public class MySQLWagonDAO implements IWagonDAO {
 
     public boolean updateSeat(Ticket ticket) {
         try {
-            entityManager.getTransaction().begin();
-            entityManager.createQuery(UPDATE_SEAT).setParameter(WAGON, ticket.getWagon().getId())
-                    .setParameter(STATUS, SeatStatus.OCCUPIED).setParameter(NUMBER, ticket.getSeat()).executeUpdate();
-            entityManager.createQuery(UPDATE_WAGON).setParameter(NUMBER, ticket.getWagon().getNumber())
-                    .setParameter(SEATS, getFreeSeats(ticket.getWagon())).executeUpdate();
-            entityManager.getTransaction().commit();
-            entityManager.clear();
-            return true;
+            if (checkSeatAvailable(ticket)) {
+                entityManager.getTransaction().begin();
+                entityManager.createQuery(UPDATE_SEAT).setParameter(WAGON, ticket.getWagon().getId())
+                        .setParameter(STATUS, SeatStatus.OCCUPIED).setParameter(NUMBER, ticket.getSeat()).executeUpdate();
+                entityManager.createQuery(UPDATE_WAGON).setParameter(NUMBER, ticket.getWagon().getNumber())
+                        .setParameter(SEATS, getFreeSeats(ticket.getWagon())).executeUpdate();
+                entityManager.getTransaction().commit();
+                entityManager.clear();
+                return true;
+            }
         } catch (Exception e) {
             log.log(Level.WARNING, "Exception: ", e);
-            return false;
         }
+        return false;
     }
 
     public boolean updateWagon(Ticket ticket) {

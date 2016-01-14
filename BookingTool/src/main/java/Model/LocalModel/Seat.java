@@ -58,10 +58,6 @@ public class Seat {
 
     @Override
     public String toString() {
-        if (ticket == null) {
-            return "Seat number " + number + " is " + status;
-        } else {
-            return "Seat number " + number + " is " + status + ", ticket: " + ticket;
-        }
+        return "Seat number " + number + " is " + status + (ticket != null ? ", ticket: " + ticket : "");
     }
 }

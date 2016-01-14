@@ -7,7 +7,9 @@ import java.util.List;
 public interface ITicketDAO {
     boolean insertTicket(Ticket ticket);
 
-    Ticket find(Integer id);
+    Ticket findTicketByID(Integer id);
+
+    Ticket findTicket(Ticket ticket);
 
     boolean delete(Integer id);
 

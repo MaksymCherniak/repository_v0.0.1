@@ -61,6 +61,21 @@ public class Ticket {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Ticket other = (Ticket) obj;
+        return train == other.getTrain() && wagon.equals(other.getWagon()) && seat == other.getSeat() && user.equals(other.getUser());
+    }
+
+    @Override
     public String toString() {
         return "Ticket: " + id + ", Train: " + train + ", " + wagon.printForTicket() + ", Seat: " +
                 seat + " -- " + user.toString();

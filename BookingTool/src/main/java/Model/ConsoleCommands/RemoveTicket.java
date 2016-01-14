@@ -20,7 +20,7 @@ public class RemoveTicket implements ICommand {
     }
 
     public void remove(String id) {
-        Ticket ticket = Factory.getMySQLTicketDAO().find(Integer.parseInt(id));
+        Ticket ticket = Factory.getMySQLTicketDAO().findTicketByID(Integer.parseInt(id));
         if (ticket != null && ticket.getTrain() != null) {
             Factory.getInstance().getMySQLTicketDAO().delete(Integer.parseInt(id));
             Factory.getInstance().getMySQLWagonDAO().updateWagon(ticket);
