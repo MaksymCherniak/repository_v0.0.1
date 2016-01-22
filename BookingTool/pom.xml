@@ -53,6 +53,18 @@
             <artifactId>hibernate-ehcache</artifactId>
             <version>5.0.6.Final</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>1.8.0.7</version>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

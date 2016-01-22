@@ -1,6 +1,6 @@
 package Model.ConsoleCommands;
 
-import DAO.Factory;
+import DAO.MySqlDaoFactory;
 import Model.LocalModel.Ticket;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class PrintAllTickets implements ICommand {
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 1) {
-            List<Ticket> list = Factory.getMySQLTicketDAO().getAllTickets();
+            List<Ticket> list = MySqlDaoFactory.getMySQLTicketDAO().getAllTickets();
             for (Ticket ticket : list) {
                 System.out.println(ticket.toString());
             }

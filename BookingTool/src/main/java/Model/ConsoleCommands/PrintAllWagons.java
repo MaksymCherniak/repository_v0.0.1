@@ -1,6 +1,6 @@
 package Model.ConsoleCommands;
 
-import DAO.Factory;
+import DAO.MySqlDaoFactory;
 import Model.LocalModel.Wagon;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class PrintAllWagons implements ICommand {
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 1) {
-            List<Wagon> list = Factory.getMySQLWagonDAO().getAllWagons();
+            List<Wagon> list = MySqlDaoFactory.getMySQLWagonDAO().getAllWagons();
             for (Wagon wagon : list) {
                 System.out.println(wagon.toString());
             }

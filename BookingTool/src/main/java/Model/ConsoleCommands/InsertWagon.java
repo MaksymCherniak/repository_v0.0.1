@@ -1,6 +1,6 @@
 package Model.ConsoleCommands;
 
-import DAO.Factory;
+import DAO.MySqlDaoFactory;
 import Model.LocalModel.Wagon;
 
 import java.util.logging.Logger;
@@ -17,7 +17,7 @@ public class InsertWagon implements ICommand {
             Wagon wagon = new Wagon();
             wagon.setNumber(Integer.parseInt(parts[1]));
             wagon.setWagonType(parts[2]);
-            Factory.getMySQLWagonDAO().insertWagon(wagon);
+            MySqlDaoFactory.getMySQLWagonDAO().insertWagon(wagon);
         } else {
             log.warning("Wrong command");
         }

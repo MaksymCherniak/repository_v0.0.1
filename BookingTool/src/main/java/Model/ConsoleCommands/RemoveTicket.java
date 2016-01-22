@@ -1,6 +1,6 @@
 package Model.ConsoleCommands;
 
-import DAO.Factory;
+import DAO.MySqlDaoFactory;
 import Model.LocalModel.Ticket;
 
 import java.util.logging.Logger;
@@ -20,10 +20,10 @@ public class RemoveTicket implements ICommand {
     }
 
     public void remove(String id) {
-        Ticket ticket = Factory.getMySQLTicketDAO().findTicketByID(Integer.parseInt(id));
+        Ticket ticket = MySqlDaoFactory.getMySQLTicketDAO().findTicketByID(Integer.parseInt(id));
         if (ticket != null && ticket.getTrain() != null) {
-            Factory.getInstance().getMySQLTicketDAO().delete(Integer.parseInt(id));
-            Factory.getInstance().getMySQLWagonDAO().updateWagon(ticket);
+            MySqlDaoFactory.getInstance().getMySQLTicketDAO().delete(Integer.parseInt(id));
+            MySqlDaoFactory.getInstance().getMySQLWagonDAO().updateWagon(ticket);
         }
     }
 

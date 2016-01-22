@@ -1,12 +1,11 @@
 package DAO;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 public interface IDAOFactory {
-    Connection getConnection() throws SQLException;
+    IRouteDAO getIRouteDAO();
 
-    IUserDAO getIUserDAO(Connection connection);
+    IUserDAO getIUserDAO();
 
-    IWagonDAO getIWagonDAO(Connection connection);
+    IWagonDAO getIWagonDAO();
+
+    ITicketDAO getITicketDAO();
 }

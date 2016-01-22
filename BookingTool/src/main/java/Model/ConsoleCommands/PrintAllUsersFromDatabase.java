@@ -1,6 +1,6 @@
 package Model.ConsoleCommands;
 
-import DAO.Factory;
+import DAO.MySqlDaoFactory;
 import Model.LocalModel.User;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class PrintAllUsersFromDatabase implements ICommand {
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 1) {
-            List<User> list = Factory.getInstance().getMySQLUserDAO().getAllUsers();
+            List<User> list = MySqlDaoFactory.getInstance().getMySQLUserDAO().getAllUsers();
             for (User user : list) {
                 System.out.println(user.toString());
             }
