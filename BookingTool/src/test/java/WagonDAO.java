@@ -1,6 +1,7 @@
-import Model.LocalModel.Ticket;
-import Model.LocalModel.User;
-import Model.LocalModel.Wagon;
+import BookingTool.DAO.MySQLWagonDAO;
+import BookingTool.Model.LocalModel.Ticket;
+import BookingTool.Model.LocalModel.User;
+import BookingTool.Model.LocalModel.Wagon;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class WagonDAO {
-    private DAO.MySQLWagonDAO mySQLWagonDAO;
+    private MySQLWagonDAO mySQLWagonDAO;
     private EntityManager entityManager;
     private Wagon wagon;
     private Ticket ticket;
@@ -21,7 +22,7 @@ public class WagonDAO {
     public void initializeDependencies() {
         entityManager = Persistence.createEntityManagerFactory("test").
                 createEntityManager();
-        mySQLWagonDAO = new DAO.MySQLWagonDAO();
+        mySQLWagonDAO = new MySQLWagonDAO();
         mySQLWagonDAO.setEntityManager(entityManager);
 
         wagon = new Wagon();

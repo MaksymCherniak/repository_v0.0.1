@@ -1,4 +1,4 @@
-package DAO;
+package BookingTool.DAO;
 
 public interface IDAOFactory {
     IRouteDAO getIRouteDAO();

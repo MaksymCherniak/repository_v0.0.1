@@ -8,10 +8,11 @@
             Persistence unit for the JPA tutorial of the Hibernate Getting Started Guide
         </description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>Model.LocalModel.Ticket</class>
-        <class>Model.LocalModel.User</class>
-        <class>Model.LocalModel.Seat</class>
-        <class>Model.LocalModel.Wagon</class>
+        <class>BookingTool.Model.LocalModel.Ticket</class>
+        <class>BookingTool.Model.LocalModel.User</class>
+        <class>BookingTool.Model.LocalModel.Seat</class>
+        <class>BookingTool.Model.LocalModel.Wagon</class>
+        <class>BookingTool.DAO.MySQLUserDAO</class>
 
         <properties>
             <property name="hibernate.show_sql" value="true"/>
@@ -26,10 +27,10 @@
 
     <persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>Model.LocalModel.Ticket</class>
-        <class>Model.LocalModel.User</class>
-        <class>Model.LocalModel.Seat</class>
-        <class>Model.LocalModel.Wagon</class>
+        <class>BookingTool.Model.LocalModel.Ticket</class>
+        <class>BookingTool.Model.LocalModel.User</class>
+        <class>BookingTool.Model.LocalModel.Seat</class>
+        <class>BookingTool.Model.LocalModel.Wagon</class>
 
         <properties>
             <property name="hibernate.show_sql" value="true"/>

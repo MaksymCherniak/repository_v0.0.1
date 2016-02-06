@@ -1,4 +1,4 @@
-package Model.LocalModel;
+package BookingTool.Model.LocalModel;
 
 import com.mysql.fabric.jdbc.FabricMySQLDriver;
 

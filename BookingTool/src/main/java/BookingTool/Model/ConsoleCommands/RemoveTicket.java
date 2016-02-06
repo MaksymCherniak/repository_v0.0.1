@@ -1,7 +1,8 @@
-package Model.ConsoleCommands;
+package BookingTool.Model.ConsoleCommands;
 
-import DAO.MySqlDaoFactory;
-import Model.LocalModel.Ticket;
+import BookingTool.DAO.MySqlDaoFactory;
+import BookingTool.Model.LocalModel.Ticket;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.util.logging.Logger;
 
@@ -10,7 +11,7 @@ public class RemoveTicket implements ICommand {
     private final static String name = "remove";
     private String[] parts;
 
-    public void execute(String fullLine) {
+    public void execute(String fullLine, GenericXmlApplicationContext ctx) {
         parts = fullLine.split(" ");
         if (parts.length == 2) {
             remove(parts[1]);

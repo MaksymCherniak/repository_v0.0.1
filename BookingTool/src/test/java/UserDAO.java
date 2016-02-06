@@ -1,4 +1,5 @@
-import Model.LocalModel.User;
+import BookingTool.DAO.MySQLUserDAO;
+import BookingTool.Model.LocalModel.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
  * Created by Max on 11.01.2016.
  */
 public class UserDAO {
-    private DAO.MySQLUserDAO mySQLUserDAO;
+    private MySQLUserDAO mySQLUserDAO;
     private EntityManager entityManager;
     private User user;
 
@@ -21,7 +22,7 @@ public class UserDAO {
     public void initializeDependencies() {
         entityManager = Persistence.createEntityManagerFactory("test").
                 createEntityManager();
-        mySQLUserDAO = new DAO.MySQLUserDAO();
+        mySQLUserDAO = new MySQLUserDAO();
         mySQLUserDAO.setEntityManager(entityManager);
         user = new User("User", "User2");
     }

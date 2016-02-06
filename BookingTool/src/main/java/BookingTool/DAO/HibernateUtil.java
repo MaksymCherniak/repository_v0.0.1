@@ -1,4 +1,4 @@
-package DAO;
+package BookingTool.DAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

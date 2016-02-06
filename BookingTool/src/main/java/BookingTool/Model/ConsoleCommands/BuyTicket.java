@@ -1,21 +1,25 @@
-package Model.ConsoleCommands;
+package BookingTool.Model.ConsoleCommands;
 
-import DAO.MySqlDaoFactory;
-import DAO.MySQLWagonDAO;
-import Model.LocalModel.Ticket;
-import Model.LocalModel.User;
-import Model.LocalModel.Wagon;
+import BookingTool.DAO.ITicketDAO;
+import BookingTool.DAO.IUserDAO;
+import BookingTool.DAO.IWagonDAO;
+import BookingTool.Model.LocalModel.Ticket;
+import BookingTool.Model.LocalModel.User;
+import BookingTool.Model.LocalModel.Wagon;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.util.logging.Logger;
 
 public class BuyTicket implements ICommand {
+    private GenericXmlApplicationContext ctx;
     private static Logger log = Logger.getLogger(BuyTicket.class.getName());
     private final static String name = "buy";
     private String[] parts;
 
-    public void execute(String fullLine) {
+    public void execute(String fullLine, GenericXmlApplicationContext ctx) {
         parts = fullLine.split(" ");
         if (parts.length == 6) {
+            this.ctx = ctx;
             buyTicket(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), parts[4], parts[5]);
         } else {
             log.warning("Wrong command");
@@ -23,19 +27,21 @@ public class BuyTicket implements ICommand {
     }
 
     public boolean buyTicket(int trainNumber, int wagonNumber, int seatNumber, String lastName, String firstName) {
-        MySQLWagonDAO mySQLWagonDAO = MySqlDaoFactory.getMySQLWagonDAO();
-        Wagon wagon = mySQLWagonDAO.findWagon(wagonNumber);
+        IWagonDAO iWagonDAO = ctx.getBean("MySQLWagonDAO", IWagonDAO.class);
+        IUserDAO iUserDAO = ctx.getBean("MySQLUserDAO", IUserDAO.class);
+        ITicketDAO iTicketDAO = ctx.getBean("MySQLTicketDAO", ITicketDAO.class);
+        Wagon wagon = iWagonDAO.findWagon(wagonNumber);
         if (wagon != null) {
             Ticket ticket = new Ticket();
             ticket.setWagon(wagon);
             ticket.setSeat(seatNumber);
             ticket.setTrain(trainNumber);
             User user = new User(lastName, firstName);
-            if (mySQLWagonDAO.checkSeatAvailable(ticket)) {
-                MySqlDaoFactory.getMySQLUserDAO().insertUser(user);
+            if (iWagonDAO.checkSeatAvailable(ticket)) {
+                iUserDAO.insertUser(user);
                 ticket.setUser(user);
-                MySqlDaoFactory.getMySQLTicketDAO().insertTicket(ticket);
-                mySQLWagonDAO.updateSeat(ticket);
+                iTicketDAO.insertTicket(ticket);
+                iWagonDAO.updateSeat(ticket);
                 log.info("Thanks for your order. Your seat is number " + seatNumber + ", Ticket number: " + ticket.getIndex());
                 return true;
             } else {

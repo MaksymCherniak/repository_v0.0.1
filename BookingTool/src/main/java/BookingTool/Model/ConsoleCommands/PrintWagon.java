@@ -1,8 +1,9 @@
-package Model.ConsoleCommands;
+package BookingTool.Model.ConsoleCommands;
 
-import DAO.MySqlDaoFactory;
-import Model.LocalModel.Seat;
-import Model.LocalModel.Wagon;
+import BookingTool.DAO.IWagonDAO;
+import BookingTool.Model.LocalModel.Seat;
+import BookingTool.Model.LocalModel.Wagon;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -12,12 +13,13 @@ public class PrintWagon implements ICommand {
     private final static String name = "printwagon";
     private String[] parts;
 
-    public void execute(String fullLine) {
+    public void execute(String fullLine, GenericXmlApplicationContext ctx) {
         parts = fullLine.split(" ");
         if (parts.length == 2) {
-            Wagon wagon = MySqlDaoFactory.getMySQLWagonDAO().findWagon(Integer.parseInt(parts[1]));
+            IWagonDAO iWagonDAO = ctx.getBean("MySQLWagonDAO", IWagonDAO.class);
+            Wagon wagon = iWagonDAO.findWagon(Integer.parseInt(parts[1]));
             if (wagon != null) {
-                List<Seat> list = MySqlDaoFactory.getMySQLWagonDAO().getAllSeats(wagon);
+                List<Seat> list = iWagonDAO.getAllSeats(wagon);
                 for (Seat seat : list) {
                     System.out.println(seat.toString());
                 }

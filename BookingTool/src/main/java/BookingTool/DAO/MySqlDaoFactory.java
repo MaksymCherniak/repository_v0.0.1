@@ -1,4 +1,4 @@
-package DAO;
+package BookingTool.DAO;
 
 public class MySqlDaoFactory {
     private static MySQLUserDAO mySQLUserDAO = null;
