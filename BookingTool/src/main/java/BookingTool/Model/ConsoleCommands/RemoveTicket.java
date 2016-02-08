@@ -7,11 +7,12 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import java.util.logging.Logger;
 
 public class RemoveTicket implements ICommand {
+    private GenericXmlApplicationContext ctx;
     private static Logger log = Logger.getLogger(RemoveTicket.class.getName());
     private final static String name = "remove";
     private String[] parts;
 
-    public void execute(String fullLine, GenericXmlApplicationContext ctx) {
+    public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 2) {
             remove(parts[1]);

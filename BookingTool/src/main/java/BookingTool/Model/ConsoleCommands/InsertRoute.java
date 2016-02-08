@@ -14,12 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class InsertRoute implements ICommand {
+    private GenericXmlApplicationContext ctx;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static Logger log = Logger.getLogger(InsertRoute.class.getName());
     private static final String name = "insertroute";
     private String[] parts;
 
-    public void execute(String fullLine, GenericXmlApplicationContext ctx) {
+    public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 4) {
             try {

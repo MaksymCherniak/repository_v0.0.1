@@ -1,7 +1,5 @@
 package BookingTool.Model.ConsoleCommands;
 
-import org.springframework.context.support.GenericXmlApplicationContext;
-
 import java.util.logging.Logger;
 
 public class Help implements ICommand {
@@ -9,7 +7,7 @@ public class Help implements ICommand {
     private final static String name = "help";
     private String[] parts;
 
-    public void execute(String fullLine, GenericXmlApplicationContext ctx) {
+    public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 1) {
             new Help().printHelp();

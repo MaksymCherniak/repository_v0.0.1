@@ -3,6 +3,7 @@ package BookingTool.Model.ConsoleCommands;
 import BookingTool.DAO.ITicketDAO;
 import BookingTool.DAO.IUserDAO;
 import BookingTool.DAO.IWagonDAO;
+import BookingTool.Model.LocalModel.ContextInit;
 import BookingTool.Model.LocalModel.Ticket;
 import BookingTool.Model.LocalModel.User;
 import BookingTool.Model.LocalModel.Wagon;
@@ -16,10 +17,9 @@ public class BuyTicket implements ICommand {
     private final static String name = "buy";
     private String[] parts;
 
-    public void execute(String fullLine, GenericXmlApplicationContext ctx) {
+    public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 6) {
-            this.ctx = ctx;
             buyTicket(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3]), parts[4], parts[5]);
         } else {
             log.warning("Wrong command");
@@ -27,6 +27,7 @@ public class BuyTicket implements ICommand {
     }
 
     public boolean buyTicket(int trainNumber, int wagonNumber, int seatNumber, String lastName, String firstName) {
+        ctx = ContextInit.getContext();
         IWagonDAO iWagonDAO = ctx.getBean("MySQLWagonDAO", IWagonDAO.class);
         IUserDAO iUserDAO = ctx.getBean("MySQLUserDAO", IUserDAO.class);
         ITicketDAO iTicketDAO = ctx.getBean("MySQLTicketDAO", ITicketDAO.class);

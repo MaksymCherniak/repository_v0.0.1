@@ -1,6 +1,7 @@
 package BookingTool.Model.ConsoleCommands;
 
 import BookingTool.DAO.IRouteDAO;
+import BookingTool.Model.LocalModel.ContextInit;
 import BookingTool.Model.LocalModel.Route;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
@@ -12,14 +13,16 @@ import java.util.logging.Logger;
  * Created by Max on 09.01.2016.
  */
 public class PrintRoute implements ICommand {
+    private GenericXmlApplicationContext ctx;
     private static Logger log = Logger.getLogger(PrintRoute.class.getName());
     private static final String name = "printroute";
     private String[] parts;
     private String[] date;
 
-    public void execute(String fullLine, GenericXmlApplicationContext ctx) {
+    public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 4) {
+            ctx = ContextInit.getContext();
             Route route = new Route();
             route.setLeavingStation(parts[1]);
             route.setArrivalStation(parts[2]);

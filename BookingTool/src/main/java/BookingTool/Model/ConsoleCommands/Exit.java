@@ -1,7 +1,5 @@
 package BookingTool.Model.ConsoleCommands;
 
-import org.springframework.context.support.GenericXmlApplicationContext;
-
 import java.util.logging.Logger;
 
 public class Exit implements ICommand {
@@ -9,7 +7,7 @@ public class Exit implements ICommand {
     private final static String name = "exit";
     private String[] parts;
 
-    public void execute(String fullLine, GenericXmlApplicationContext ctx) {
+    public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 1) {
             System.exit(0);

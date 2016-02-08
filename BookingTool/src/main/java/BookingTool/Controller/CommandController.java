@@ -28,14 +28,14 @@ public class CommandController {
         mapOfCommands.put("create", new CreateUser());
     }
 
-    public void searchCommand(String fullLine, GenericXmlApplicationContext ctx) {
+    public void searchCommand(String fullLine) {
         parts = fullLine.split(" ");
         command = parts[0];
         ICommand cmnd = mapOfCommands.get(command);
         if (cmnd == null) {
             log.warning("Wrong command");
         } else {
-            cmnd.execute(fullLine, ctx);
+            cmnd.execute(fullLine);
         }
     }
 }
