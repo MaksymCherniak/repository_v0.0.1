@@ -31,7 +31,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
         </property>
-        <property name="packagesToScan" value="BookingTool"/>
+        <property name="packagesToScan" value="BookingTool.*"/>
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">
@@ -46,5 +46,53 @@
         </property>
     </bean>
 
-    <context:component-scan base-package="BookingTool"/>
+    <context:component-scan base-package="BookingTool.*"/>
+
+    <!-- ============================ DAO ================================= -->
+
+    <bean id="IWagonDAO" class="BookingTool.DAO.MySQLWagonDAO"/>
+    <bean id="IUserDAO" class="BookingTool.DAO.MySQLUserDAO"/>
+    <bean id="ITicketDAO" class="BookingTool.DAO.MySQLTicketDAO"/>
+    <bean id="IRouteDAO" class="BookingTool.DAO.MySQLRouteDAO"/>
+
+    <!-- ========================== Commands ============================== -->
+
+    <bean id="help" class="BookingTool.Model.ConsoleCommands.Help"/>
+    <bean id="exit" class="BookingTool.Model.ConsoleCommands.Exit"/>
+    <bean id="buy" class="BookingTool.Model.ConsoleCommands.BuyTicket">
+        <property name="iWagonDAO" ref="IWagonDAO"/>
+        <property name="iUserDAO" ref="IUserDAO"/>
+        <property name="iTicketDAO" ref="ITicketDAO"/>
+    </bean>
+    <bean id="create" class="BookingTool.Model.ConsoleCommands.CreateUser">
+        <property name="iUserDAO" ref="IUserDAO"/>
+    </bean>
+    <bean id="insertroute" class="BookingTool.Model.ConsoleCommands.InsertRoute">
+        <property name="iRouteDAO" ref="IRouteDAO"/>
+    </bean>
+    <bean id="insertwagon" class="BookingTool.Model.ConsoleCommands.InsertWagon">
+        <property name="iWagonDAO" ref="IWagonDAO"/>
+    </bean>
+    <bean id="printtickets" class="BookingTool.Model.ConsoleCommands.PrintAllTickets">
+        <property name="iTicketDAO" ref="ITicketDAO"/>
+    </bean>
+    <bean id="printusers" class="BookingTool.Model.ConsoleCommands.PrintAllUsers">
+        <property name="iUserDAO" ref="IUserDAO"/>
+    </bean>
+    <bean id="printwagons" class="BookingTool.Model.ConsoleCommands.PrintAllWagons">
+        <property name="iWagonDAO" ref="IWagonDAO"/>
+    </bean>
+    <bean id="printroute" class="BookingTool.Model.ConsoleCommands.PrintRoute">
+        <property name="iRouteDAO" ref="IRouteDAO"/>
+    </bean>
+    <bean id="printwagon" class="BookingTool.Model.ConsoleCommands.PrintWagon">
+        <property name="iWagonDAO" ref="IWagonDAO"/>
+    </bean>
+    <bean id="remove" class="BookingTool.Model.ConsoleCommands.RemoveTicket">
+        <property name="iTicketDAO" ref="ITicketDAO"/>
+        <property name="iWagonDAO" ref="IWagonDAO"/>
+    </bean>
+
+    <!-- ============================================================================ -->
+
 </beans>

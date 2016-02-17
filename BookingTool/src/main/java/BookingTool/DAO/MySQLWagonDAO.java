@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service("MySQLWagonDAO")
-@Repository
 @Transactional
 public class MySQLWagonDAO implements IWagonDAO {
     private static final String UPDATE_SEAT = "UPDATE Seat c set c.status=:status WHERE wagon_id LIKE :wagon AND c.number LIKE :number";
@@ -35,6 +33,8 @@ public class MySQLWagonDAO implements IWagonDAO {
 
     public MySQLWagonDAO() {
     }
+
+    public EntityManager getEntityManager() { return entityManager; }
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -70,7 +70,6 @@ public class MySQLWagonDAO implements IWagonDAO {
         return false;
     }
 
-    @Transactional(readOnly = true)
     public Wagon findWagon(int wagonNumber) {
         List<Wagon> wagon = entityManager.createQuery(FIND_WAGON).setParameter(NUMBER, wagonNumber).getResultList();
         if (wagon.size() != 0) {
@@ -119,24 +118,20 @@ public class MySQLWagonDAO implements IWagonDAO {
         return false;
     }
 
-    @Transactional(readOnly = true)
     public List<Seat> getAllSeats(Wagon wagon) {
         return entityManager.createQuery(GET_ALL_SEATS)
                 .setParameter(WAGON, wagon.getId()).getResultList();
     }
 
-    @Transactional(readOnly = true)
     public List<Wagon> getAllWagons() {
         return entityManager.createNamedQuery("Wagon.getAll", Wagon.class).getResultList();
     }
 
-    @Transactional(readOnly = true)
     private int getFreeSeats(Wagon wagon) {
         return entityManager.createQuery(GET_FREE_SEATS)
                 .setParameter(WAGON, wagon.getId()).getResultList().size();
     }
 
-    @Transactional(readOnly = true)
     public boolean checkSeatAvailable(Ticket ticket) {
         try {
             List<Seat> seat = entityManager.createQuery(CHECK_SEAT).setParameter(WAGON, ticket.getWagon().getId())

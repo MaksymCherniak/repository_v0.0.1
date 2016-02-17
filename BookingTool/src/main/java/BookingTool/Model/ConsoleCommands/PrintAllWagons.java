@@ -1,24 +1,21 @@
 package BookingTool.Model.ConsoleCommands;
 
 import BookingTool.DAO.IWagonDAO;
-import BookingTool.Model.LocalModel.ContextInit;
 import BookingTool.Model.LocalModel.Wagon;
-import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 public class PrintAllWagons implements ICommand {
-    private GenericXmlApplicationContext ctx;
+    private IWagonDAO iWagonDAO;
     private static Logger log = Logger.getLogger(PrintAllWagons.class.getName());
-    private final static String name = "print";
+    private final static String name = "printwagons";
     private String[] parts;
 
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 1) {
-            ctx = ContextInit.getContext();
-            List<Wagon> list = ctx.getBean("MySQLWagonDAO", IWagonDAO.class).getAllWagons();
+            List<Wagon> list = iWagonDAO.getAllWagons();
             for (Wagon wagon : list) {
                 System.out.println(wagon.toString());
             }
@@ -29,5 +26,13 @@ public class PrintAllWagons implements ICommand {
 
     public void printHelp() {
         System.out.println("- " + name + " -- print all wagons");
+    }
+
+    public IWagonDAO getiWagonDAO() {
+        return iWagonDAO;
+    }
+
+    public void setiWagonDAO(IWagonDAO iWagonDAO) {
+        this.iWagonDAO = iWagonDAO;
     }
 }

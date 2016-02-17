@@ -20,6 +20,8 @@ public class Help implements ICommand {
             new PrintAllWagons().printHelp();
             new PrintAllTickets().printHelp();
             new CreateUser().printHelp();
+            new PrintRoute().printHelp();
+            new InsertRoute().printHelp();
         } else {
             log.warning("Wrong command");
         }

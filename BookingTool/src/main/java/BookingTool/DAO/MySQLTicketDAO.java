@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service("MySQLTicketDAO")
-@Repository
 @Transactional
 public class MySQLTicketDAO implements ITicketDAO {
     private static final String FIND_TICKET = "SELECT t FROM Ticket t WHERE t.train LIKE :train AND wagon_id LIKE :wagon " +

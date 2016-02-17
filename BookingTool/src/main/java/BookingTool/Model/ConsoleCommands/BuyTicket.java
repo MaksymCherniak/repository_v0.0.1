@@ -3,16 +3,16 @@ package BookingTool.Model.ConsoleCommands;
 import BookingTool.DAO.ITicketDAO;
 import BookingTool.DAO.IUserDAO;
 import BookingTool.DAO.IWagonDAO;
-import BookingTool.Model.LocalModel.ContextInit;
 import BookingTool.Model.LocalModel.Ticket;
 import BookingTool.Model.LocalModel.User;
 import BookingTool.Model.LocalModel.Wagon;
-import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.util.logging.Logger;
 
 public class BuyTicket implements ICommand {
-    private GenericXmlApplicationContext ctx;
+    private IWagonDAO iWagonDAO;
+    private IUserDAO iUserDAO;
+    private ITicketDAO iTicketDAO;
     private static Logger log = Logger.getLogger(BuyTicket.class.getName());
     private final static String name = "buy";
     private String[] parts;
@@ -27,10 +27,6 @@ public class BuyTicket implements ICommand {
     }
 
     public boolean buyTicket(int trainNumber, int wagonNumber, int seatNumber, String lastName, String firstName) {
-        ctx = ContextInit.getContext();
-        IWagonDAO iWagonDAO = ctx.getBean("MySQLWagonDAO", IWagonDAO.class);
-        IUserDAO iUserDAO = ctx.getBean("MySQLUserDAO", IUserDAO.class);
-        ITicketDAO iTicketDAO = ctx.getBean("MySQLTicketDAO", ITicketDAO.class);
         Wagon wagon = iWagonDAO.findWagon(wagonNumber);
         if (wagon != null) {
             Ticket ticket = new Ticket();
@@ -57,4 +53,16 @@ public class BuyTicket implements ICommand {
         System.out.println("- " + name + " -- buy some ticket.");
         System.out.println("     " + name + " \"Train number\" \"Wagon number\" \"Seat number\" \"Your surname\" \"Your name\"");
     }
+
+    public IWagonDAO getiWagonDAO() { return iWagonDAO; }
+
+    public IUserDAO getiUserDAO() { return iUserDAO; }
+
+    public ITicketDAO getiTicketDAO() { return iTicketDAO; }
+
+    public void setiWagonDAO(IWagonDAO iWagonDAO) { this.iWagonDAO = iWagonDAO; }
+
+    public void setiUserDAO(IUserDAO iUserDAO) { this.iUserDAO = iUserDAO; }
+
+    public void setiTicketDAO(ITicketDAO iTicketDAO) { this.iTicketDAO = iTicketDAO; }
 }

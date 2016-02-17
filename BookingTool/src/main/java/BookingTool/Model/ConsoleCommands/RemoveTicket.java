@@ -1,13 +1,14 @@
 package BookingTool.Model.ConsoleCommands;
 
-import BookingTool.DAO.MySqlDaoFactory;
+import BookingTool.DAO.ITicketDAO;
+import BookingTool.DAO.IWagonDAO;
 import BookingTool.Model.LocalModel.Ticket;
-import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.util.logging.Logger;
 
 public class RemoveTicket implements ICommand {
-    private GenericXmlApplicationContext ctx;
+    private ITicketDAO iTicketDAO;
+    private IWagonDAO iWagonDAO;
     private static Logger log = Logger.getLogger(RemoveTicket.class.getName());
     private final static String name = "remove";
     private String[] parts;
@@ -22,15 +23,31 @@ public class RemoveTicket implements ICommand {
     }
 
     public void remove(String id) {
-        Ticket ticket = MySqlDaoFactory.getMySQLTicketDAO().findTicketByID(Integer.parseInt(id));
+        Ticket ticket = iTicketDAO.findTicketByID(Integer.parseInt(id));
         if (ticket != null && ticket.getTrain() != null) {
-            MySqlDaoFactory.getInstance().getMySQLTicketDAO().delete(Integer.parseInt(id));
-            MySqlDaoFactory.getInstance().getMySQLWagonDAO().updateWagon(ticket);
+            iTicketDAO.delete(Integer.parseInt(id));
+            iWagonDAO.updateWagon(ticket);
         }
     }
 
     public void printHelp() {
         System.out.println("- " + name + " -- remove user");
         System.out.println("     " + name + " \"id\"");
+    }
+
+    public ITicketDAO getiTicketDAO() {
+        return iTicketDAO;
+    }
+
+    public IWagonDAO getiWagonDAO() {
+        return iWagonDAO;
+    }
+
+    public void setiTicketDAO(ITicketDAO iTicketDAO) {
+        this.iTicketDAO = iTicketDAO;
+    }
+
+    public void setiWagonDAO(IWagonDAO iWagonDAO) {
+        this.iWagonDAO = iWagonDAO;
     }
 }

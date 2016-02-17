@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-@Service("MySQLUserDAO")
-@Repository
 @Transactional
 public class MySQLUserDAO implements IUserDAO {
     private static final String FIND_USER = "SELECT u FROM User u WHERE u.name LIKE :name AND u.surname LIKE :surname";

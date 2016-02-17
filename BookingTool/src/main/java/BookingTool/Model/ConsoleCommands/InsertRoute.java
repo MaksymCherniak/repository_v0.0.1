@@ -1,5 +1,6 @@
 package BookingTool.Model.ConsoleCommands;
 
+import BookingTool.DAO.IRouteDAO;
 import BookingTool.DAO.MySqlDaoFactory;
 import BookingTool.Model.LocalModel.Route;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -14,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class InsertRoute implements ICommand {
-    private GenericXmlApplicationContext ctx;
+    private IRouteDAO iRouteDAO;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private static Logger log = Logger.getLogger(InsertRoute.class.getName());
     private static final String name = "insertroute";
@@ -45,7 +46,7 @@ public class InsertRoute implements ICommand {
             route = localTimeDateInit(reader.readLine().split(":"), route, "arrivalTime");
             System.out.println("Enter date start cruising. Like: \"DD-MM-YYYY\"");
             route = localTimeDateInit(reader.readLine().split("-"), route, "dateStart");
-            MySqlDaoFactory.getMySQLRouteDAO().insertRoute(route);
+            iRouteDAO.insertRoute(route);
         } catch (DateTimeException e) {
             log.log(Level.INFO, "Exception: ", e);
         }
@@ -70,5 +71,13 @@ public class InsertRoute implements ICommand {
             log.info("Wrong command");
             return route;
         }
+    }
+
+    public IRouteDAO getiRouteDAO() {
+        return iRouteDAO;
+    }
+
+    public void setiRouteDAO(IRouteDAO iRouteDAO) {
+        this.iRouteDAO = iRouteDAO;
     }
 }
