@@ -20,9 +20,7 @@ public class MySQLUserDAO implements IUserDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public MySQLUserDAO() {
-        entityManager = HibernateUtil.getEm();
-    }
+    public MySQLUserDAO() {}
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;

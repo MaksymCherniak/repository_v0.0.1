@@ -17,6 +17,6 @@ public class Exit implements ICommand {
     }
 
     public void printHelp() {
-        System.out.println("- " + name + " -- exit from system");
+        System.out.println("- " + name + " -- exit from  system");
     }
 }

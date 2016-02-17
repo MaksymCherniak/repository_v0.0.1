@@ -20,4 +20,5 @@ public interface IWagonDAO {
     List getAllSeats(Wagon wagon);
 
     boolean checkSeatAvailable(Ticket ticket);
+
 }

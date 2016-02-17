@@ -1,9 +1,7 @@
 package BookingTool.Model.ConsoleCommands;
 
 import BookingTool.DAO.IRouteDAO;
-import BookingTool.DAO.MySqlDaoFactory;
 import BookingTool.Model.LocalModel.Route;
-import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.io.BufferedReader;
 import java.io.IOException;

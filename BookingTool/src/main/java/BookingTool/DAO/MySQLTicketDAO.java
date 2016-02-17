@@ -22,9 +22,7 @@ public class MySQLTicketDAO implements ITicketDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public MySQLTicketDAO() {
-
-    }
+    public MySQLTicketDAO() {}
 
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;

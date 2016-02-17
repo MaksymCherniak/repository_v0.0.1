@@ -31,8 +31,7 @@ public class MySQLWagonDAO implements IWagonDAO {
     private EntityManager entityManager;
     private static Logger log = Logger.getLogger(MySQLWagonDAO.class.getName());
 
-    public MySQLWagonDAO() {
-    }
+    public MySQLWagonDAO() {}
 
     public EntityManager getEntityManager() { return entityManager; }
 

@@ -31,7 +31,7 @@ public class RemoveTicket implements ICommand {
     }
 
     public void printHelp() {
-        System.out.println("- " + name + " -- remove user");
+        System.out.println("- " + name + " -- remove user.");
         System.out.println("     " + name + " \"id\"");
     }
 

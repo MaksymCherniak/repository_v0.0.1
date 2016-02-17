@@ -18,7 +18,6 @@ public class CreateUser implements ICommand {
         parts = fullLine.split(" ");
         if (parts.length == 5) {
             User user = new User(parts[1], parts[2], parts[3], parts[4]);
-
             iUserDAO.insertUser(user);
         } else {
             log.info("Wrong command");

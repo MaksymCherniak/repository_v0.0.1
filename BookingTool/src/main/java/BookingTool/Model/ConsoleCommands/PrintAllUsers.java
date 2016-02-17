@@ -25,7 +25,7 @@ public class PrintAllUsers implements ICommand {
     }
 
     public void printHelp() {
-        System.out.println("- " + name + " -- print all users from MySQL");
+        System.out.println("- " + name + " -- print all users");
     }
 
     public IUserDAO getiUserDAO() {

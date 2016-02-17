@@ -33,7 +33,5 @@ public class InsertWagon implements ICommand {
         return iWagonDAO;
     }
 
-    public void setiWagonDAO(IWagonDAO iWagonDAO) {
-        this.iWagonDAO = iWagonDAO;
-    }
+    public void setiWagonDAO(IWagonDAO iWagonDAO) { this.iWagonDAO = iWagonDAO; }
 }

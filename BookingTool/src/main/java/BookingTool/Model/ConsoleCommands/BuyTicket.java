@@ -54,15 +54,27 @@ public class BuyTicket implements ICommand {
         System.out.println("     " + name + " \"Train number\" \"Wagon number\" \"Seat number\" \"Your surname\" \"Your name\"");
     }
 
-    public IWagonDAO getiWagonDAO() { return iWagonDAO; }
+    public IWagonDAO getiWagonDAO() {
+        return iWagonDAO;
+    }
 
-    public IUserDAO getiUserDAO() { return iUserDAO; }
+    public IUserDAO getiUserDAO() {
+        return iUserDAO;
+    }
 
-    public ITicketDAO getiTicketDAO() { return iTicketDAO; }
+    public ITicketDAO getiTicketDAO() {
+        return iTicketDAO;
+    }
 
-    public void setiWagonDAO(IWagonDAO iWagonDAO) { this.iWagonDAO = iWagonDAO; }
+    public void setiWagonDAO(IWagonDAO iWagonDAO) {
+        this.iWagonDAO = iWagonDAO;
+    }
 
-    public void setiUserDAO(IUserDAO iUserDAO) { this.iUserDAO = iUserDAO; }
+    public void setiUserDAO(IUserDAO iUserDAO) {
+        this.iUserDAO = iUserDAO;
+    }
 
-    public void setiTicketDAO(ITicketDAO iTicketDAO) { this.iTicketDAO = iTicketDAO; }
+    public void setiTicketDAO(ITicketDAO iTicketDAO) {
+        this.iTicketDAO = iTicketDAO;
+    }
 }

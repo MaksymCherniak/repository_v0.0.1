@@ -32,7 +32,7 @@ public class PrintRoute implements ICommand {
     }
 
     public void printHelp() {
-        System.out.println("- " + name + " -- print all routes");
+        System.out.println("- " + name + " -- print all routes.");
     }
 
     public IRouteDAO getiRouteDAO() {

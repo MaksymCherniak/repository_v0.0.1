@@ -22,7 +22,7 @@ public class CommandController {
         command = parts[0];
         ICommand cmnd = ctx.getBean(command, ICommand.class);
         if (cmnd == null) {
-            log.warning("Wrong command");
+            log.warning("Wrong command.");
         } else {
             cmnd.execute(fullLine);
         }

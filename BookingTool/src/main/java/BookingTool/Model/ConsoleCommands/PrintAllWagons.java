@@ -25,7 +25,7 @@ public class PrintAllWagons implements ICommand {
     }
 
     public void printHelp() {
-        System.out.println("- " + name + " -- print all wagons");
+        System.out.println("- " + name + " -- print all wagons.");
     }
 
     public IWagonDAO getiWagonDAO() {

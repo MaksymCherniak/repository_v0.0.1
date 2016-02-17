@@ -25,7 +25,7 @@ public class PrintAllTickets implements ICommand {
     }
 
     public void printHelp() {
-        System.out.println("- " + name + " -- print all tickets");
+        System.out.println("- " + name + " -- print all tickets.");
     }
 
     public ITicketDAO getiTicketDAO() {

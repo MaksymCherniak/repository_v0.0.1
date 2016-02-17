@@ -9,6 +9,7 @@ public class Help implements ICommand {
 
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
+
         if (parts.length == 1) {
             new Help().printHelp();
             new BuyTicket().printHelp();

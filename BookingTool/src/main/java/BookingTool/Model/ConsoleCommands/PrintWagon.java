@@ -31,7 +31,7 @@ public class PrintWagon implements ICommand {
     }
 
     public void printHelp() {
-        System.out.println("- " + name + " -- print wagon");
+        System.out.println("- " + name + " -- print wagon.");
         System.out.println("     " + name + " \"wagonNumber\"");
     }
 
