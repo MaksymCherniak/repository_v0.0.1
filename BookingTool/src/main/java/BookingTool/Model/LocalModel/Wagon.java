@@ -12,7 +12,7 @@ public class Wagon {
     @Id
     @Column(name = "wagon_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
     @Column
     private int number;
     @Enumerated(EnumType.STRING)
@@ -36,7 +36,7 @@ public class Wagon {
     public Wagon() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

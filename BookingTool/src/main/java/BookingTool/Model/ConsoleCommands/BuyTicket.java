@@ -1,8 +1,8 @@
 package BookingTool.Model.ConsoleCommands;
 
-import BookingTool.DAO.ITicketDAO;
-import BookingTool.DAO.IUserDAO;
-import BookingTool.DAO.IWagonDAO;
+import BookingTool.DAO.Service.ITicketDAO;
+import BookingTool.DAO.Service.IUserDAO;
+import BookingTool.DAO.Service.IWagonDAO;
 import BookingTool.Model.LocalModel.Ticket;
 import BookingTool.Model.LocalModel.User;
 import BookingTool.Model.LocalModel.Wagon;

@@ -1,6 +1,6 @@
 package BookingTool.Model.ConsoleCommands;
 
-import BookingTool.DAO.IUserDAO;
+import BookingTool.DAO.Service.IUserDAO;
 import BookingTool.Model.LocalModel.User;
 
 import java.util.logging.Logger;

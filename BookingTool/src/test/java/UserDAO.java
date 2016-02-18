@@ -1,4 +1,4 @@
-import BookingTool.DAO.MySQLUserDAO;
+import BookingTool.DAO.Impl.MySQLUserDAO;
 import BookingTool.Model.LocalModel.User;
 import org.junit.After;
 import org.junit.Before;
@@ -23,7 +23,7 @@ public class UserDAO {
         entityManager = Persistence.createEntityManagerFactory("test").
                 createEntityManager();
         mySQLUserDAO = new MySQLUserDAO();
-        mySQLUserDAO.setEntityManager(entityManager);
+       // mySQLUserDAO.setEntityManager(entityManager);
         user = new User("User", "User2");
     }
 

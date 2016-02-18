@@ -1,4 +1,4 @@
-import BookingTool.DAO.MySQLWagonDAO;
+import BookingTool.DAO.Impl.MySQLWagonDAO;
 import BookingTool.Model.LocalModel.Ticket;
 import BookingTool.Model.LocalModel.User;
 import BookingTool.Model.LocalModel.Wagon;
@@ -23,7 +23,7 @@ public class WagonDAO {
         entityManager = Persistence.createEntityManagerFactory("test").
                 createEntityManager();
         mySQLWagonDAO = new MySQLWagonDAO();
-        mySQLWagonDAO.setEntityManager(entityManager);
+       // mySQLWagonDAO.setEntityManager(entityManager);
 
         wagon = new Wagon();
         wagon.setNumber(1);

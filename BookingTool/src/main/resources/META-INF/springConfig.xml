@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:context="http://www.springframework.org/schema/context"
-        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-        xmlns:tx="http://www.springframework.org/schema/tx"
-        xsi:schemaLocation="http://www.springframework.org/schema/jdbc
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/jdbc
         http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/data/jpa
+        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/context
@@ -21,12 +24,12 @@
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="emf"/>
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
@@ -47,13 +50,14 @@
     </bean>
 
     <context:component-scan base-package="BookingTool.*"/>
+    <jpa:repositories base-package="BookingTool.DAO.Repository" />
 
-    <!-- ============================ DAO ================================= -->
+    <!-- ========================= Services =============================== -->
 
-    <bean id="IWagonDAO" class="BookingTool.DAO.MySQLWagonDAO"/>
-    <bean id="IUserDAO" class="BookingTool.DAO.MySQLUserDAO"/>
-    <bean id="ITicketDAO" class="BookingTool.DAO.MySQLTicketDAO"/>
-    <bean id="IRouteDAO" class="BookingTool.DAO.MySQLRouteDAO"/>
+    <bean id="IWagonDAO" class="BookingTool.DAO.Impl.MySQLWagonDAO"/>
+    <bean id="IUserDAO" class="BookingTool.DAO.Impl.MySQLUserDAO"/>
+    <bean id="ITicketDAO" class="BookingTool.DAO.Impl.MySQLTicketDAO"/>
+    <bean id="IRouteDAO" class="BookingTool.DAO.Impl.MySQLRouteDAO"/>
 
     <!-- ========================== Commands ============================== -->
 

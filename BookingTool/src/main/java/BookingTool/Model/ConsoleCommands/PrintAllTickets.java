@@ -1,6 +1,6 @@
 package BookingTool.Model.ConsoleCommands;
 
-import BookingTool.DAO.ITicketDAO;
+import BookingTool.DAO.Service.ITicketDAO;
 import BookingTool.Model.LocalModel.Ticket;
 
 import java.util.List;

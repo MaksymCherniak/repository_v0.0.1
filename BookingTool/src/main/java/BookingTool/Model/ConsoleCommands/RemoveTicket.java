@@ -1,7 +1,7 @@
 package BookingTool.Model.ConsoleCommands;
 
-import BookingTool.DAO.ITicketDAO;
-import BookingTool.DAO.IWagonDAO;
+import BookingTool.DAO.Service.ITicketDAO;
+import BookingTool.DAO.Service.IWagonDAO;
 import BookingTool.Model.LocalModel.Ticket;
 
 import java.util.logging.Logger;
@@ -23,9 +23,9 @@ public class RemoveTicket implements ICommand {
     }
 
     public void remove(String id) {
-        Ticket ticket = iTicketDAO.findTicketByID(Integer.parseInt(id));
+        Ticket ticket = iTicketDAO.findTicketByID(Long.parseLong(id));
         if (ticket != null && ticket.getTrain() != null) {
-            iTicketDAO.delete(Integer.parseInt(id));
+            iTicketDAO.delete(Long.parseLong(id));
             iWagonDAO.updateWagon(ticket);
         }
     }

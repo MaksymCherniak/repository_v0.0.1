@@ -9,7 +9,7 @@ public class Seat {
     @Id
     @Column(name = "seat_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
     @Column
     private int number;
     @Enumerated(EnumType.STRING)

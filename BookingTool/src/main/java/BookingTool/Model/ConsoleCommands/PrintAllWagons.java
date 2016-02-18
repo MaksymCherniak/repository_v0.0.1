@@ -1,6 +1,6 @@
 package BookingTool.Model.ConsoleCommands;
 
-import BookingTool.DAO.IWagonDAO;
+import BookingTool.DAO.Service.IWagonDAO;
 import BookingTool.Model.LocalModel.Wagon;
 
 import java.util.List;

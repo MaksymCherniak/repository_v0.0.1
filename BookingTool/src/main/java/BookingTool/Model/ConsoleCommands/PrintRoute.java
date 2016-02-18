@@ -1,6 +1,6 @@
 package BookingTool.Model.ConsoleCommands;
 
-import BookingTool.DAO.IRouteDAO;
+import BookingTool.DAO.Service.IRouteDAO;
 import BookingTool.Model.LocalModel.Route;
 
 import java.time.LocalDate;

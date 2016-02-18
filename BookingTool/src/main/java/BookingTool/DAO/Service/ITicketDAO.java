@@ -1,4 +1,4 @@
-package BookingTool.DAO;
+package BookingTool.DAO.Service;
 
 import BookingTool.Model.LocalModel.Ticket;
 
@@ -7,11 +7,11 @@ import java.util.List;
 public interface ITicketDAO {
     boolean insertTicket(Ticket ticket);
 
-    Ticket findTicketByID(Integer id);
+    Ticket findTicketByID(Long id);
 
     Ticket findTicket(Ticket ticket);
 
-    boolean delete(Integer id);
+    boolean delete(Long id);
 
     List getAllTickets();
 }

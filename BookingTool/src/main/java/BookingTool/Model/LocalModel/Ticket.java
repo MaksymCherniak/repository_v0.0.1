@@ -9,7 +9,7 @@ public class Ticket {
     @Id
     @Column(name = "ticket_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private long id;
     @Column
     private int train;
     @ManyToOne
@@ -44,7 +44,7 @@ public class Ticket {
         return wagon;
     }
 
-    public Integer getIndex() {
+    public Long getIndex() {
         return id;
     }
 

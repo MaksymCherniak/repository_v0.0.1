@@ -12,7 +12,7 @@
         <class>BookingTool.Model.LocalModel.User</class>
         <class>BookingTool.Model.LocalModel.Seat</class>
         <class>BookingTool.Model.LocalModel.Wagon</class>
-        <class>BookingTool.DAO.MySQLUserDAO</class>
+        <class>BookingTool.DAO.Impl.MySQLUserDAO</class>
 
         <properties>
             <property name="hibernate.show_sql" value="true"/>
