@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Books>
-
-<Book author="dfhkf" id="2">
+<catalog>
+<book id="1">
+<author>asd</author>
+<title>asdhkasd</title>
+<genre>sakdl</genre>
+<price>29.02</price>
+<publish_date>2000-11-15</publish_date>
+<description>kjdladk</description>
+</book>
+<book id="2">
 <author>Cherniak</author>
-<title>Title2</title>
-<genre>Genre2</genre>
-<price>10.02</price>
-<publish_date>2016-01-15</publish_date>
-<description>Description2</description>
-</Book>
-<Book id="3">
-<author>Max</author>
-<title>Title1</title>
-<genre>Genre1</genre>
-<price>10.02</price>
-<publish_date>2000-02-15</publish_date>
-<description>Description1</description>
-</Book>
-</Books>
+<title>BookTitle</title>
+<genre>refjerf</genre>
+<price>18.92</price>
+<publish_date>1990-02-15</publish_date>
+<description>dfnhlsf</description>
+</book>
+</catalog>

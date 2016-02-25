@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="Controller, DAO, Model, View"/>
+
+    <!-- ========================= Services =============================== -->
+
+    <bean id="documentBuilderFactory"
+          class="javax.xml.parsers.DocumentBuilderFactory"
+          factory-method="newInstance">
+        <property name="validating" value="false" />
+        <property name="ignoringElementContentWhitespace" value="true" />
+    </bean>
+
+    <bean id="documentBuilder" class="javax.xml.parsers.DocumentBuilder"
+          factory-bean="documentBuilderFactory"
+          factory-method="newDocumentBuilder">
+    </bean>
+
+    <bean id="iBookDAO" class="DAO.XmlBookDAO"/>
+
+    <!-- ========================== Commands ============================== -->
+
+    <bean id="help" class="Model.Commands.Help"/>
+    <bean id="exit" class="Model.Commands.Exit"/>
+    <bean id="add" class="Model.Commands.AddBook"/>
+    <bean id="delete" class="Model.Commands.DeleteBook"/>
+    <bean id="printall" class="Model.Commands.PrintAllBooks"/>
+    <bean id="updatea" class="Model.Commands.UpdateAuthor"/>
+    <bean id="updated" class="Model.Commands.UpdateDescription"/>
+    <bean id="updateg" class="Model.Commands.UpdateGenre"/>
+    <bean id="updatep" class="Model.Commands.UpdatePrice"/>
+    <bean id="updatepd" class="Model.Commands.UpdatePublishDate"/>
+    <bean id="updatet" class="Model.Commands.UpdateTitle"/>
+
+    <!-- ============================================================================= -->
+
+</beans>

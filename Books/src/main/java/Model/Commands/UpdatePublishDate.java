@@ -1,8 +1,8 @@
 package Model.Commands;
 
 import DAO.IBookDAO;
-import DAO.XmlBookDAO;
 import Model.Entity.BookAttribute;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.logging.Level;
@@ -12,12 +12,12 @@ public class UpdatePublishDate implements ICommand {
     private static Logger log = Logger.getLogger(UpdatePublishDate.class.getName());
     private static final String name = "updatepd";
     private String[] parts;
+    @Autowired
     private IBookDAO iBookDAO;
 
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 3) {
-            iBookDAO = new XmlBookDAO();
             if (localDateChecker(parts[2]) != null) {
                 iBookDAO.updateBook(BookAttribute.PUBLISH_DATE, parts[1], parts[2]);
             } else {

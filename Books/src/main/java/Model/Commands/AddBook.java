@@ -1,8 +1,8 @@
 package Model.Commands;
 
 import DAO.IBookDAO;
-import DAO.XmlBookDAO;
 import Model.Entity.Book;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.logging.Logger;
@@ -11,12 +11,12 @@ public class AddBook implements ICommand {
     private static Logger log = Logger.getLogger(AddBook.class.getName());
     private static final String name = "add";
     private String[] parts;
+    @Autowired
     private IBookDAO iBookDAO;
 
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 7) {
-            iBookDAO = new XmlBookDAO();
             iBookDAO.setId();
             LocalDate publishDate = localDateInit(parts[5]);
             Double price = Double.parseDouble(parts[4]);

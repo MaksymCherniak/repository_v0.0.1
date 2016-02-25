@@ -1,8 +1,8 @@
 package Model.Commands;
 
 import DAO.IBookDAO;
-import DAO.XmlBookDAO;
 import Model.Entity.BookAttribute;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,13 +11,13 @@ public class UpdatePrice implements ICommand {
     private static Logger log = Logger.getLogger(UpdatePrice.class.getName());
     private static final String name = "updatep";
     private String[] parts;
+    @Autowired
     private IBookDAO iBookDAO;
 
     public void execute(String fullLine) {
         parts = fullLine.split(" ");
         if (parts.length == 3) {
             if (priceCheck(parts[2]) != null) {
-                iBookDAO = new XmlBookDAO();
                 iBookDAO.updateBook(BookAttribute.PRICE, parts[1], parts[2]);
             } else {
                 log.info("Wrong price format or wrong command");

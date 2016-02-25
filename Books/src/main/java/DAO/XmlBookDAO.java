@@ -2,6 +2,7 @@ package DAO;
 
 import Model.Entity.Book;
 import Model.Entity.BookAttribute;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -24,14 +25,15 @@ import java.util.logging.Logger;
 
 public class XmlBookDAO implements IBookDAO {
     private static Logger log = Logger.getLogger(XmlBookDAO.class.getName());
-    private final File fileXml = new File("books.xml");
-    private DocumentBuilder builder;
+    private File fileXml = new File("books.xml");
+    @Autowired
+    private DocumentBuilder documentBuilder;
     private Document doc;
     private boolean idChecker = false;
 
     public XmlBookDAO() {
         try {
-            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
         }
         if (!fileXml.exists()) {
@@ -41,10 +43,10 @@ public class XmlBookDAO implements IBookDAO {
 
     public void addBook(Book book) {
         try {
-            doc = builder.parse(fileXml);
+            doc = documentBuilder.parse(fileXml);
             Node rootNode = doc.getFirstChild();
 
-            Element bookElement = doc.createElement("Book");
+            Element bookElement = doc.createElement("book");
             rootNode.appendChild(bookElement);
             bookElement.setAttribute("id", String.valueOf(book.getId()));
 
@@ -81,7 +83,7 @@ public class XmlBookDAO implements IBookDAO {
 
     public void deleteBook(String id) {
         try {
-            doc = builder.parse(fileXml);
+            doc = documentBuilder.parse(fileXml);
             Node rootNode = doc.getFirstChild();
             doc.getDocumentElement().normalize();
 
@@ -105,7 +107,7 @@ public class XmlBookDAO implements IBookDAO {
     public List<Book> getAllBooks() {
         List<Book> listOfBooks = new ArrayList<Book>();
         try {
-            doc = builder.parse(fileXml);
+            doc = documentBuilder.parse(fileXml);
             doc.getDocumentElement().normalize();
             NodeList booksList = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
 
@@ -135,7 +137,7 @@ public class XmlBookDAO implements IBookDAO {
 
     public Element findBook(String id) {
         try {
-            doc = builder.parse(fileXml);
+            doc = documentBuilder.parse(fileXml);
             doc.getDocumentElement().normalize();
 
             NodeList listOfBooks = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
@@ -195,7 +197,7 @@ public class XmlBookDAO implements IBookDAO {
 
     public void setId() {
         try {
-            doc = builder.parse(fileXml);
+            doc = documentBuilder.parse(fileXml);
             doc.getDocumentElement().normalize();
 
             NodeList listOfBooks = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
@@ -211,7 +213,7 @@ public class XmlBookDAO implements IBookDAO {
 
     private boolean checkId(String id) {
         try {
-            doc = builder.parse(fileXml);
+            doc = documentBuilder.parse(fileXml);
             doc.getDocumentElement().normalize();
 
             NodeList listOfBooks = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
@@ -234,9 +236,9 @@ public class XmlBookDAO implements IBookDAO {
 
     private void createXmlFile() {
         try {
-            doc = builder.newDocument();
+            doc = documentBuilder.newDocument();
 
-            Element rootElement = doc.createElement("Books");
+            Element rootElement = doc.createElement("catalog");
             doc.appendChild(rootElement);
 
             initTransformer();
@@ -254,5 +256,21 @@ public class XmlBookDAO implements IBookDAO {
         } catch (Exception e) {
             log.log(Level.INFO, "Exception: ", e);
         }
+    }
+
+    public DocumentBuilder getDocumentBuilder() {
+        return documentBuilder;
+    }
+
+    public void setDocumentBuilder(DocumentBuilder documentBuilder) {
+        this.documentBuilder = documentBuilder;
+    }
+
+    public File getFileXml() {
+        return fileXml;
+    }
+
+    public void setFileXml(File fileXml) {
+        this.fileXml = fileXml;
     }
 }
