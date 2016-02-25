@@ -1,4 +1,4 @@
-package Model.Entity;
+package Entity;
 
 import java.time.LocalDate;
 
@@ -9,19 +9,19 @@ public class Book {
     private String title;
     private String genre;
     private Double price;
-    private LocalDate publish_date;
+    private LocalDate publishDate;
     private String description;
 
     public Book() {
     }
 
-    public Book(String author, String title, String genre, Double price, LocalDate publish_date, String description) {
+    public Book(String author, String title, String genre, Double price, LocalDate publishDate, String description) {
         incId();
         this.author = author;
         this.title = title;
         this.genre = genre;
         this.price = price;
-        this.publish_date = publish_date;
+        this.publishDate = publishDate;
         this.description = description;
     }
 
@@ -49,13 +49,15 @@ public class Book {
         return price;
     }
 
-    public LocalDate getPublish_date() {
-        return publish_date;
+    public LocalDate getPublishDate() {
+        return publishDate;
     }
 
     public String getDescription() {
         return description;
     }
+
+    public String getIndex() { return index; }
 
     public static void setId(Integer id) {
         Book.id = id;
@@ -81,8 +83,8 @@ public class Book {
         this.price = price;
     }
 
-    public void setPublish_date(LocalDate publish_date) {
-        this.publish_date = publish_date;
+    public void setPublishDate(LocalDate publishDate) {
+        this.publishDate = publishDate;
     }
 
     public void setDescription(String description) {
@@ -107,6 +109,6 @@ public class Book {
     @Override
     public String toString() {
         return "Book info:\n" + "Id: " + index + "\nAuthor: " + author + "\nTitle: " + title + "\nGenre: " + genre + "\nPrice: " + price
-                + "\nPublish date: " + publish_date + "\nDescription: " + description;
+                + "\nPublish date: " + publishDate + "\nDescription: " + description;
     }
 }

@@ -1,4 +1,4 @@
-package Model.Entity;
+package Entity;
 
 public enum BookAttribute {
     AUTHOR, TITLE, DESCRIPTION, PRICE, PUBLISH_DATE, GENRE

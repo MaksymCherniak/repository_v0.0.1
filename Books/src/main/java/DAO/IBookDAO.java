@@ -1,7 +1,7 @@
 package DAO;
 
-import Model.Entity.Book;
-import Model.Entity.BookAttribute;
+import Entity.Book;
+import Entity.BookAttribute;
 import org.w3c.dom.Element;
 
 import java.util.List;
@@ -9,9 +9,11 @@ import java.util.List;
 public interface IBookDAO {
     void addBook(Book book);
 
-    void deleteBook(String id);
+    boolean deleteBook(String id);
 
-    Element findBook(String id);
+    Element findBookElement(String id);
+
+    Book findBookById(String id);
 
     void updateBook(BookAttribute bookAttribute, String id, String attribute);
 
