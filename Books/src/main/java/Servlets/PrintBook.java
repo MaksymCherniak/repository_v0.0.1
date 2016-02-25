@@ -5,7 +5,6 @@ import DAO.XmlBookDAO;
 import Entity.Book;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,15 +26,15 @@ public class PrintBook extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idStr = request.getParameter(PARAMETER_ID);
-        if (idStr != null && !idStr.equals("")){
-            try{
+        if (idStr != null && !idStr.equals("")) {
+            try {
                 Book book = iBookDAO.findBookById(idStr);
-                if (book != null){
+                if (book != null) {
                     request.setAttribute(ATTRIBUTE_BOOK, book);
                     request.getRequestDispatcher(PAGE_OK).forward(request, response);
                     return;
                 }
-            } catch (Exception e){
+            } catch (Exception e) {
                 log.log(Level.INFO, "Exception: ", e);
             }
         }

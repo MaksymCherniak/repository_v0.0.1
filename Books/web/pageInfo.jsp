@@ -11,7 +11,7 @@
     <title>BookService</title>
 </head>
 <body>
-    <b>${info}</b><br>
-    <a href="main.jsp">Main page</a>
+<b>${info}</b><br>
+<a href="main.jsp">Main page</a>
 </body>
 </html>

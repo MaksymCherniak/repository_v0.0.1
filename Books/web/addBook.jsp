@@ -11,10 +11,10 @@
     <title>BookService</title>
 </head>
 <body>
-    <h1>Add book page</h1>
-    <p><b><a href="main.jsp">Main page</a> </b></p>
-    <form name="add" action="add.do">
-        <p>
+<h1>Add book page</h1>
+<p><b><a href="main.jsp">Main page</a> </b></p>
+<form name="add" action="add.do">
+    <p>
         Enter author <input type="text" name="author"><br>
         Enter title <input type="text" name="title"><br>
         Enter genre <input type="text" name="genre"><br>
@@ -22,7 +22,7 @@
         Enter publish date <input type="text" name="publishDate"><br>
         Enter description <input type="text" name="description"><br>
         <input type="submit" value="Enter">
-        </p>
-    </form>
+    </p>
+</form>
 </body>
 </html>

@@ -135,7 +135,7 @@ public class XmlBookDAO implements IBookDAO {
         return listOfBooks;
     }
 
-    public Book findBookById(String id){
+    public Book findBookById(String id) {
         Element bookElement = findBookElement(id);
         Book book = new Book();
         book.setIndex(bookElement.getAttribute("id"));

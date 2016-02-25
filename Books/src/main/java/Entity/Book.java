@@ -57,7 +57,9 @@ public class Book {
         return description;
     }
 
-    public String getIndex() { return index; }
+    public String getIndex() {
+        return index;
+    }
 
     public static void setId(Integer id) {
         Book.id = id;

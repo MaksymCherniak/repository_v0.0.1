@@ -11,9 +11,9 @@
     <title>BookService</title>
 </head>
 <body>
-    <b><a href="printAllBooks.do">All books</a></b><br>
-    <b><a href="addBook.do">Add book</a></b><br>
-    <b><a href="deleteBook.do">Delete book</a></b><br>
-    <b><a href="updateBook.do">Update book</a></b><br>
+<b><a href="printAllBooks.do">All books</a></b><br>
+<b><a href="addBook.do">Add book</a></b><br>
+<b><a href="deleteBook.do">Delete book</a></b><br>
+<b><a href="updateBook.do">Update book</a></b><br>
 </body>
 </html>

@@ -1,7 +1,5 @@
 package Servlets;
 
-import org.springframework.context.support.GenericXmlApplicationContext;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +28,7 @@ public class MainPage extends javax.servlet.http.HttpServlet {
             request.getRequestDispatcher(PAGE_UPDATE).forward(request, response);
         } else if (idStr.equals("/printAllBooks.do")) {
             request.getRequestDispatcher(PAGE_PRING_ALL).forward(request, response);
-        } else  {
+        } else {
             request.getRequestDispatcher(PAGE_ERROR).forward(request, response);
         }
     }
