@@ -1,7 +1,7 @@
 package Servlets;
 
+import DAO.Factory;
 import DAO.IBookDAO;
-import DAO.XmlBookDAO;
 import Entity.BookAttribute;
 
 import javax.servlet.ServletException;
@@ -13,18 +13,18 @@ import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class UpdateBook extends HttpServlet {
-    private static Logger log = Logger.getLogger(UpdateBook.class.getName());
+public class BookUpdate extends HttpServlet {
+    private static Logger log = Logger.getLogger(BookUpdate.class.getName());
     private final static String ATTRIBUTE_INFO = "info";
-    private final static String PAGE_OK = "pageInfo.jsp";
-    private IBookDAO iBookDAO;
+    private final static String PAGE_OK = "pageOk.jsp";
+    private final static String PAGE_ERROR = "pageError.jsp";
+    private IBookDAO iBookDAO = Factory.getXmlIBookDAO();
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        iBookDAO = new XmlBookDAO();
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("bookId");
         String author = request.getParameter("author");
         String title = request.getParameter("title");
@@ -32,32 +32,41 @@ public class UpdateBook extends HttpServlet {
         String price = request.getParameter("price");
         String publishDate = request.getParameter("publishDate");
         String description = request.getParameter("description");
+        /** Author */
         if (!author.equals("")) {
             iBookDAO.updateBook(BookAttribute.AUTHOR, id, author);
         }
+        /** Title */
         if (!title.equals("")) {
             iBookDAO.updateBook(BookAttribute.TITLE, id, title);
         }
+        /** Genre */
         if (!genre.equals("")) {
             iBookDAO.updateBook(BookAttribute.GENRE, id, genre);
         }
-        if (!price.equals("") && priceCheck(price) != null) {
-            iBookDAO.updateBook(BookAttribute.PRICE, id, price);
-        } else {
-            request.setAttribute(ATTRIBUTE_INFO, new String("Error. Wrong price format. Price must be like \"00.00\\"));
-            request.getRequestDispatcher(PAGE_OK).forward(request, response);
+        /** Price */
+        if (!price.equals("")) {
+            if (priceCheck(price) != null && priceCheck(price) > 0) {
+                iBookDAO.updateBook(BookAttribute.PRICE, id, price);
+            } else {
+                request.setAttribute(ATTRIBUTE_INFO, new String("Error. Wrong price format or price <= 0. Price must be like \"00.00\\"));
+                request.getRequestDispatcher(PAGE_ERROR).forward(request, response);
+            }
         }
-        if (!publishDate.equals("") && localDateChecker(publishDate) != null) {
-            iBookDAO.updateBook(BookAttribute.PUBLISH_DATE, id, publishDate);
-        } else {
-            request.setAttribute(ATTRIBUTE_INFO, new String("Error. Wrong date format. Date must be like \"YYYY-MM-DD\""));
-            request.getRequestDispatcher(PAGE_OK).forward(request, response);
+        /** Publish date */
+        if (!publishDate.equals("")) {
+            if (localDateChecker(publishDate) != null) {
+                iBookDAO.updateBook(BookAttribute.PUBLISH_DATE, id, publishDate);
+            } else {
+                request.setAttribute(ATTRIBUTE_INFO, new String("Error. Wrong date format. Date must be like \"YYYY-MM-DD\""));
+                request.getRequestDispatcher(PAGE_ERROR).forward(request, response);
+            }
         }
+        /** Description */
         if (!description.equals("")) {
             iBookDAO.updateBook(BookAttribute.DESCRIPTION, id, description);
         }
-        request.setAttribute(ATTRIBUTE_INFO, new String("Book updated"));
-        request.getRequestDispatcher(PAGE_OK).forward(request, response);
+        response.sendRedirect(PAGE_OK);
     }
 
     private LocalDate localDateChecker(String publishDate) {

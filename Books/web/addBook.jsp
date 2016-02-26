@@ -15,12 +15,13 @@
 <p><b><a href="main.jsp">Main page</a> </b></p>
 <form name="add" action="add.do">
     <p>
-        Enter author <input type="text" name="author"><br>
-        Enter title <input type="text" name="title"><br>
-        Enter genre <input type="text" name="genre"><br>
-        Enter price <input type="text" name="price"><br>
-        Enter publish date <input type="text" name="publishDate"><br>
-        Enter description <input type="text" name="description"><br>
+        Enter author: <input type="text" name="author"><br>
+        Enter title: <input type="text" name="title"><br>
+        Enter genre: <input type="text" name="genre"><br>
+        Enter price: <input type="text" name="price"><br>
+        Enter publish date: <input type="text" name="publishDate"><br>
+        Description:<br>
+        <textarea name="description" cols="40" rows="3"></textarea><br>
         <input type="submit" value="Enter">
     </p>
 </form>

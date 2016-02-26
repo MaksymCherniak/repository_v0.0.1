@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 import java.util.List;
 
 public interface IBookDAO {
-    void addBook(Book book);
+    boolean addBook(Book book);
 
     boolean deleteBook(String id);
 

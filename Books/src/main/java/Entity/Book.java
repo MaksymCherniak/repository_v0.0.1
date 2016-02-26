@@ -1,5 +1,7 @@
 package Entity;
 
+import DAO.XmlBookDAO;
+
 import java.time.LocalDate;
 
 public class Book {
@@ -33,6 +35,8 @@ public class Book {
         return id;
     }
 
+    public String getStringId() { return String.valueOf(id); }
+
     public String getAuthor() {
         return author;
     }
@@ -48,6 +52,10 @@ public class Book {
     public Double getPrice() {
         return price;
     }
+
+    public String getStringPrice() { return String.valueOf(price); }
+
+    public String getStringPublishDate() { return String.valueOf(publishDate);}
 
     public LocalDate getPublishDate() {
         return publishDate;

@@ -1,6 +1,7 @@
-<%@ page import="DAO.XmlBookDAO" %>
+<%@ page import="DAO.Factory" %>
 <%@ page import="Entity.Book" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%--
   Created by IntelliJ IDEA.
   User: Max
   Date: 25.02.2016
@@ -15,12 +16,9 @@
 <body>
 <h1>Print all books page</h1>
 <p><b><a href="main.jsp">Main page</a> </b></p>
-<% List<Book> listOfBooks = new XmlBookDAO().getAllBooks();%>
+<% List<Book> listOfBooks = Factory.getXmlIBookDAO().getAllBooks();%>
 <% for (int i = 0; i < listOfBooks.size(); i++) {%>
-<form name="<%=i%>">
-    <p><a href="printBook.do?id=<%=listOfBooks.get(i).getIndex()%>">Book #<%= listOfBooks.get(i).getIndex()%>
-    </a></p>
-</form>
+    <p><a href="printBook.do?id=<%=listOfBooks.get(i).getIndex()%>">Book #<%= listOfBooks.get(i).getIndex()%></a></p>
 <%}%>
 </body>
 </html>

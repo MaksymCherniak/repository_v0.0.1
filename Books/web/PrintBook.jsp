@@ -11,18 +11,18 @@
     <title>BookService</title>
 </head>
 <body>
-    <h1>Add book page</h1>
-    <p><b><a href="main.jsp">Main page</a> </b></p>
-    <p><b><a href="printAllBooks.do">All books</a></b></p>
-    <h2>Book #${book.index}</h2>
-    <ul>
-        <li>Id: ${book.index}</li>
-        <li>Author: ${book.author}</li>
-        <li>Title: ${book.title}</li>
-        <li>Genre: ${book.genre}</li>
-        <li>Price: ${book.price}</li>
-        <li>Publish date: ${book.publishDate}</li>
-        <li>Description: ${book.description}</li>
-    </ul>
+<h1>Add book page</h1>
+<p><b><a href="main.jsp">Main page</a> </b></p>
+<p><b><a href="printAllBooks.do">All books</a></b></p>
+<h2>Book #${book.index}</h2>
+<ul>
+    <li>Id: ${book.index}</li>
+    <li>Author: ${book.author}</li>
+    <li>Title: ${book.title}</li>
+    <li>Genre: ${book.genre}</li>
+    <li>Price: ${book.price}</li>
+    <li>Publish date: ${book.publishDate}</li>
+    <li>Description: ${book.description}</li>
+</ul>
 </body>
 </html>

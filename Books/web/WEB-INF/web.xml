@@ -22,19 +22,19 @@
     </servlet>
     <servlet>
         <servlet-name>AddBook</servlet-name>
-        <servlet-class>Servlets.AddBook</servlet-class>
+        <servlet-class>Servlets.BookAdd</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DeleteBook</servlet-name>
-        <servlet-class>Servlets.DeleteBook</servlet-class>
+        <servlet-class>Servlets.BookDelete</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>UpdateBook</servlet-name>
-        <servlet-class>Servlets.UpdateBook</servlet-class>
+        <servlet-class>Servlets.BookUpdate</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PrintBook</servlet-name>
-        <servlet-class>Servlets.PrintBook</servlet-class>
+        <servlet-class>Servlets.BookPrint</servlet-class>
     </servlet>
 
 
@@ -48,7 +48,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddBookPage</servlet-name>
-        <url-pattern>/addBook.do</url-pattern>
+        <url-pattern>/bookAdd.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DeleteBookPage</servlet-name>

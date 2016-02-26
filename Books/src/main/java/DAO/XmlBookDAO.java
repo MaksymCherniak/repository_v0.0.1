@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 public class XmlBookDAO implements IBookDAO {
     private static Logger log = Logger.getLogger(XmlBookDAO.class.getName());
-    private static File fileXml = new File("books.xml");
+    private File fileXml = new File("books.xml");
     private DocumentBuilder documentBuilder;
     private Document doc;
     private boolean idChecker = false;
@@ -33,13 +33,14 @@ public class XmlBookDAO implements IBookDAO {
         try {
             documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         } catch (ParserConfigurationException e) {
+            log.log(Level.INFO, "Exception: ", e);
         }
         if (!fileXml.exists()) {
             createXmlFile();
         }
     }
 
-    public void addBook(Book book) {
+    public boolean addBook(Book book) {
         try {
             doc = documentBuilder.parse(fileXml);
             Node rootNode = doc.getFirstChild();
@@ -74,9 +75,11 @@ public class XmlBookDAO implements IBookDAO {
 
             initTransformer();
             log.info(book.toString() + "\nBook added.");
+            return true;
         } catch (Exception e) {
             log.log(Level.INFO, "Exception: ", e);
         }
+        return false;
     }
 
     public boolean deleteBook(String id) {
@@ -92,12 +95,12 @@ public class XmlBookDAO implements IBookDAO {
                     Element element = (Element) node;
                     if (element.getAttribute("id").equals(id)) {
                         rootNode.removeChild(node);
+                        initTransformer();
+                        log.info("Book " + id + " deleted");
                         return true;
                     }
                 }
             }
-            initTransformer();
-            log.info("Book " + id + " deleted");
         } catch (Exception e) {
             log.log(Level.INFO, "Exception: ", e);
         }
@@ -137,18 +140,21 @@ public class XmlBookDAO implements IBookDAO {
 
     public Book findBookById(String id) {
         Element bookElement = findBookElement(id);
-        Book book = new Book();
-        book.setIndex(bookElement.getAttribute("id"));
-        book.setAuthor(bookElement.getElementsByTagName("author").item(0).getChildNodes().item(0).getNodeValue());
-        book.setTitle(bookElement.getElementsByTagName("title").item(0).getChildNodes().item(0).getNodeValue());
-        book.setGenre(bookElement.getElementsByTagName("genre").item(0).getChildNodes().item(0).getNodeValue());
-        book.setPrice(Double.parseDouble(bookElement.getElementsByTagName("price").item(0).getChildNodes().item(0).getNodeValue()));
-        book.setDescription(bookElement.getElementsByTagName("description").item(0).getChildNodes().item(0).getNodeValue());
-        String publishDate = bookElement.getElementsByTagName("publish_date").item(0).getChildNodes().item(0).getNodeValue();
-        String[] partsOfDate = publishDate.split("-");
-        book.setPublishDate(LocalDate.of(Integer.parseInt(partsOfDate[0]),
-                Integer.parseInt(partsOfDate[1]), Integer.parseInt(partsOfDate[2])));
-        return book;
+        if (bookElement != null) {
+            Book book = new Book();
+            book.setIndex(bookElement.getAttribute("id"));
+            book.setAuthor(bookElement.getElementsByTagName("author").item(0).getChildNodes().item(0).getNodeValue());
+            book.setTitle(bookElement.getElementsByTagName("title").item(0).getChildNodes().item(0).getNodeValue());
+            book.setGenre(bookElement.getElementsByTagName("genre").item(0).getChildNodes().item(0).getNodeValue());
+            book.setPrice(Double.parseDouble(bookElement.getElementsByTagName("price").item(0).getChildNodes().item(0).getNodeValue()));
+            book.setDescription(bookElement.getElementsByTagName("description").item(0).getChildNodes().item(0).getNodeValue());
+            String publishDate = bookElement.getElementsByTagName("publish_date").item(0).getChildNodes().item(0).getNodeValue();
+            String[] partsOfDate = publishDate.split("-");
+            book.setPublishDate(LocalDate.of(Integer.parseInt(partsOfDate[0]),
+                    Integer.parseInt(partsOfDate[1]), Integer.parseInt(partsOfDate[2])));
+            return book;
+        }
+        return null;
     }
 
     public Element findBookElement(String id) {
@@ -273,5 +279,16 @@ public class XmlBookDAO implements IBookDAO {
         } catch (Exception e) {
             log.log(Level.INFO, "Exception: ", e);
         }
+    }
+
+    public void setFileXml(File fileXml) {
+        this.fileXml = fileXml;
+        if (!fileXml.exists()) {
+            createXmlFile();
+        }
+    }
+
+    public File getFileXml() {
+        return fileXml;
     }
 }

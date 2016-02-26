@@ -1,7 +1,7 @@
 package Servlets;
 
+import DAO.Factory;
 import DAO.IBookDAO;
-import DAO.XmlBookDAO;
 import Entity.Book;
 
 import javax.servlet.ServletException;
@@ -12,14 +12,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PrintBook extends HttpServlet {
-    private static Logger log = Logger.getLogger(PrintBook.class.getName());
+public class BookPrint extends HttpServlet {
+    private static Logger log = Logger.getLogger(BookPrint.class.getName());
     private static final String PARAMETER_ID = "id";
     private static final String ATTRIBUTE_BOOK = "book";
     private static final String PAGE_OK = "printBook.jsp";
     private static final String PAGE_ERROR = "main.do";
-    private IBookDAO iBookDAO = new XmlBookDAO();
-
+    private IBookDAO iBookDAO = Factory.getXmlIBookDAO();
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
