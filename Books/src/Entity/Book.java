@@ -1,24 +1,26 @@
 package Entity;
 
-import DAO.XmlBookDAO;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 
-import java.time.LocalDate;
-
+@XmlRootElement(name = "Book")
+@XmlType(propOrder = {"author", "title", "genre", "price", "publishDate", "description"})
 public class Book {
-    private static Integer id = 0;
     private String index;
     private String author;
     private String title;
     private String genre;
-    private Double price;
-    private LocalDate publishDate;
+    private String price;
+    private String publishDate;
     private String description;
 
     public Book() {
     }
 
-    public Book(String author, String title, String genre, Double price, LocalDate publishDate, String description) {
-        incId();
+    public Book(String index, String author, String title, String genre, String price, String publishDate, String description) {
+        this.index = index;
         this.author = author;
         this.title = title;
         this.genre = genre;
@@ -27,50 +29,39 @@ public class Book {
         this.description = description;
     }
 
-    private static synchronized void incId() {
-        id++;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public String getStringId() { return String.valueOf(id); }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public String getStringPrice() { return String.valueOf(price); }
-
-    public String getStringPublishDate() { return String.valueOf(publishDate);}
-
-    public LocalDate getPublishDate() {
-        return publishDate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
+    @XmlAttribute(name = "id")
     public String getIndex() {
         return index;
     }
 
-    public static void setId(Integer id) {
-        Book.id = id;
+    @XmlElement
+    public String getAuthor() {
+        return author;
+    }
+
+    @XmlElement
+    public String getTitle() {
+        return title;
+    }
+
+    @XmlElement
+    public String getGenre() {
+        return genre;
+    }
+
+    @XmlElement
+    public String getPrice() {
+        return price;
+    }
+
+    @XmlElement
+    public String getPublishDate() {
+        return publishDate;
+    }
+
+    @XmlElement
+    public String getDescription() {
+        return description;
     }
 
     public void setIndex(String index) {
@@ -89,11 +80,11 @@ public class Book {
         this.genre = genre;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public void setPublishDate(LocalDate publishDate) {
+    public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
     }
 

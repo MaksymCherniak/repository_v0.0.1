@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog>
+<book id="2">
+<author>Soap</author>
+<title>Soap</title>
+<genre>Soap</genre>
+<price>20.0</price>
+<publish_date>2000-10-10</publish_date>
+<description>Soap</description>
+</book>
+</catalog>
