@@ -1,4 +1,4 @@
-package DAO;
+package Service;
 
 public class Factory {
     private static IBookDAO iBookDAO = null;
