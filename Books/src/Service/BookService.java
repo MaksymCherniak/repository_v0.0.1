@@ -12,16 +12,24 @@ import java.util.List;
 @WebService
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
 public interface BookService {
+    String ID = "id";
+    String AUTHOR = "author";
+    String TITLE = "title";
+    String GENRE = "genre";
+    String PRICE = "price";
+    String PUBLISH_DATE = "publish_date";
+    String DESCRIPTION = "description";
+    String BOOK = "book";
 
     @WebMethod(operationName = "add")
     @WebResult(name = "result")
-    String addBook(@WebParam(name = "id") String id, @WebParam(name = "author") String author, @WebParam(name = "title") String title
-            , @WebParam(name = "genre") String genre, @WebParam(name = "price") String price
-            , @WebParam(name = "publishDate") String publishDate, @WebParam(name = "description") String description);
+    String addBook(@WebParam(name = ID) String id, @WebParam(name = AUTHOR) String author, @WebParam(name = TITLE) String title
+            , @WebParam(name = GENRE) String genre, @WebParam(name = PRICE) String price
+            , @WebParam(name = PUBLISH_DATE) String publishDate, @WebParam(name = DESCRIPTION) String description);
 
     @WebMethod(operationName = "delete")
     @WebResult(name = "result")
-    String deleteBook(@WebParam(name = "id") String id);
+    String deleteBook(@WebParam(name = ID) String id);
 
     @WebMethod(operationName = "update")
     @WebResult(name = "result")
@@ -29,10 +37,10 @@ public interface BookService {
             , @WebParam(name = "bookId") String id, @WebParam(name = "attribute") String attribute);
 
     @WebMethod(operationName = "getAll")
-    @WebResult(name = "book")
+    @WebResult(name = BOOK)
     List<Book> getAllBooks();
 
     @WebMethod(operationName = "changeBook")
-    @WebResult(name = "book")
-    List<Book> changeBook(@WebParam(name = "book") List<Book> requestXml);
+    @WebResult(name = BOOK)
+    List<Book> changeBook(@WebParam(name = BOOK) List<Book> requestXml);
 }

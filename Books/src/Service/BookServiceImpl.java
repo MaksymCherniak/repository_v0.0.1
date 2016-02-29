@@ -24,7 +24,7 @@ public class BookServiceImpl implements BookService {
     public String addBook(String id, String author, String title, String genre, String price, String publishDate, String description) {
         Double dPrice = priceCheck(price);
         LocalDate localDate = localDateChecker(publishDate);
-        if (dPrice != null) {
+        if (dPrice != null && dPrice > 0) {
             if (localDate != null) {
                 book = new Book(id, author, title, genre, price, publishDate, description);
                 if (iBookDAO.addBook(book)) {
@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
                 return "Error. Wrong date format. Date must be like \"YYYY-MM-DD\"";
             }
         } else {
-            return "Error. Wrong price format or price <= 0. Price must be like \"00.00\"";
+            return "Error. Wrong price format or price <= 0";
         }
     }
 
@@ -44,47 +44,47 @@ public class BookServiceImpl implements BookService {
         if (iBookDAO.deleteBook(id)) {
             return "Book deleted";
         }
-        return "Book didn't delete";
+        return "Book didn't delete. Wrong id";
     }
 
     public String updateBook(String bookAttribute, String id, String attribute) {
         /** Author */
-        if (bookAttribute.equals("author")) {
+        if (bookAttribute.equals(AUTHOR)) {
             iBookDAO.updateBook(BookAttribute.AUTHOR, id, attribute);
-            return "Attribute " + bookAttribute + " updated";
+            return printUpdateResult(bookAttribute);
         }
         /** Title */
-        if (bookAttribute.equals("title")) {
+        if (bookAttribute.equals(TITLE)) {
             iBookDAO.updateBook(BookAttribute.TITLE, id, attribute);
-            return "Attribute " + bookAttribute + " updated";
+            return printUpdateResult(bookAttribute);
         }
         /** Genre */
-        if (bookAttribute.equals("genre")) {
+        if (bookAttribute.equals(GENRE)) {
             iBookDAO.updateBook(BookAttribute.GENRE, id, attribute);
-            return "Attribute " + bookAttribute + " updated";
+            return printUpdateResult(bookAttribute);
         }
         /** Price */
-        if (bookAttribute.equals("price")) {
+        if (bookAttribute.equals(PRICE)) {
             if (priceCheck(attribute) != null && priceCheck(attribute) > 0) {
                 iBookDAO.updateBook(BookAttribute.PRICE, id, attribute);
-                return "Attribute " + bookAttribute + " updated";
+                return printUpdateResult(bookAttribute);
             } else {
-                return "Error. Wrong price format or price <= 0. Price must be like \"00.00\\";
+                return "Error. Wrong price format or price <= 0";
             }
         }
         /** Publish date */
-        if (bookAttribute.equals("publishDate")) {
+        if (bookAttribute.equals(PUBLISH_DATE)) {
             if (localDateChecker(attribute) != null) {
                 iBookDAO.updateBook(BookAttribute.PUBLISH_DATE, id, attribute);
-                return "Attribute " + bookAttribute + " updated";
+                return printUpdateResult(bookAttribute);
             } else {
                 return "Error. Wrong date format. Date must be like \"YYYY-MM-DD\"";
             }
         }
         /** Description */
-        if (bookAttribute.equals("description")) {
+        if (bookAttribute.equals(DESCRIPTION)) {
             iBookDAO.updateBook(BookAttribute.DESCRIPTION, id, attribute);
-            return "Attribute " + bookAttribute + " updated";
+            return printUpdateResult(bookAttribute);
         }
         return "Wrong attribute";
     }
@@ -106,7 +106,11 @@ public class BookServiceImpl implements BookService {
         return null;
     }
 
-    public Double priceCheck(String price) {
+    private String printUpdateResult(String bookAttribute) {
+        return "Attribute " + bookAttribute + " updated";
+    }
+
+    private Double priceCheck(String price) {
         try {
             return Double.parseDouble(price);
         } catch (Exception e) {

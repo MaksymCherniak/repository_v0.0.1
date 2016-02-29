@@ -26,7 +26,6 @@ public class XmlBookDAO implements IBookDAO {
     private File fileXml = new File("books.xml");
     private DocumentBuilder documentBuilder;
     private Document doc;
-    private boolean idChecker = false;
 
     public XmlBookDAO() {
         try {
@@ -61,29 +60,29 @@ public class XmlBookDAO implements IBookDAO {
 
             Element bookElement = doc.createElement("book");
             rootNode.appendChild(bookElement);
-            bookElement.setAttribute("id", book.getIndex());
+            bookElement.setAttribute(ID, book.getIndex());
 
-            Element authorElement = doc.createElement("author");
+            Element authorElement = doc.createElement(AUTHOR);
             authorElement.appendChild(doc.createTextNode(book.getAuthor()));
             bookElement.appendChild(authorElement);
 
-            Element titleElement = doc.createElement("title");
+            Element titleElement = doc.createElement(TITLE);
             titleElement.appendChild(doc.createTextNode(book.getTitle()));
             bookElement.appendChild(titleElement);
 
-            Element genreElement = doc.createElement("genre");
+            Element genreElement = doc.createElement(GENRE);
             genreElement.appendChild(doc.createTextNode(book.getGenre()));
             bookElement.appendChild(genreElement);
 
-            Element priceElement = doc.createElement("price");
+            Element priceElement = doc.createElement(PRICE);
             priceElement.appendChild(doc.createTextNode(String.valueOf(book.getPrice())));
             bookElement.appendChild(priceElement);
 
-            Element publishDateElement = doc.createElement("publish_date");
+            Element publishDateElement = doc.createElement(PUBLISH_DATE);
             publishDateElement.appendChild(doc.createTextNode(String.valueOf(book.getPublishDate())));
             bookElement.appendChild(publishDateElement);
 
-            Element descriptionElement = doc.createElement("description");
+            Element descriptionElement = doc.createElement(DESCRIPTION);
             descriptionElement.appendChild(doc.createTextNode(book.getDescription()));
             bookElement.appendChild(descriptionElement);
 
@@ -107,7 +106,7 @@ public class XmlBookDAO implements IBookDAO {
                 Node node = listOfBooks.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
-                    if (element.getAttribute("id").equals(id)) {
+                    if (element.getAttribute(ID).equals(id)) {
                         rootNode.removeChild(node);
                         initTransformer();
                         log.info("Book " + id + " deleted");
@@ -133,15 +132,13 @@ public class XmlBookDAO implements IBookDAO {
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
                     Book book = new Book();
-                    book.setIndex(element.getAttribute("id"));
-                    book.setAuthor(element.getElementsByTagName("author").item(0).getChildNodes().item(0).getNodeValue());
-                    book.setTitle(element.getElementsByTagName("title").item(0).getChildNodes().item(0).getNodeValue());
-                    book.setGenre(element.getElementsByTagName("genre").item(0).getChildNodes().item(0).getNodeValue());
-                    book.setPrice(element.getElementsByTagName("price").item(0).getChildNodes().item(0).getNodeValue());
-                    book.setDescription(element.getElementsByTagName("description").item(0).getChildNodes().item(0).getNodeValue());
-                    String publishDate = element.getElementsByTagName("publish_date").item(0).getChildNodes().item(0).getNodeValue();
-                    String[] partsOfDate = publishDate.split("-");
-                    book.setPublishDate(publishDate);
+                    book.setIndex(element.getAttribute(ID));
+                    book.setAuthor(element.getElementsByTagName(AUTHOR).item(0).getChildNodes().item(0).getNodeValue());
+                    book.setTitle(element.getElementsByTagName(TITLE).item(0).getChildNodes().item(0).getNodeValue());
+                    book.setGenre(element.getElementsByTagName(GENRE).item(0).getChildNodes().item(0).getNodeValue());
+                    book.setPrice(element.getElementsByTagName(PRICE).item(0).getChildNodes().item(0).getNodeValue());
+                    book.setDescription(element.getElementsByTagName(DESCRIPTION).item(0).getChildNodes().item(0).getNodeValue());
+                    book.setPublishDate(element.getElementsByTagName(PUBLISH_DATE).item(0).getChildNodes().item(0).getNodeValue());
                     listOfBooks.add(book);
                 }
             }
@@ -155,17 +152,16 @@ public class XmlBookDAO implements IBookDAO {
         Element bookElement = findBookElement(id);
         if (bookElement != null) {
             Book book = new Book();
-            book.setIndex(bookElement.getAttribute("id"));
-            book.setAuthor(bookElement.getElementsByTagName("author").item(0).getChildNodes().item(0).getNodeValue());
-            book.setTitle(bookElement.getElementsByTagName("title").item(0).getChildNodes().item(0).getNodeValue());
-            book.setGenre(bookElement.getElementsByTagName("genre").item(0).getChildNodes().item(0).getNodeValue());
-            book.setPrice(bookElement.getElementsByTagName("price").item(0).getChildNodes().item(0).getNodeValue());
-            book.setDescription(bookElement.getElementsByTagName("description").item(0).getChildNodes().item(0).getNodeValue());
-            String publishDate = bookElement.getElementsByTagName("publish_date").item(0).getChildNodes().item(0).getNodeValue();
-            String[] partsOfDate = publishDate.split("-");
-            book.setPublishDate(publishDate);
+            book.setIndex(bookElement.getAttribute(ID));
+            book.setAuthor(bookElement.getElementsByTagName(AUTHOR).item(0).getChildNodes().item(0).getNodeValue());
+            book.setTitle(bookElement.getElementsByTagName(TITLE).item(0).getChildNodes().item(0).getNodeValue());
+            book.setGenre(bookElement.getElementsByTagName(GENRE).item(0).getChildNodes().item(0).getNodeValue());
+            book.setPrice(bookElement.getElementsByTagName(PRICE).item(0).getChildNodes().item(0).getNodeValue());
+            book.setDescription(bookElement.getElementsByTagName(DESCRIPTION).item(0).getChildNodes().item(0).getNodeValue());
+            book.setPublishDate(bookElement.getElementsByTagName(PUBLISH_DATE).item(0).getChildNodes().item(0).getNodeValue());
             return book;
         }
+        log.info("Book isn't found");
         return null;
     }
 
@@ -179,7 +175,7 @@ public class XmlBookDAO implements IBookDAO {
                 Node node = listOfBooks.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
-                    if (element.getAttribute("id").equals(id)) {
+                    if (element.getAttribute(ID).equals(id)) {
                         return element;
                     }
                 }
@@ -191,65 +187,42 @@ public class XmlBookDAO implements IBookDAO {
     }
 
     public void updateBook(BookAttribute bookAttribute, String id, String attribute) {
-        if (!checkId(id)) {
+        if (findBookById(id) == null) {
             return;
         }
         Element book = findBookElement(id);
         switch (bookAttribute) {
             case AUTHOR:
-                book.getElementsByTagName("author").item(0).getChildNodes().item(0).setNodeValue(attribute);
+                book.getElementsByTagName(AUTHOR).item(0).getChildNodes().item(0).setNodeValue(attribute);
                 initTransformer();
-                log.info("Author changed to \"" + attribute + "\" in the book with id: " + book.getAttribute("id"));
+                log.info("Author changed to \"" + attribute + "\" in the book with id: " + book.getAttribute(ID));
                 break;
             case DESCRIPTION:
-                book.getElementsByTagName("description").item(0).getChildNodes().item(0).setNodeValue(attribute);
+                book.getElementsByTagName(DESCRIPTION).item(0).getChildNodes().item(0).setNodeValue(attribute);
                 initTransformer();
-                log.info("Description changed to \"" + attribute + "\" in the book with id: " + book.getAttribute("id"));
+                log.info("Description changed to \"" + attribute + "\" in the book with id: " + book.getAttribute(ID));
                 break;
             case TITLE:
-                book.getElementsByTagName("title").item(0).getChildNodes().item(0).setNodeValue(attribute);
+                book.getElementsByTagName(TITLE).item(0).getChildNodes().item(0).setNodeValue(attribute);
                 initTransformer();
-                log.info("Title changed to \"" + attribute + "\" in the book with id: " + book.getAttribute("id"));
+                log.info("Title changed to \"" + attribute + "\" in the book with id: " + book.getAttribute(ID));
                 break;
             case PUBLISH_DATE:
-                book.getElementsByTagName("publish_date").item(0).getChildNodes().item(0).setNodeValue(attribute);
+                book.getElementsByTagName(PUBLISH_DATE).item(0).getChildNodes().item(0).setNodeValue(attribute);
                 initTransformer();
-                log.info("Publish date changed to \"" + attribute + "\" in the book with id: " + book.getAttribute("id"));
+                log.info("Publish date changed to \"" + attribute + "\" in the book with id: " + book.getAttribute(ID));
                 break;
             case GENRE:
-                book.getElementsByTagName("genre").item(0).getChildNodes().item(0).setNodeValue(attribute);
+                book.getElementsByTagName(GENRE).item(0).getChildNodes().item(0).setNodeValue(attribute);
                 initTransformer();
-                log.info("Genre changed to \"" + attribute + "\" in the book with id: " + book.getAttribute("id"));
+                log.info("Genre changed to \"" + attribute + "\" in the book with id: " + book.getAttribute(ID));
                 break;
             case PRICE:
-                book.getElementsByTagName("price").item(0).getChildNodes().item(0).setNodeValue(attribute);
+                book.getElementsByTagName(PRICE).item(0).getChildNodes().item(0).setNodeValue(attribute);
                 initTransformer();
-                log.info("Price changed to \"" + attribute + "\" in the book with id: " + book.getAttribute("id"));
+                log.info("Price changed to \"" + attribute + "\" in the book with id: " + book.getAttribute(ID));
                 break;
         }
-    }
-
-    private boolean checkId(String id) {
-        try {
-            doc = documentBuilder.parse(fileXml);
-            doc.getDocumentElement().normalize();
-
-            NodeList listOfBooks = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
-            for (int i = 0; i < listOfBooks.getLength(); i++) {
-                Node node = listOfBooks.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    if (element.getAttribute("id").equals(id)) {
-                        idChecker = true;
-                        return idChecker;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            log.log(Level.INFO, "Exception: ", e);
-        }
-        log.info("Book not found");
-        return idChecker;
     }
 
     private void createXmlFile() {

@@ -7,6 +7,13 @@ import org.w3c.dom.Element;
 import java.util.List;
 
 public interface IBookDAO {
+    String ID = "id";
+    String AUTHOR = "author";
+    String TITLE = "title";
+    String GENRE = "genre";
+    String PRICE = "price";
+    String PUBLISH_DATE = "publish_date";
+    String DESCRIPTION = "description";
 
     List<Book> changeBook(List<Book> requestXml);
 
