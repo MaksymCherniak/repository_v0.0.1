@@ -6,26 +6,26 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlRootElement(name = "Book")
-@XmlType(propOrder = {"author", "title", "genre", "price", "publishDate", "description"})
+@XmlType(propOrder = {"author", "title", "genre", "price", "publish_date", "description"})
 public class Book {
     private String index;
     private String author;
     private String title;
     private String genre;
     private String price;
-    private String publishDate;
+    private String publish_date;
     private String description;
 
     public Book() {
     }
 
-    public Book(String index, String author, String title, String genre, String price, String publishDate, String description) {
+    public Book(String index, String author, String title, String genre, String price, String publish_date, String description) {
         this.index = index;
         this.author = author;
         this.title = title;
         this.genre = genre;
         this.price = price;
-        this.publishDate = publishDate;
+        this.publish_date = publish_date;
         this.description = description;
     }
 
@@ -55,8 +55,8 @@ public class Book {
     }
 
     @XmlElement
-    public String getPublishDate() {
-        return publishDate;
+    public String getPublish_date() {
+        return publish_date;
     }
 
     @XmlElement
@@ -84,8 +84,8 @@ public class Book {
         this.price = price;
     }
 
-    public void setPublishDate(String publishDate) {
-        this.publishDate = publishDate;
+    public void setPublish_date(String publish_date) {
+        this.publish_date = publish_date;
     }
 
     public void setDescription(String description) {
@@ -110,6 +110,6 @@ public class Book {
     @Override
     public String toString() {
         return "Book info:\n" + "Id: " + index + "\nAuthor: " + author + "\nTitle: " + title + "\nGenre: " + genre + "\nPrice: " + price
-                + "\nPublish date: " + publishDate + "\nDescription: " + description;
+                + "\nPublish date: " + publish_date + "\nDescription: " + description;
     }
 }

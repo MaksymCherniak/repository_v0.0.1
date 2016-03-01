@@ -1,0 +1,16 @@
+group 'BookService'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    providedCompile 'javax.xml.ws:jaxws-api:2.2.11'
+    runtime 'org.jvnet.jax-ws-commons.spring:jaxws-spring:1.9'
+    runtime 'org.springframework:spring-web:3.0.4.RELEASE'
+    runtime 'com.sun.xml.ws:jaxws-rt:2.2.10'
+}

@@ -1,6 +1,5 @@
 package Service;
 
-import DAO.Factory;
 import DAO.IBookDAO;
 import Entity.Book;
 import Entity.BookAttribute;
@@ -14,20 +13,18 @@ import java.util.logging.Logger;
 @WebService(endpointInterface = "Service.BookService")
 public class BookServiceImpl implements BookService {
     private static Logger log = Logger.getLogger(BookServiceImpl.class.getName());
-    private IBookDAO iBookDAO = Factory.getXmlIBookDAO();
-    private Book book;
+    private IBookDAO iBookDAO;
 
     public List<Book> getAllBooks() {
         return iBookDAO.getAllBooks();
     }
 
-    public String addBook(String id, String author, String title, String genre, String price, String publishDate, String description) {
-        Double dPrice = priceCheck(price);
-        LocalDate localDate = localDateChecker(publishDate);
-        if (dPrice != null && dPrice > 0) {
-            if (localDate != null) {
-                book = new Book(id, author, title, genre, price, publishDate, description);
-                if (iBookDAO.addBook(book)) {
+    public String addBook(String id, String author, String title, String genre, String price, String publishDate
+            , String description) {
+
+        if (priceChecker(price) != null && priceChecker(price) > 0) {
+            if (publishDateChecker(publishDate) != null) {
+                if (iBookDAO.addBook(new Book(id, author, title, genre, price, publishDate, description))) {
                     return "Book added";
                 } else {
                     return "Book didn't added. Maybe the book with same id already exists";
@@ -48,40 +45,45 @@ public class BookServiceImpl implements BookService {
     }
 
     public String updateBook(String bookAttribute, String id, String attribute) {
-        /** Author */
+        /** ------------------- Author ----------------------- */
         if (bookAttribute.equals(AUTHOR)) {
             iBookDAO.updateBook(BookAttribute.AUTHOR, id, attribute);
             return printUpdateResult(bookAttribute);
         }
-        /** Title */
+
+        /** -------------------- Title ----------------------- */
         if (bookAttribute.equals(TITLE)) {
             iBookDAO.updateBook(BookAttribute.TITLE, id, attribute);
             return printUpdateResult(bookAttribute);
         }
-        /** Genre */
+
+        /** --------------------- Genre ---------------------- */
         if (bookAttribute.equals(GENRE)) {
             iBookDAO.updateBook(BookAttribute.GENRE, id, attribute);
             return printUpdateResult(bookAttribute);
         }
-        /** Price */
+
+        /** --------------------- Price ---------------------- */
         if (bookAttribute.equals(PRICE)) {
-            if (priceCheck(attribute) != null && priceCheck(attribute) > 0) {
+            if (priceChecker(attribute) != null && priceChecker(attribute) > 0) {
                 iBookDAO.updateBook(BookAttribute.PRICE, id, attribute);
                 return printUpdateResult(bookAttribute);
             } else {
                 return "Error. Wrong price format or price <= 0";
             }
         }
-        /** Publish date */
+
+        /** ------------------ Publish date ------------------ */
         if (bookAttribute.equals(PUBLISH_DATE)) {
-            if (localDateChecker(attribute) != null) {
+            if (publishDateChecker(attribute) != null) {
                 iBookDAO.updateBook(BookAttribute.PUBLISH_DATE, id, attribute);
                 return printUpdateResult(bookAttribute);
             } else {
                 return "Error. Wrong date format. Date must be like \"YYYY-MM-DD\"";
             }
         }
-        /** Description */
+
+        /** ------------------ Description ------------------- */
         if (bookAttribute.equals(DESCRIPTION)) {
             iBookDAO.updateBook(BookAttribute.DESCRIPTION, id, attribute);
             return printUpdateResult(bookAttribute);
@@ -96,7 +98,7 @@ public class BookServiceImpl implements BookService {
         return iBookDAO.changeBook(requestXml);
     }
 
-    private LocalDate localDateChecker(String publishDate) {
+    private LocalDate publishDateChecker(String publishDate) {
         String[] partsOfDate = publishDate.split("-");
         try {
             return LocalDate.of(Integer.parseInt(partsOfDate[0]), Integer.parseInt(partsOfDate[1]), Integer.parseInt(partsOfDate[2]));
@@ -110,12 +112,16 @@ public class BookServiceImpl implements BookService {
         return "Attribute " + bookAttribute + " updated";
     }
 
-    private Double priceCheck(String price) {
+    private Double priceChecker(String price) {
         try {
             return Double.parseDouble(price);
         } catch (Exception e) {
             log.log(Level.INFO, "Exception: ", e);
         }
         return null;
+    }
+
+    public void setiBookDAO(IBookDAO iBookDAO) {
+        this.iBookDAO = iBookDAO;
     }
 }

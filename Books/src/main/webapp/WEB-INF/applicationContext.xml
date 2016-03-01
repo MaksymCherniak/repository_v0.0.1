@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://jax-ws.dev.java.net/spring/core
+       http://jax-ws.dev.java.net/spring/core.xsd
+       http://jax-ws.dev.java.net/spring/servlet
+       http://jax-ws.dev.java.net/spring/servlet.xsd">
+
+    <wss:binding url="/BookService">
+        <wss:service>
+            <ws:service bean="#BookService"/>
+        </wss:service>
+    </wss:binding>
+
+    <!-- ======================= DocumentBuilder ======================= -->
+
+    <bean id="documentBuilderFactory"
+          class="javax.xml.parsers.DocumentBuilderFactory"
+          factory-method="newInstance">
+        <property name="validating" value="false" />
+        <property name="ignoringElementContentWhitespace" value="true" />
+    </bean>
+    <bean id="documentBuilder" class="javax.xml.parsers.DocumentBuilder"
+          factory-bean="documentBuilderFactory"
+          factory-method="newDocumentBuilder">
+    </bean>
+
+    <!-- =========================== Xml file ========================== -->
+
+    <bean id="fileXml" class="java.io.File">
+        <constructor-arg type="java.lang.String" value="books.xml"/>
+    </bean>
+
+    <!-- =========================== Services ========================== -->
+
+    <bean id="BookService" class="Service.BookServiceImpl">
+        <property name="iBookDAO" ref="IBookDAO"/>
+    </bean>
+
+    <bean id="IBookDAO" class="DAO.XmlBookDAO" init-method="createXmlFile">
+        <property name="fileXml" ref="fileXml"/>
+        <property name="documentBuilder" ref="documentBuilder"/>
+    </bean>
+
+</beans>

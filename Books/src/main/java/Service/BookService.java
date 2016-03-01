@@ -43,4 +43,5 @@ public interface BookService {
     @WebMethod(operationName = "changeBook")
     @WebResult(name = BOOK)
     List<Book> changeBook(@WebParam(name = BOOK) List<Book> requestXml);
+
 }
