@@ -92,9 +92,6 @@ public class BookServiceImpl implements BookService {
     }
 
     public List<Book> changeBook(List<Book> requestXml) {
-        for (Book book : requestXml) {
-            System.out.println(book.toString());
-        }
         return iBookDAO.changeBook(requestXml);
     }
 
