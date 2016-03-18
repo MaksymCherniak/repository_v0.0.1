@@ -1,7 +1,7 @@
 package BookingTool.DAO.Repository;
 
-import BookingTool.Model.LocalModel.Seat;
-import BookingTool.Model.LocalModel.SeatStatus;
+import BookingTool.Entity.Enums.SeatStatus;
+import BookingTool.Entity.Seat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

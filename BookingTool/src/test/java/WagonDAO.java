@@ -1,7 +1,7 @@
 import BookingTool.DAO.Impl.MySQLWagonDAO;
-import BookingTool.Model.LocalModel.Ticket;
-import BookingTool.Model.LocalModel.User;
-import BookingTool.Model.LocalModel.Wagon;
+import BookingTool.Entity.Ticket;
+import BookingTool.Entity.User;
+import BookingTool.Entity.Wagon;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,11 +52,7 @@ public class WagonDAO {
 
     @Test
     public void whenAddTheWagonExists() {
-        assertNull("Wagon exists before added", mySQLWagonDAO.findWagon(wagon.getNumber()));
 
-        mySQLWagonDAO.insertWagon(wagon);
-
-        assertNotNull("Wagon does not exist after added", mySQLWagonDAO.findWagon(wagon.getNumber()));
     }
 
     @Test

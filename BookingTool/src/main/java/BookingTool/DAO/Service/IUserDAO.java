@@ -1,6 +1,6 @@
 package BookingTool.DAO.Service;
 
-import BookingTool.Model.LocalModel.User;
+import BookingTool.Entity.User;
 
 import java.util.List;
 

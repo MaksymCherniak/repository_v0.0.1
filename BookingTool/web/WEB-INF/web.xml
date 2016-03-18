@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>SelectRoute</servlet-name>
+        <servlet-class>BookingTool.Servlets.SelectRoute</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertRoute</servlet-name>
+        <servlet-class>BookingTool.Servlets.InsertRoute</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BuyTicket</servlet-name>
+        <servlet-class>BookingTool.Servlets.BuyTicket</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertWagon</servlet-name>
+        <servlet-class>BookingTool.Servlets.InsertWagon</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertStation</servlet-name>
+        <servlet-class>BookingTool.Servlets.InsertStation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsertTrain</servlet-name>
+        <servlet-class>BookingTool.Servlets.InsertTrain</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SelectRoute</servlet-name>
+        <url-pattern>/selectRoute.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertRoute</servlet-name>
+        <url-pattern>/insertRoute.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BuyTicket</servlet-name>
+        <url-pattern>/buyTicket.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertWagon</servlet-name>
+        <url-pattern>/insertWagon.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertTrain</servlet-name>
+        <url-pattern>/insertTrain.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsertStation</servlet-name>
+        <url-pattern>/insertStation.do</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>main.jsp</welcome-file>
+    </welcome-file-list>
+
+</web-app>

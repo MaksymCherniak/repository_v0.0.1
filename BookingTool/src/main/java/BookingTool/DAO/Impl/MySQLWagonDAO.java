@@ -3,17 +3,14 @@ package BookingTool.DAO.Impl;
 import BookingTool.DAO.Repository.SeatRepository;
 import BookingTool.DAO.Repository.WagonRepository;
 import BookingTool.DAO.Service.IWagonDAO;
-import BookingTool.Model.LocalModel.Seat;
-import BookingTool.Model.LocalModel.SeatStatus;
-import BookingTool.Model.LocalModel.Ticket;
-import BookingTool.Model.LocalModel.Wagon;
+import BookingTool.Entity.Seat;
+import BookingTool.Entity.Enums.SeatStatus;
+import BookingTool.Entity.Ticket;
+import BookingTool.Entity.Wagon;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MySQLWagonDAO implements IWagonDAO {
@@ -36,20 +33,16 @@ public class MySQLWagonDAO implements IWagonDAO {
     }
 
     public boolean updateWagon(Ticket ticket) {
-        try {
-            if (!checkSeatAvailable(ticket)) {
-                seatRepository.updateSeat(ticket.getWagon().getId(), ticket.getSeat(), SeatStatus.FREE);
-                wagonRepository.updateWagon(getFreeSeats(ticket.getWagon()), ticket.getWagon().getNumber());
-                return true;
-            }
-        } catch (Exception e) {
-            log.log(Level.INFO, "Exception: ", e);
+        if (!checkSeatAvailable(ticket)) {
+            seatRepository.updateSeat(ticket.getWagon().getId(), ticket.getSeat(), SeatStatus.FREE);
+            wagonRepository.updateWagon(getFreeSeats(ticket.getWagon()), ticket.getWagon().getNumber());
+            return true;
         }
         return false;
     }
 
-    public Wagon findWagon(int wagonNumber) {
-        Wagon wagon = wagonRepository.findByNumber(wagonNumber);
+    public Wagon findByNumberAndTrainId(int wagonNumber, long trainId) {
+        Wagon wagon = wagonRepository.findByNumberAndTrainId(wagonNumber, trainId);
         if (wagon != null) {
             return wagon;
         } else {
@@ -72,7 +65,7 @@ public class MySQLWagonDAO implements IWagonDAO {
                 seats = Wagon.getEconomyWagonList();
                 break;
         }
-        if (findWagon(wagonNumber) == null) {
+        if (findByNumberAndTrainId(wagonNumber, wagon.getTrain().getId()) == null) {
             wagonRepository.saveAndFlush(wagon);
             for (Integer s : seats) {
                 Seat seat = new Seat();

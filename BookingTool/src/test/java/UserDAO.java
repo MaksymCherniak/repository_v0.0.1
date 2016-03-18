@@ -1,5 +1,5 @@
 import BookingTool.DAO.Impl.MySQLUserDAO;
-import BookingTool.Model.LocalModel.User;
+import BookingTool.Entity.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

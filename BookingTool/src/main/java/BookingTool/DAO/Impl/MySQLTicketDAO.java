@@ -2,9 +2,8 @@ package BookingTool.DAO.Impl;
 
 import BookingTool.DAO.Repository.TicketRepository;
 import BookingTool.DAO.Service.ITicketDAO;
-import BookingTool.Model.LocalModel.Ticket;
+import BookingTool.Entity.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.logging.Logger;
