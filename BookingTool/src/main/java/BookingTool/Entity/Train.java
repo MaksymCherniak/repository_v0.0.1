@@ -23,6 +23,10 @@ public class Train {
         return id;
     }
 
+    public List<Wagon> getWagons() {
+        return wagons;
+    }
+
     public LocalDate getLeavingDate() {
         return leavingDate;
     }

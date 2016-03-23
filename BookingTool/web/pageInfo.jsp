@@ -10,7 +10,7 @@
 <head>
     <title>Booking tool</title>
 </head>
-<body>
+<body bgcolor="#dcdcdc">
 <h1>Page info</h1>
 <p><b><a href="main.jsp">Main page</a></b></p>
 Info: ${info}

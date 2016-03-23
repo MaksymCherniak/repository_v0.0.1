@@ -11,7 +11,7 @@
 <b><a href="printWagon.jsp">Print wagon</a></b><br>
 <b><a href="getRoute.jsp">Get route</a></b><br>
 <b><a href="insertRoute.jsp">Insert new route</a></b><br>
-<b><a href="insertStation.jsp">Insert stations</a></b><br>
+<b><a href="insertStation.jsp">Insert station</a></b><br>
 <b><a href="insertTrain.jsp">Insert trains</a></b><br>
 </body>
 </html>

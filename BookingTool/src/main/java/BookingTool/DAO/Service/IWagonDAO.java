@@ -2,6 +2,7 @@ package BookingTool.DAO.Service;
 
 
 import BookingTool.Entity.Ticket;
+import BookingTool.Entity.Train;
 import BookingTool.Entity.Wagon;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public interface IWagonDAO {
 
     boolean insertWagon(Wagon wagon);
 
-    Wagon findByNumberAndTrainId(int wagonNumber, long trainId);
+    Wagon findByNumberAndTrainId(int wagonNumber, long train_id);
 
-    List getAllWagons();
+    List<Wagon> getWagonsByTrain(Train train);
 
     List getAllSeats(Wagon wagon);
 

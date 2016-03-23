@@ -6,6 +6,7 @@ import BookingTool.DAO.Service.IWagonDAO;
 import BookingTool.Entity.Seat;
 import BookingTool.Entity.Enums.SeatStatus;
 import BookingTool.Entity.Ticket;
+import BookingTool.Entity.Train;
 import BookingTool.Entity.Wagon;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,8 +42,8 @@ public class MySQLWagonDAO implements IWagonDAO {
         return false;
     }
 
-    public Wagon findByNumberAndTrainId(int wagonNumber, long trainId) {
-        Wagon wagon = wagonRepository.findByNumberAndTrainId(wagonNumber, trainId);
+    public Wagon findByNumberAndTrainId(int wagonNumber, long train_id) {
+        Wagon wagon = wagonRepository.findByNumberAndTrainId(train_id, wagonNumber);
         if (wagon != null) {
             return wagon;
         } else {
@@ -88,8 +89,8 @@ public class MySQLWagonDAO implements IWagonDAO {
         return seatRepository.getAllSeats(wagon.getId());
     }
 
-    public List<Wagon> getAllWagons() {
-        return wagonRepository.findAll();
+    public List<Wagon> getWagonsByTrain(Train train) {
+        return wagonRepository.getWagonsByTrain(train.getId());
     }
 
     private int getFreeSeats(Wagon wagon) {

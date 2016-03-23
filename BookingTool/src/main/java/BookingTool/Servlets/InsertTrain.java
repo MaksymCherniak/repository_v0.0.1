@@ -15,7 +15,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class InsertTrain extends HttpServlet {
@@ -31,10 +30,11 @@ public class InsertTrain extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<DayOfWeek> daysOfWeek = getDaysOfWeekList(request.getParameterValues("days"));
-        LocalDate leavingDate = getLeavingDate(request.getParameter("leavingDate").split("-"));
         Route route = iRouteDAO.getRouteByNumber(Integer.parseInt(request.getParameter("routeNumber")));
-        if (route != null && leavingDate != null && daysOfWeek != null) {
-            iRouteDAO.insertTrain(route, leavingDate, daysOfWeek);
+        if (route != null && daysOfWeek != null) {
+            LocalDate startDate = LocalDate.of(Integer.parseInt(request.getParameter("startYY"))
+                    , Integer.parseInt(request.getParameter("startMM")), Integer.parseInt(request.getParameter("startDD")));
+            iRouteDAO.insertTrain(route, startDate, daysOfWeek);
             request.setAttribute(IServletResultInfo.INFO, "Trains added.");
             request.getRequestDispatcher(IServletResultInfo.PAGE_INFO).forward(request, response);
         } else {
@@ -74,14 +74,5 @@ public class InsertTrain extends HttpServlet {
             }
             return daysOfWeek;
         }
-    }
-
-    private LocalDate getLeavingDate(String[] leavingDate) {
-        try {
-            return LocalDate.of(Integer.parseInt(leavingDate[2]), Integer.parseInt(leavingDate[1]), Integer.parseInt(leavingDate[0]));
-        } catch (Exception e) {
-            log.log(Level.INFO, "Exception: ", e);
-        }
-        return null;
     }
 }

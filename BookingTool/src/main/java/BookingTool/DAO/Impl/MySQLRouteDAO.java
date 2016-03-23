@@ -38,7 +38,7 @@ public class MySQLRouteDAO implements IRouteDAO {
                 return true;
             }
         } catch (Exception e) {
-            log.log(Level.WARNING, "Exception: ", e);
+            log.log(Level.INFO, "Exception: ", e);
         }
         return false;
     }
@@ -48,7 +48,7 @@ public class MySQLRouteDAO implements IRouteDAO {
             stationRepository.saveAndFlush(stations);
             return true;
         } catch (Exception e) {
-            log.log(Level.WARNING, "Exception: ", e);
+            log.log(Level.INFO, "Exception: ", e);
         }
         return false;
     }
@@ -76,9 +76,13 @@ public class MySQLRouteDAO implements IRouteDAO {
             }
             return true;
         } catch (Exception e) {
-            log.log(Level.WARNING, "Exception: ", e);
+            log.log(Level.INFO, "Exception: ", e);
             return false;
         }
+    }
+
+    public Train getTrainByDateAndRoute(LocalDate date, Route route) {
+        return trainRepository.getTrainByDateAndRoute(date, route.getId());
     }
 
     public List<Route> getAllRoutes(String livingStation, String arrivalStation, LocalDate localDate) {

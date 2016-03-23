@@ -15,6 +15,8 @@ public interface IRouteDAO {
 
     boolean insertTrain(Route route, LocalDate leavingDate, List<DayOfWeek> days);
 
+    Train getTrainByDateAndRoute(LocalDate date, Route route);
+
     Route getRouteByNumber(int number);
 
     List<Train> getAllTrainsByRoute(Route route);

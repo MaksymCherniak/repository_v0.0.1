@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class InsertRoute extends HttpServlet {
@@ -25,19 +26,31 @@ public class InsertRoute extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Route route = new Route();
-        route.setRouteNumber(Integer.parseInt(request.getParameter("routeNumber")));
-        route.setLeavingStation(request.getParameter("leavingStation"));
-        route.setArrivalStation(request.getParameter("arrivalStation"));
-
-        if (iRouteDAO.insertRoute(route)) {
-            request.setAttribute(IServletResultInfo.INFO, route.toString() + " added");
-            request.getRequestDispatcher(IServletResultInfo.PAGE_INFO).forward(request, response);
+        Integer routeNumber = routeNumberCheck(request.getParameter("routeNumber"));
+        if (routeNumber != null) {
+            Route route = new Route();
+            route.setRouteNumber(routeNumber);
+            route.setLeavingStation(request.getParameter("leavingStation"));
+            route.setArrivalStation(request.getParameter("arrivalStation"));
+            if (iRouteDAO.insertRoute(route)) {
+                request.setAttribute(IServletResultInfo.INFO, route.toString() + " added");
+                request.getRequestDispatcher(IServletResultInfo.PAGE_INFO).forward(request, response);
+            } else {
+                request.setAttribute(IServletResultInfo.INFO, route.toString() + " didn't add");
+                request.getRequestDispatcher(IServletResultInfo.PAGE_INFO).forward(request, response);
+            }
         } else {
-            request.setAttribute(IServletResultInfo.INFO, route.toString() + " didn't add");
+            request.setAttribute(IServletResultInfo.INFO, "Wrong route number format");
             request.getRequestDispatcher(IServletResultInfo.PAGE_INFO).forward(request, response);
         }
     }
 
-
+    private Integer routeNumberCheck(String routeNumber) {
+        try {
+            return Integer.parseInt(routeNumber);
+        } catch (Exception e) {
+            log.log(Level.INFO, "Exception: ", e);
+            return null;
+        }
+    }
 }
