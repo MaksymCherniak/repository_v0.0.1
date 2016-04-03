@@ -17,10 +17,10 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/train" />
-        <property name="username" value="root" />
-        <property name="password" value="root" />
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/train"/>
+        <property name="username" value="root"/>
+        <property name="password" value="root"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
@@ -50,7 +50,7 @@
     </bean>
 
     <context:component-scan base-package="BookingTool.*"/>
-    <jpa:repositories base-package="BookingTool.DAO.Repository" />
+    <jpa:repositories base-package="BookingTool.DAO.Repository"/>
 
     <!-- ========================= Services =============================== -->
 
@@ -58,5 +58,5 @@
     <bean id="IUserDAO" class="BookingTool.DAO.Impl.MySQLUserDAO"/>
     <bean id="ITicketDAO" class="BookingTool.DAO.Impl.MySQLTicketDAO"/>
     <bean id="IRouteDAO" class="BookingTool.DAO.Impl.MySQLRouteDAO"/>
-
+    <bean id="ITrainDAO" class="BookingTool.DAO.Impl.MySQLTrainDAO"/>
 </beans>

@@ -31,6 +31,11 @@
         <servlet-name>InsertTrain</servlet-name>
         <servlet-class>BookingTool.Servlets.InsertTrain</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PrintTrain</servlet-name>
+        <servlet-class>BookingTool.Servlets.PrintTrain</servlet-class>
+    </servlet>
+
 
     <servlet-mapping>
         <servlet-name>SelectRoute</servlet-name>
@@ -56,6 +61,11 @@
         <servlet-name>InsertStation</servlet-name>
         <url-pattern>/insertStation.do</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PrintTrain</servlet-name>
+        <url-pattern>/printTrain.do</url-pattern>
+    </servlet-mapping>
+
 
     <welcome-file-list>
         <welcome-file>main.jsp</welcome-file>

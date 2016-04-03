@@ -1,6 +1,6 @@
 package BookingTool.DAO.Repository;
 
-import BookingTool.Entity.Wagon;
+import BookingTool.Model.LocalModel.Wagon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +18,6 @@ public interface WagonRepository extends JpaRepository<Wagon, Long> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Wagon c set c.freeSeats= :seats WHERE c.number LIKE :number")
-    void updateWagon(@Param("seats") int freeSeats, @Param("number") int number);
+    @Query("UPDATE Wagon c set c.freeSeats= :seats WHERE train_id LIKE :train AND c.number LIKE :number")
+    void updateWagon(@Param("train") long train_id, @Param("seats") int freeSeats, @Param("number") int number);
 }

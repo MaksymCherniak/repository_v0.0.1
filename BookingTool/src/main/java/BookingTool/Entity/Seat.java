@@ -1,6 +1,7 @@
 package BookingTool.Entity;
 
 import BookingTool.Entity.Enums.SeatStatus;
+import BookingTool.Model.LocalModel.Wagon;
 
 import javax.persistence.*;
 
@@ -20,6 +21,10 @@ public class Seat {
     @ManyToOne
     @JoinColumn(name = "wagon_id")
     private Wagon wagon;
+
+    public long getId() {
+        return id;
+    }
 
     public SeatStatus getStatus() {
         return status;

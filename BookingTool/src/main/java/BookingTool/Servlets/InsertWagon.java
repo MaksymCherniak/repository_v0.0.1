@@ -1,10 +1,11 @@
 package BookingTool.Servlets;
 
 import BookingTool.DAO.Service.IRouteDAO;
+import BookingTool.DAO.Service.ITrainDAO;
 import BookingTool.DAO.Service.IWagonDAO;
 import BookingTool.Entity.Route;
 import BookingTool.Entity.Train;
-import BookingTool.Entity.Wagon;
+import BookingTool.Model.LocalModel.Wagon;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class InsertWagon extends HttpServlet {
     private IWagonDAO iWagonDAO;
     private IRouteDAO iRouteDAO;
+    private ITrainDAO iTrainDAO;
     private WebApplicationContext webApplicationContext;
 
     public void init(ServletConfig config) throws ServletException {
@@ -27,11 +29,12 @@ public class InsertWagon extends HttpServlet {
         webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
         iWagonDAO = (IWagonDAO) webApplicationContext.getBean("IWagonDAO");
         iRouteDAO = (IRouteDAO) webApplicationContext.getBean("IRouteDAO");
+        iTrainDAO = (ITrainDAO) webApplicationContext.getBean("ITrainDAO");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Route route = iRouteDAO.getRouteByNumber(Integer.parseInt(request.getParameter("routeNumber")));
-        List<Train> listOfTrains = iRouteDAO.getAllTrainsByRoute(route);
+        List<Train> listOfTrains = iTrainDAO.getAllTrainsByRoute(route);
         List<Integer> listOfComfortableWagons = getListOfWagonsNumbers(request.getParameter("comfortableNumbers").split(" "));
         List<Integer> listOfCompartmentWagons = getListOfWagonsNumbers(request.getParameter("compartmentNumbers").split(" "));
         List<Integer> listOfEconomyWagons = getListOfWagonsNumbers(request.getParameter("economyNumbers").split(" "));

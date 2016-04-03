@@ -2,10 +2,7 @@ package BookingTool.DAO.Service;
 
 import BookingTool.Entity.Route;
 import BookingTool.Entity.Stations;
-import BookingTool.Entity.Train;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.util.List;
 
 public interface IRouteDAO {
@@ -13,16 +10,11 @@ public interface IRouteDAO {
 
     boolean insertStation(Stations stations);
 
-    boolean insertTrain(Route route, LocalDate leavingDate, List<DayOfWeek> days);
-
-    Train getTrainByDateAndRoute(LocalDate date, Route route);
-
     Route getRouteByNumber(int number);
 
-    List<Train> getAllTrainsByRoute(Route route);
-
-    List<Route> getAllRoutes(String livingStation, String arrivalStation, LocalDate localDate);
+    List<Route> getAllRoutes(String livingStation, String arrivalStation);
 
     List<Route> getAllRoutes();
 
+    Stations getStationsByRouteAndName(Route route, String station);
 }

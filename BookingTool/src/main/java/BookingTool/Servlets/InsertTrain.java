@@ -1,6 +1,7 @@
 package BookingTool.Servlets;
 
 import BookingTool.DAO.Service.IRouteDAO;
+import BookingTool.DAO.Service.ITrainDAO;
 import BookingTool.Entity.Route;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -18,14 +19,16 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class InsertTrain extends HttpServlet {
-    private static Logger log = Logger.getLogger(InsertRoute.class.getName());
+    private static Logger log = Logger.getLogger(InsertTrain.class.getName());
     private IRouteDAO iRouteDAO;
+    private ITrainDAO iTrainDAO;
     private WebApplicationContext webApplicationContext;
 
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(config.getServletContext());
         iRouteDAO = (IRouteDAO) webApplicationContext.getBean("IRouteDAO");
+        iTrainDAO = (ITrainDAO) webApplicationContext.getBean("ITrainDAO");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,7 +37,7 @@ public class InsertTrain extends HttpServlet {
         if (route != null && daysOfWeek != null) {
             LocalDate startDate = LocalDate.of(Integer.parseInt(request.getParameter("startYY"))
                     , Integer.parseInt(request.getParameter("startMM")), Integer.parseInt(request.getParameter("startDD")));
-            iRouteDAO.insertTrain(route, startDate, daysOfWeek);
+            iTrainDAO.insertTrain(route, startDate, daysOfWeek);
             request.setAttribute(IServletResultInfo.INFO, "Trains added.");
             request.getRequestDispatcher(IServletResultInfo.PAGE_INFO).forward(request, response);
         } else {

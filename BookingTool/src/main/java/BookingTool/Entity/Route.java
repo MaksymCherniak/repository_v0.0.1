@@ -1,7 +1,8 @@
 package BookingTool.Entity;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "route")
@@ -16,12 +17,32 @@ public class Route {
     private String leavingStation;
     @Column
     private String arrivalStation;
+    @Column
+    private LocalTime arrivalTime;
+    @Column
+    private LocalTime leavingTime;
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Stations> stations;
+    private List<Stations> stations;
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Train> train;
+    private List<Train> train;
 
     public Route() {
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(LocalTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public LocalTime getLeavingTime() {
+        return leavingTime;
+    }
+
+    public void setLeavingTime(LocalTime leavingTime) {
+        this.leavingTime = leavingTime;
     }
 
     public long getId() {
@@ -36,19 +57,19 @@ public class Route {
         this.leavingStation = leavingStation;
     }
 
-    public Set<Stations> getStations() {
+    public List<Stations> getStations() {
         return stations;
     }
 
-    public void setStations(Set<Stations> stations) {
+    public void setStations(List<Stations> stations) {
         this.stations = stations;
     }
 
-    public Set<Train> getTrain() {
+    public List<Train> getTrain() {
         return train;
     }
 
-    public void setTrain(Set<Train> train) {
+    public void setTrain(List<Train> train) {
         this.train = train;
     }
 

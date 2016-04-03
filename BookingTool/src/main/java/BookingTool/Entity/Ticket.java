@@ -1,5 +1,7 @@
 package BookingTool.Entity;
 
+import BookingTool.Model.LocalModel.Wagon;
+
 import javax.persistence.*;
 
 @Entity

@@ -7,6 +7,7 @@
     <groupId>AutomatedBookingTool</groupId>
     <artifactId>BookingTool</artifactId>
     <version>v1.0</version>
+
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>

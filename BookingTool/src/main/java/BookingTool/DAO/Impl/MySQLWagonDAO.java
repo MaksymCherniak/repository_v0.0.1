@@ -3,11 +3,11 @@ package BookingTool.DAO.Impl;
 import BookingTool.DAO.Repository.SeatRepository;
 import BookingTool.DAO.Repository.WagonRepository;
 import BookingTool.DAO.Service.IWagonDAO;
-import BookingTool.Entity.Seat;
 import BookingTool.Entity.Enums.SeatStatus;
+import BookingTool.Entity.Seat;
 import BookingTool.Entity.Ticket;
 import BookingTool.Entity.Train;
-import BookingTool.Entity.Wagon;
+import BookingTool.Model.LocalModel.Wagon;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class MySQLWagonDAO implements IWagonDAO {
     public boolean updateSeat(Ticket ticket) {
         if (checkSeatAvailable(ticket)) {
             seatRepository.updateSeat(ticket.getWagon().getId(), ticket.getSeat(), SeatStatus.OCCUPIED);
-            wagonRepository.updateWagon(getFreeSeats(ticket.getWagon()), ticket.getWagon().getNumber());
+            wagonRepository.updateWagon(ticket.getWagon().getTrain().getId(), getFreeSeats(ticket.getWagon()), ticket.getWagon().getNumber());
             return true;
         }
         return false;
@@ -36,10 +36,14 @@ public class MySQLWagonDAO implements IWagonDAO {
     public boolean updateWagon(Ticket ticket) {
         if (!checkSeatAvailable(ticket)) {
             seatRepository.updateSeat(ticket.getWagon().getId(), ticket.getSeat(), SeatStatus.FREE);
-            wagonRepository.updateWagon(getFreeSeats(ticket.getWagon()), ticket.getWagon().getNumber());
+            wagonRepository.updateWagon(ticket.getWagon().getTrain().getId(), getFreeSeats(ticket.getWagon()), ticket.getWagon().getNumber());
             return true;
         }
         return false;
+    }
+
+    public Wagon getWagonById(long id) {
+        return wagonRepository.findOne(id);
     }
 
     public Wagon findByNumberAndTrainId(int wagonNumber, long train_id) {
@@ -83,6 +87,10 @@ public class MySQLWagonDAO implements IWagonDAO {
         }
         seats.clear();
         return false;
+    }
+
+    public Seat getSeatById(long id) {
+        return seatRepository.findOne(id);
     }
 
     public List<Seat> getAllSeats(Wagon wagon) {

@@ -1,6 +1,9 @@
-package BookingTool.Entity;
+package BookingTool.Model.LocalModel;
 
 import BookingTool.Entity.Enums.WagonType;
+import BookingTool.Entity.Seat;
+import BookingTool.Entity.Ticket;
+import BookingTool.Entity.Train;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -67,6 +70,14 @@ public class Wagon {
             wagonType = WagonType.ECONOMY;
             totalSeats = freeSeats = economyWagonCapacity;
         }
+    }
+
+    public int getFreeSeats() {
+        return freeSeats;
+    }
+
+    public int getTotalSeats() {
+        return totalSeats;
     }
 
     public Integer getNumber() {

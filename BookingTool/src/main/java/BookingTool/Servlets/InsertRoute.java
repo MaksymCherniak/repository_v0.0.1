@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +33,10 @@ public class InsertRoute extends HttpServlet {
             route.setRouteNumber(routeNumber);
             route.setLeavingStation(request.getParameter("leavingStation"));
             route.setArrivalStation(request.getParameter("arrivalStation"));
+            route.setLeavingTime(LocalTime.of(Integer.parseInt(request.getParameter("leavingHH"))
+                    , Integer.parseInt(request.getParameter("leavingMM"))));
+            route.setArrivalTime(LocalTime.of(Integer.parseInt(request.getParameter("arrivalHH"))
+                    , Integer.parseInt(request.getParameter("arrivalMM"))));
             if (iRouteDAO.insertRoute(route)) {
                 request.setAttribute(IServletResultInfo.INFO, route.toString() + " added");
                 request.getRequestDispatcher(IServletResultInfo.PAGE_INFO).forward(request, response);
