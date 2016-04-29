@@ -27,12 +27,17 @@ public class User {
         this.password = password;
     }
 
+
     public long getId() {
         return id;
     }
 
     public String getFullName() {
         return fullName;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setFullName(String fullName) {

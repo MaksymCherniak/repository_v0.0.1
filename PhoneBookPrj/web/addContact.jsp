@@ -26,10 +26,14 @@
     <title>Add contact</title>
 </head>
 <body bgcolor="#dcdcdc">
+<TABLE align="right">
+    <tr><td>${info}</td></tr>
+</TABLE><br>
 <form name="contact" method="post" action="addContact.do" onSubmit="return check()">
     <TABLE align="right">
         <tr><td><a href="logOut.do">logout</a></td></tr>
     </TABLE><br>
+    <input type="hidden" name="user_id" value="<%=user.getId()%>">
     <table align="left" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td style="width: 170px"><b>Enter contact surname: </b></td>
@@ -45,11 +49,11 @@
         </tr>
         <tr>
             <td style="width: 170px"><b>Enter contact mobile phone number: </b></td>
-            <td><input type="text" name="mobilePhone"></td>
+            <td><input type="text" name="mobile"></td>
         </tr>
         <tr>
             <td style="width: 170px"><b>Enter contact home phone number: </b></td>
-            <td><input type="text" name="homePhone"></td>
+            <td><input type="text" name="home"></td>
         </tr>
         <tr>
             <td style="width: 170px"><b>Enter contact address: </b></td>

@@ -25,12 +25,12 @@ public class Contact {
     private String homePhoneNumber;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private PhoneBook.Entity.User user;
 
     public Contact() {}
 
     public Contact(String surname, String name, String patronym, String email, String address, String mobilePhoneNumber
-            , String homePhoneNumber, User user) {
+            , String homePhoneNumber, PhoneBook.Entity.User user) {
         this.surname = surname;
         this.name = name;
         this.patronym = patronym;

@@ -20,6 +20,7 @@
     <title>Register</title>
 </head>
 <body bgcolor="#dcdcdc">
+${info}<br>
 <form name="register" method="post" action="register.do" onSubmit="return check()">
     <table align="left" border="0" cellspacing="0" cellpadding="0">
         <caption><b>Registration form</b></caption>

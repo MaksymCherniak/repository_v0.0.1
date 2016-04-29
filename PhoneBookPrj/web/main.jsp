@@ -4,7 +4,8 @@
     <title>Main</title>
 </head>
 <body bgcolor="#dcdcdc">
-<p><b><a href="authorizationPage.jsp">Authorization</a></b></p>
+${info}<br>
+<p><b><a href="login.do">Authorization</a></b></p>
 <p><b><a href="registerPage.jsp">Registration</a></b></p>
 </body>
 </html>
