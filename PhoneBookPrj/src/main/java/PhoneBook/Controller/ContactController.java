@@ -83,6 +83,12 @@ public class ContactController {
             modelAndView.addObject(USER, user);
             return modelAndView;
         }
+        if (!Validator.mobile(mobilePhone)) {
+            modelAndView.setViewName(ADD_PAGE);
+            modelAndView.addObject(INFO_VALUE, "Wrong mobile phone number format.");
+            modelAndView.addObject(USER, user);
+            return modelAndView;
+        }
         Contact contact = new Contact(surname, name, patronym, email, address, mobilePhone, homePhone, user);
         iContactDAO.insertContact(contact);
         modelAndView.setViewName(USER_PAGE);
@@ -162,6 +168,13 @@ public class ContactController {
             modelAndView.setViewName(EDIT_PAGE);
             return modelAndView;
         }
+        if (!mobile.equals("") && !Validator.mobile(mobile)) {
+            modelAndView.addObject(CONTACT, contact);
+            modelAndView.addObject(INFO_VALUE, "Wrong mobile phone number format.");
+            modelAndView.setViewName(EDIT_PAGE);
+            return modelAndView;
+        }
+
         if (!name.equals("")) {
             contact.setName(name);
         }

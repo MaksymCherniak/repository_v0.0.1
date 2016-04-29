@@ -1,12 +1,17 @@
 package PhoneBook.Entity;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Validator {
+    private static Logger log = Logger.getLogger(Validator.class.getName());
     private static char[] chars;
     private static String[] parts;
     private static String[] emailDom = {"bigmir.net", "ukr.net", "mail.ua", "gmail.com", "mail.ru", "yandex.ru", "rambler.ru"
             , "qip.ru", "hotmail.com", "live.com", "msn.com", "yahoo.com", "ymail.com", "rocketmail.com", "aol.com", "inbox.ru"
             , "list.ru", "bk.ru"};
     private static final String countryPhoneNumberCode = "+380";
+    private static String[] providerCode = {"93", "63", "73", "66", "99", "97", "50", "67", "65", "98", "96", "95"};
     public static boolean login(String login) {
         if (login.toCharArray().length > 2) {
             return true;
@@ -60,5 +65,32 @@ public class Validator {
             }
         }
         return false;
+    }
+
+    public static boolean mobile(String mobile) {
+        mobile.replace("-", "");
+        mobile.replace(" ", "");
+        mobile.replace("(", "");
+        mobile.replace(")", "");
+        if (!mobile.startsWith(countryPhoneNumberCode)) {
+            return false;
+        }
+        for (int i = 0; i < providerCode.length; i++) {
+            if (mobile.regionMatches(4, providerCode[i], 0, 2)) {
+                if (checkPhone(mobile.substring(6)) != null) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static Integer checkPhone(String number) {
+        try {
+            return Integer.parseInt(number);
+        } catch (Exception e) {
+            log.log(Level.INFO, "Exception: ", e);
+        }
+        return null;
     }
 }
