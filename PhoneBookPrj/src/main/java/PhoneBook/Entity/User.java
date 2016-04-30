@@ -19,7 +19,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Contact> contact;
 
-    public User() {}
+    public User() {
+    }
 
     public User(String fullName, String login, String password) {
         this.fullName = fullName;

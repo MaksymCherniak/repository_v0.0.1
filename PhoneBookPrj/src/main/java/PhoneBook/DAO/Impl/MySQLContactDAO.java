@@ -6,13 +6,22 @@ import PhoneBook.Entity.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MySQLContactDAO implements IContactDAO {
+    private static Logger log = Logger.getLogger(MySQLContactDAO.class.getName());
     @Autowired
     private ContactRepository contactRepository;
 
-    public void insertContact(Contact contact) {
-        contactRepository.saveAndFlush(contact);
+    public boolean insertContact(Contact contact) {
+        try {
+            contactRepository.saveAndFlush(contact);
+            return true;
+        } catch (Exception e) {
+            log.log(Level.INFO, "Exception: ", e);
+            return false;
+        }
     }
 
     public List<Contact> getAllContactsByUserId(long user_id) {

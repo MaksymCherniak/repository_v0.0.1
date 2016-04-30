@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <script>
-    function check(){
+    function check() {
         if (document.contact.surname.value == "") {
             alert("Enter surname please");
             return false;
@@ -27,12 +27,18 @@
 </head>
 <body bgcolor="#dcdcdc">
 <TABLE align="right">
-    <tr><td>${info}</td></tr>
-</TABLE><br>
+    <tr>
+        <td>${info}</td>
+    </tr>
+</TABLE>
+<br>
 <form name="contact" method="post" action="addContact.do" onSubmit="return check()">
     <TABLE align="right">
-        <tr><td><a href="logOut.do">logout</a></td></tr>
-    </TABLE><br>
+        <tr>
+            <td><a href="logOut.do">logout</a></td>
+        </tr>
+    </TABLE>
+    <br>
     <input type="hidden" name="user_id" value="<%=user.getId()%>">
     <table align="left" border="0" cellspacing="0" cellpadding="0">
         <tr>

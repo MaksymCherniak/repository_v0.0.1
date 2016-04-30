@@ -196,7 +196,7 @@ public class ContactController {
         if (!home.equals("")) {
             contact.setHomePhoneNumber(home);
         }
-        iContactDAO.insertContact(contact);
+        iContactDAO.updateContact(contact);
         modelAndView.setViewName(USER_PAGE);
         modelAndView.addObject(USER, contact.getUser());
         modelAndView.addObject(INFO_VALUE, "Contact edited.");

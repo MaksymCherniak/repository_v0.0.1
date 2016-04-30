@@ -5,7 +5,7 @@ import PhoneBook.Entity.Contact;
 import java.util.List;
 
 public interface IContactDAO {
-    void insertContact(Contact contact);
+    boolean insertContact(Contact contact);
 
     List<Contact> getAllContactsByUserId(long user_id);
 

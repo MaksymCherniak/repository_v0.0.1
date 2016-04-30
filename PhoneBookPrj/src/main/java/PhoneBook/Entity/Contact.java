@@ -27,7 +27,8 @@ public class Contact {
     @JoinColumn(name = "user_id")
     private PhoneBook.Entity.User user;
 
-    public Contact() {}
+    public Contact() {
+    }
 
     public Contact(String surname, String name, String patronym, String email, String address, String mobilePhoneNumber
             , String homePhoneNumber, PhoneBook.Entity.User user) {
@@ -39,6 +40,10 @@ public class Contact {
         this.mobilePhoneNumber = mobilePhoneNumber;
         this.homePhoneNumber = homePhoneNumber;
         this.user = user;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getSurname() {
