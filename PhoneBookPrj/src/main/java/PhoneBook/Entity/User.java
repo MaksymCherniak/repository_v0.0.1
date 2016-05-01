@@ -1,6 +1,7 @@
 package PhoneBook.Entity;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Set;
 
 @Entity

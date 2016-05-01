@@ -16,12 +16,14 @@ public class MySQLContactDAO implements IContactDAO {
 
     public boolean insertContact(Contact contact) {
         try {
-            contactRepository.saveAndFlush(contact);
-            return true;
+            if (getContactById(contact.getId()) == null) {
+                contactRepository.saveAndFlush(contact);
+                return true;
+            }
         } catch (Exception e) {
             log.log(Level.INFO, "Exception: ", e);
-            return false;
         }
+        return false;
     }
 
     public List<Contact> getAllContactsByUserId(long user_id) {

@@ -125,6 +125,29 @@ public class XMLUserDAO implements IUserDAO {
         return null;
     }
 
+    public void deleteUser(long id) {
+        try{
+            doc = documentBuilder.parse(fileXmlUser);
+            Node rootNode = doc.getFirstChild();
+            doc.getDocumentElement().normalize();
+
+            NodeList listOfUsers = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
+            for(int i = 0; i < listOfUsers.getLength(); i++) {
+                Node node = listOfUsers.item(i);
+                if(node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    if (Long.parseLong(element.getAttribute(ID)) == id){
+                        rootNode.removeChild(node);
+                    }
+                }
+            }
+            initTransformer();
+        }catch (Exception e){
+            log.log(Level.INFO, "Exception: ", e);
+        }
+        log.info("User " + id + " removed");
+    }
+
     private void initTransformer() {
         try {
             Transformer t = TransformerFactory.newInstance().newTransformer();
@@ -148,5 +171,9 @@ public class XMLUserDAO implements IUserDAO {
         } catch (Exception e) {
             log.log(Level.INFO, "Exception: ", e);
         }
+    }
+
+    public void setFileXmlUser(File fileXmlUser) {
+        this.fileXmlUser = fileXmlUser;
     }
 }

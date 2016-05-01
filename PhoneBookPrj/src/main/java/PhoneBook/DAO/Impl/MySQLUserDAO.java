@@ -15,8 +15,10 @@ public class MySQLUserDAO implements IUserDAO {
 
     public boolean insertUser(User user) {
         try {
-            userRepository.saveAndFlush(user);
-            return true;
+            if (findUserById(user.getId()) == null) {
+                userRepository.saveAndFlush(user);
+                return true;
+            }
         } catch (Exception e) {
             log.log(Level.INFO, "Exception: ", e);
         }
@@ -29,5 +31,9 @@ public class MySQLUserDAO implements IUserDAO {
 
     public User findUserById(long id) {
         return userRepository.findOne(id);
+    }
+
+    public void deleteUser(long id) {
+        userRepository.delete(id);
     }
 }

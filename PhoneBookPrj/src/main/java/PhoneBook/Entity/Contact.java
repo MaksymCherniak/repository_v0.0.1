@@ -3,10 +3,10 @@ package PhoneBook.Entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "phone_book")
+@Table(name = "contact")
 public class Contact {
     @Id
-    @Column(name = "phone_book_id")
+    @Column(name = "contact_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @Column(nullable = false)
@@ -25,7 +25,7 @@ public class Contact {
     private String homePhoneNumber;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private PhoneBook.Entity.User user;
+    private User user;
 
     public Contact() {
     }

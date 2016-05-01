@@ -8,4 +8,6 @@ public interface IUserDAO {
     User findUserByLoginAndPassword(String login, String password);
 
     User findUserById(long id);
+
+    void deleteUser(long id);
 }

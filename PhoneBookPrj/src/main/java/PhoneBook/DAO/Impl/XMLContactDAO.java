@@ -127,11 +127,9 @@ public class XMLContactDAO implements IContactDAO {
             doc.getDocumentElement().normalize();
 
             NodeList listOfContacts = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
-            for(int i = 0; i < listOfContacts.getLength(); i++)
-            {
+            for(int i = 0; i < listOfContacts.getLength(); i++) {
                 Node node = listOfContacts.item(i);
-                if(node.getNodeType() == Node.ELEMENT_NODE)
-                {
+                if(node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element)node;
                     if (element.getAttribute(CONTACT_ID).equals(String.valueOf(contact_id))){
                         rootNode.removeChild(node);
