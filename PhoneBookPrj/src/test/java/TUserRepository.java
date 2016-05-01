@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNull;
         , TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class})
 public class TUserRepository {
     private User user;
+
     @Autowired
     private UserRepository userRepository;
 

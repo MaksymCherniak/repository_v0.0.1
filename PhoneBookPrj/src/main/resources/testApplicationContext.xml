@@ -55,8 +55,8 @@
     <bean id="documentBuilderFactory"
           class="javax.xml.parsers.DocumentBuilderFactory"
           factory-method="newInstance">
-        <property name="validating" value="false" />
-        <property name="ignoringElementContentWhitespace" value="true" />
+        <property name="validating" value="false"/>
+        <property name="ignoringElementContentWhitespace" value="true"/>
     </bean>
     <bean id="documentBuilder" class="javax.xml.parsers.DocumentBuilder"
           factory-bean="documentBuilderFactory"

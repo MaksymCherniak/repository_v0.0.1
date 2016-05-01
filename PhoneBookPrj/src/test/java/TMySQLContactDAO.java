@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 public class TMySQLContactDAO {
     private User user;
     private Contact contact;
+
     @Autowired
     private IUserDAO iUserDAO;
     @Autowired

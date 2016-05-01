@@ -27,6 +27,7 @@ import static org.junit.Assert.assertThat;
 public class TContactRepository {
     private User user;
     private Contact contact;
+
     @Autowired
     private UserRepository userRepository;
     @Autowired

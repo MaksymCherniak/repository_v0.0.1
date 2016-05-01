@@ -78,7 +78,6 @@
         <constructor-arg type="java.lang.String" value="${xml.contact.file}"/>
     </bean>
 
-
     <!-- ========================= Services =============================== -->
 
     <bean id="IUserDAO" class="PhoneBook.DAO.Impl.MySQLUserDAO"/>

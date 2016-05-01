@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
         , TransactionalTestExecutionListener.class, DbUnitTestExecutionListener.class})
 public class TMySQLUserDAO {
     private User user;
+
     @Autowired
     private IUserDAO iUserDAO;
 

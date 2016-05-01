@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 public class MySQLUserDAO implements IUserDAO {
     private static Logger log = Logger.getLogger(MySQLUserDAO.class.getName());
+
     @Autowired
     private UserRepository userRepository;
 

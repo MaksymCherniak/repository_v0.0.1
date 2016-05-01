@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 public class MySQLContactDAO implements IContactDAO {
     private static Logger log = Logger.getLogger(MySQLContactDAO.class.getName());
+
     @Autowired
     private ContactRepository contactRepository;
 

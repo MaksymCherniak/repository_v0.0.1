@@ -7,6 +7,7 @@ CREATE TABLE `phonebook`.`user` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+
 CREATE TABLE `phonebook`.`contact` (
   `contact_id` BIGINT(20) NOT NULL,
   `address` VARCHAR(255) NULL,

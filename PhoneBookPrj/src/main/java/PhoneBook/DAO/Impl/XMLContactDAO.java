@@ -40,8 +40,8 @@ public class XMLContactDAO implements IContactDAO {
     private static final String MOBILE = "mobile";
     private static final String HOME = "home";
 
-    public XMLContactDAO(){
-        if (!fileXmlContact.exists()){
+    public XMLContactDAO() {
+        if (!fileXmlContact.exists()) {
             createXmlFile();
         }
     }
@@ -121,17 +121,17 @@ public class XMLContactDAO implements IContactDAO {
     }
 
     public void removeContactById(long contact_id) {
-        try{
+        try {
             doc = documentBuilder.parse(fileXmlContact);
             Node rootNode = doc.getFirstChild();
             doc.getDocumentElement().normalize();
 
             NodeList listOfContacts = doc.getElementsByTagName(doc.getDocumentElement().getChildNodes().item(1).getNodeName());
-            for(int i = 0; i < listOfContacts.getLength(); i++) {
+            for (int i = 0; i < listOfContacts.getLength(); i++) {
                 Node node = listOfContacts.item(i);
-                if(node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element)node;
-                    if (element.getAttribute(CONTACT_ID).equals(String.valueOf(contact_id))){
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) node;
+                    if (element.getAttribute(CONTACT_ID).equals(String.valueOf(contact_id))) {
                         rootNode.removeChild(node);
                     }
                 }
@@ -139,7 +139,7 @@ public class XMLContactDAO implements IContactDAO {
             initTransformer();
             log.info("Contact " + contact_id + " removed");
             return;
-        }catch (Exception e){
+        } catch (Exception e) {
             log.log(Level.INFO, "Exception: ", e);
         }
         log.info("Contact " + contact_id + " didn't remove");
@@ -215,7 +215,7 @@ public class XMLContactDAO implements IContactDAO {
         log.info("Contact not found");
     }
 
-    private Contact getContactByElement (Element element) {
+    private Contact getContactByElement(Element element) {
         Contact contact = new Contact();
         contact.setId(Long.parseLong(element.getAttribute(CONTACT_ID)));
         contact.setSurname(element.getElementsByTagName(SURNAME).item(0).getChildNodes().item(0).getNodeValue());
