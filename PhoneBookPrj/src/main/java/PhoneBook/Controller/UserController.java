@@ -19,7 +19,6 @@ public class UserController {
     private static final String INFO = "info";
     private static final String USER = "user";
     private static final String MAIN = "main";
-    private static final String AUTHORIZATION_PAGE = "authorizationPage";
     private static final String USER_PAGE = "userMainPage";
 
     @RequestMapping(value = "/register.do", method = RequestMethod.POST)
@@ -54,12 +53,7 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/login.do", method = RequestMethod.GET)
-    public ModelAndView login() {
-        return new ModelAndView(AUTHORIZATION_PAGE, USER, new User());
-    }
-
-    @RequestMapping(value = "/authorization.do", method = RequestMethod.POST)
+    @RequestMapping(value = "/authorization.do", method = RequestMethod.GET)
     public ModelAndView authorization(@ModelAttribute User user) {
         ModelAndView modelAndView = new ModelAndView();
         User newUser = iUserDAO.findUserByLoginAndPassword(user.getLogin(), user.getPassword());
@@ -68,7 +62,7 @@ public class UserController {
             modelAndView.setViewName(USER_PAGE);
             modelAndView.addObject(USER, newUser);
         } else {
-            modelAndView.setViewName(AUTHORIZATION_PAGE);
+            modelAndView.setViewName(MAIN);
             modelAndView.addObject(INFO, "Wrong login or password");
         }
         return modelAndView;

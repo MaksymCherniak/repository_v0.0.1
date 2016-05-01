@@ -112,9 +112,11 @@ public class ContactController {
     @RequestMapping(value = "/printAllContacts.do", method = RequestMethod.GET)
     public ModelAndView printAllContacts(@RequestParam(value = USER_ID) String user_id) {
         ModelAndView modelAndView = new ModelAndView();
+        User user = iUserDAO.findUserById(Long.parseLong(user_id));
         List<Contact> listOfContacts = iContactDAO.getAllContactsByUserId(Long.parseLong(user_id));
 
         modelAndView.setViewName(PRINT_ALL_PAGE);
+        modelAndView.addObject("user", user);
         modelAndView.addObject("listOfContacts", listOfContacts);
 
         return modelAndView;

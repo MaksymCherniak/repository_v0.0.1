@@ -1,81 +1,66 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page import="PhoneBook.Entity.Contact" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>Edit Contact</title>
+    <spring:url value="/resources/css/login.css" var="loginCss" />
+    <link href="${loginCss}" rel="stylesheet" />
 </head>
-<body bgcolor="#dcdcdc">
+
 <% Contact contact = (Contact) request.getAttribute("contact"); %>
-${info}
-<TABLE align="right">
-    <tr><td><a href="logOut.do">logout</a></td></tr>
-</TABLE><br>
-<table align="center" bgcolor="#8fbc8f" border="1" cellspacing="0" cellpadding="0" style="border-color: gray">
-    <caption><b>Edit contact</b></caption>
-    <form action="editContact.do" method="post">
-        <input type="hidden" name="contact_id" value="<%=contact.getId()%>">
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black;height: 20px">
-            <td align="center" style="width: 150px"><b>Attribute</b></td>
-            <td align="center" style="width: 150px"><b>Value</b></td>
-            <td align="center" style="width: 150px"><b>New value</b></td>
-        </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black;height: 20px">
-            <td align="center" style="width: 150px"><b style="color: mediumblue">Name</b></td>
-            <td align="center" style="width: 150px"><b><%=contact.getName()%></b></td>
-            <td align="center" style="width: 150px">
-                <input type="text" name="name">
-            </td>
-        </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black;height: 20px">
-            <td align="center" style="width: 150px"><b style="color: mediumblue">Surname</b></td>
-            <td align="center" style="width: 150px"><b><%=contact.getSurname()%></b></td>
-            <td align="center" style="width: 150px">
-                <input type="text" name="surname">
-            </td>
-        </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black;height: 20px">
-            <td align="center" style="width: 150px"><b style="color: mediumblue">Patronym</b></td>
-            <td align="center" style="width: 150px"><b><%=contact.getPatronym()%></b></td>
-            <td align="center" style="width: 150px">
-                <input type="text" name="patronym">
-            </td>
-        </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black;height: 20px">
-            <td align="center" style="width: 150px"><b style="color: mediumblue">E-mail</b></td>
-            <td align="center" style="width: 150px"><b><%=contact.getEmail()%></b></td>
-            <td align="center" style="width: 150px">
-                <input type="text" name="email">
-            </td>
-        </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black;height: 20px">
-            <td align="center" style="width: 150px"><b style="color: mediumblue">Address</b></td>
-            <td align="center" style="width: 150px"><b><%=contact.getAddress()%></b></td>
-            <td align="center" style="width: 150px">
-                <input type="text" name="address">
-            </td>
-        </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black;height: 20px">
-            <td align="center" style="width: 150px"><b style="color: mediumblue">Mobile phone number</b></td>
-            <td align="center" style="width: 150px"><b><%=contact.getMobilePhoneNumber()%></b></td>
-            <td align="center" style="width: 150px">
-                <input type="text" name="mobile">
-            </td>
-        </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black;height: 20px">
-            <td align="center" style="width: 150px"><b style="color: mediumblue">Home phone number</b></td>
-            <td align="center" style="width: 150px"><b><%=contact.getHomePhoneNumber()%></b></td>
-            <td align="center" style="width: 150px">
-                <input type="text" name="home">
-            </td>
-        </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black;height: 20px">
-            <td align="center" style="width: 150px; border-right: hidden"></td>
-            <td align="center" style="width: 150px"></td>
-            <td align="center" style="width: 150px">
-                <input type="submit" value="Edit">
-            </td>
-        </tr>
-    </form>
-</table>
+
+<body>
+<div class="container">
+    <section id="content" style="width: 550px">
+        <form name="contact" action="editContact.do" method="post">
+            <input type="hidden" name="contact_id" value="<%=contact.getId()%>">
+            <h1>Edit contact form</h1>
+            <div>
+                <h4>Surname (<%=contact.getSurname()%>) </h4>
+                <input type="text" name="surname" style="background: #eae7e7" />
+            </div>
+            <div>
+                <h4>Name (<%=contact.getName()%>) </h4>
+                <input type="text" name="name" style="background: #eae7e7" />
+            </div>
+            <div>
+                <h4>Patronym (<%=contact.getPatronym()%>) </h4>
+                <input type="text" name="patronym" style="background: #eae7e7" />
+            </div>
+            <div>
+                <h4>Mobile (<%=contact.getMobilePhoneNumber()%>) </h4>
+                <input type="text" name="mobile" style="background: #eae7e7" />
+            </div>
+            <div>
+                <h4>Home phone number(<%=contact.getHomePhoneNumber()%>) </h4>
+                <input type="text" name="home" style="background: #eae7e7;" />
+            </div>
+            <div>
+                <h4>Address (<%=contact.getAddress()%>) </h4>
+                <input type="text" name="address" style="background: #eae7e7" />
+            </div>
+            <div>
+                <h4>E-mail (<%=contact.getEmail()%>) </h4>
+                <input type="text" name="email" style="background: #eae7e7" />
+            </div>
+            <div>
+                <input type="submit" value="Edit contact" style="float: inherit" />
+            </div>
+        </form><!-- form -->
+        <div class="button">
+            ${info}
+        </div><!-- button -->
+        <br>
+        <h1>Actions with user</h1>
+        <div class="button">
+            <a href="authorization.do?login=<%=contact.getUser().getLogin()%>&password=<%=contact.getUser().getPassword()%>">User main page</a>
+        </div><!-- button -->
+        <div class="button">
+            <a href="#" onclick="logout('http://localhost:8080/logOut.do')">Logout</a>
+        </div><!-- button -->
+    </section><!-- content -->
+</div><!-- container -->
 </body>
 </html>

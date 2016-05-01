@@ -1,3 +1,4 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <script>
@@ -17,29 +18,36 @@
     }
 </script>
 <head>
-    <title>Register</title>
+    <meta charset="utf-8">
+    <title>Registration</title>
+    <spring:url value="/resources/css/login.css" var="loginCss" />
+    <link href="${loginCss}" rel="stylesheet" />
 </head>
-<body bgcolor="#dcdcdc">
-${info}<br>
-<form name="register" method="post" action="register.do" onSubmit="return check()">
-    <table align="left" border="0" cellspacing="0" cellpadding="0">
-        <caption><b>Registration form</b></caption>
-        <tr>
-            <td style="width: 170px"><b>Enter your login: </b></td>
-            <td><input type="text" name="login"></td>
-        </tr>
-        <tr>
-            <td style="width: 170px"><b>Enter your password: </b></td>
-            <td><input type="password" name="password"></td>
-        </tr>
-        <tr>
-            <td style="width: 170px"><b>Enter your full name: </b></td>
-            <td><input type="text" name="fullName"></td>
-        </tr>
-        <tr>
-            <td align="left"><input type="submit" value="Enter"></td>
-        </tr>
-    </table>
-</form>
+<body>
+<div class="container">
+    <section id="content" style="width: 550px">
+        <form name="register" action="register.do" method="post" onSubmit="return check()">
+            <h1>Registration Form</h1>
+            <div>
+                <h4>Enter your login: </h4>
+                <input type="text" required="" name="login" style="background: #eae7e7" />
+            </div>
+            <div>
+                <h4>Enter your password: </h4>
+                <input type="password" required="" name="password" style="background: #eae7e7" />
+            </div>
+            <div>
+                <h4>Enter your full name: </h4>
+                <input type="text" required="" name="fullName" style="background: #eae7e7" />
+            </div>
+            <div>
+                <input type="submit" value="Registration" style="float: inherit" />
+            </div>
+        </form><!-- form -->
+        <div class="button">
+            ${info}
+        </div><!-- button -->
+    </section><!-- content -->
+</div><!-- container -->
 </body>
 </html>
