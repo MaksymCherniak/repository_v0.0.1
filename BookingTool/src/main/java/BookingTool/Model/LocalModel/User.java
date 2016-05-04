@@ -1,4 +1,6 @@
-package BookingTool.Entity;
+package BookingTool.Model.LocalModel;
+
+import BookingTool.Entity.Ticket;
 
 import javax.persistence.*;
 import java.util.Set;

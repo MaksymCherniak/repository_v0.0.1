@@ -2,7 +2,7 @@ package BookingTool.DAO.Impl;
 
 import BookingTool.DAO.Repository.UserRepository;
 import BookingTool.DAO.Service.IUserDAO;
-import BookingTool.Entity.User;
+import BookingTool.Model.LocalModel.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

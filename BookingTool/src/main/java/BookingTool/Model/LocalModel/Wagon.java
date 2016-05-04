@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "wagon")
-public class Wagon {
+public class Wagon implements Comparable<Wagon>{
     @Id
     @Column(name = "wagon_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -131,5 +131,16 @@ public class Wagon {
     @Override
     public String toString() {
         return "Wagon number: " + number + " is " + wagonType + ". Total seats: " + totalSeats + ", Free seats: " + freeSeats;
+    }
+
+    public int compareTo(Wagon compareWagon) {
+
+        int compareNumber = ((Wagon) compareWagon).getNumber();
+
+        //ascending order
+        return this.number - compareNumber;
+
+        //descending order
+        //return compareQuantity - this.quantity;
     }
 }

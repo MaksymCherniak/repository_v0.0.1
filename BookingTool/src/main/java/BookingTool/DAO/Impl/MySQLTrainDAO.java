@@ -22,19 +22,22 @@ public class MySQLTrainDAO implements ITrainDAO {
             if (days.size() == 7) {
                 for (int i = 0; i < 20; i++) {
                     Train train = new Train();
-                    train.setRoute(route);
-                    train.setLeavingDate(startDate.plusDays(i));
-                    System.out.println(train.toString());
-                    trainRepository.saveAndFlush(train);
+                    if (getTrainByDateAndRoute(startDate, route) == null) {
+                        train.setRoute(route);
+                        train.setLeavingDate(startDate.plusDays(i));
+                        trainRepository.saveAndFlush(train);
+                    }
                 }
             } else {
                 for (int i = 0; i < 20; i++) {
                     Train train = new Train();
                     LocalDate localDate = startDate.plusDays(i);
                     if (days.contains(localDate.getDayOfWeek())) {
-                        train.setRoute(route);
-                        train.setLeavingDate(localDate);
-                        trainRepository.saveAndFlush(train);
+                        if (getTrainByDateAndRoute(startDate, route) == null) {
+                            train.setRoute(route);
+                            train.setLeavingDate(startDate.plusDays(i));
+                            trainRepository.saveAndFlush(train);
+                        }
                     }
                 }
             }
