@@ -26,7 +26,7 @@
             <a href="printAllContacts.do?user_id=<%=user.getId()%>">Print all contacts</a>
         </div><!-- button -->
         <div class="button">
-            <a href="addContact.do?user_id=<%=user.getId()%>">Add contact</a>
+            <a href="addContactGet.do?user_id=<%=user.getId()%>">Add contact</a>
         </div><!-- button -->
         <br>
         <h1>Actions with user</h1>

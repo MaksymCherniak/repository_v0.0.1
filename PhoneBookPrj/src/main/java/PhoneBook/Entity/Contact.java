@@ -21,9 +21,9 @@ public class Contact {
     @Column
     private String address;
     @Column(nullable = false)
-    private String mobilePhoneNumber;
+    private String mobile;
     @Column
-    private String homePhoneNumber;
+    private String home;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -31,15 +31,15 @@ public class Contact {
     public Contact() {
     }
 
-    public Contact(String surname, String name, String patronym, String email, String address, String mobilePhoneNumber
-            , String homePhoneNumber, PhoneBook.Entity.User user) {
+    public Contact(String surname, String name, String patronym, String email, String address, String mobile
+            , String home, PhoneBook.Entity.User user) {
         this.surname = surname;
         this.name = name;
         this.patronym = patronym;
         this.email = email;
         this.address = address;
-        this.mobilePhoneNumber = mobilePhoneNumber;
-        this.homePhoneNumber = homePhoneNumber;
+        this.mobile = mobile;
+        this.home = home;
         this.user = user;
     }
 
@@ -91,20 +91,20 @@ public class Contact {
         this.address = address;
     }
 
-    public String getMobilePhoneNumber() {
-        return mobilePhoneNumber;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setMobilePhoneNumber(String mobilePhoneNumber) {
-        this.mobilePhoneNumber = mobilePhoneNumber;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
-    public String getHomePhoneNumber() {
-        return homePhoneNumber;
+    public String getHome() {
+        return home;
     }
 
-    public void setHomePhoneNumber(String homePhoneNumber) {
-        this.homePhoneNumber = homePhoneNumber;
+    public void setHome(String home) {
+        this.home = home;
     }
 
     public User getUser() {
@@ -128,13 +128,13 @@ public class Contact {
         }
         Contact other = (Contact) obj;
         return surname.equals(other.getSurname()) && name.equals(other.getName()) && patronym.equals(other.getPatronym())
-                && mobilePhoneNumber.equals(other.getMobilePhoneNumber());
+                && mobile.equals(other.getMobile());
     }
 
     @Override
     public String toString() {
-        return surname + " " + name + " " + patronym + "\nMobile phone number: " + mobilePhoneNumber + (homePhoneNumber
-                == null ? "" : "\nHome phone number: " + homePhoneNumber) + (address == null ? "" : "\nAddress: " + address)
+        return surname + " " + name + " " + patronym + "\nMobile phone number: " + mobile + (home
+                == null ? "" : "\nHome phone number: " + home) + (address == null ? "" : "\nAddress: " + address)
                 + (email == null ? "" : "\nE-mail: " + email);
     }
 

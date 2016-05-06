@@ -10,6 +10,7 @@
     <spring:url value="/resources/css/login.css" var="loginCss" />
     <link href="${loginCss}" rel="stylesheet" />
 </head>
+
 <script>
     function logout(url) {
         if (confirm(' Logout? ')) {
@@ -59,10 +60,10 @@
                 <td align="center"><b><%=listOfContacts.get(i).getPatronym()%></b></td>
                 <td align="center"><b><%=listOfContacts.get(i).getEmail()%></b></td>
                 <td align="center"><b><%=listOfContacts.get(i).getAddress()%></b></td>
-                <td align="center"><b><%=listOfContacts.get(i).getMobilePhoneNumber()%></b></td>
-                <td align="center"><b><%=listOfContacts.get(i).getHomePhoneNumber()%></b></td>
+                <td align="center"><b><%=listOfContacts.get(i).getMobile()%></b></td>
+                <td align="center"><b><%=listOfContacts.get(i).getHome()%></b></td>
                 <td align="center"><input type="button" value="Edit contact" style="width: 130px"
-                           onclick="location.href='http://localhost:8080/editContact.do?contact_id=<%=listOfContacts.get(i).getId()%>'"></td>
+                           onclick="location.href='http://localhost:8080/editContactGet.do?contact_id=<%=listOfContacts.get(i).getId()%>'"></td>
                 <td align="center"><input type="button" value="Delete contact" style="width: 130px"
                            onclick="deleteContact('http://localhost:8080/deleteContact.do?contact_id=<%=listOfContacts.get(i).getId()%>')"></td>
             </tr>
@@ -72,7 +73,7 @@
         </table>
             </div>
         <div class="button">
-            <a href="#" onclick="location.href='http://localhost:8080/addContact.do?user_id=<%=user.getId()%>'">Add new contact</a>
+            <a href="#" onclick="location.href='http://localhost:8080/addContactGet.do?user_id=<%=user.getId()%>'">Add new contact</a>
         </div><!-- button -->
         <% } %>
         <br>

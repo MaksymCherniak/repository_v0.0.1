@@ -80,11 +80,11 @@ public class XMLContactDAO implements IContactDAO {
             contactElement.appendChild(addressElement);
 
             Element mobileElement = doc.createElement(MOBILE);
-            mobileElement.appendChild(doc.createTextNode(contact.getMobilePhoneNumber()));
+            mobileElement.appendChild(doc.createTextNode(contact.getMobile()));
             contactElement.appendChild(mobileElement);
 
             Element homeElement = doc.createElement(PATRONYM);
-            homeElement.appendChild(doc.createTextNode(contact.getHomePhoneNumber()));
+            homeElement.appendChild(doc.createTextNode(contact.getHome()));
             contactElement.appendChild(homeElement);
 
             initTransformer();
@@ -198,11 +198,11 @@ public class XMLContactDAO implements IContactDAO {
                         if (!xmlContact.getAddress().equals(contact.getAddress())) {
                             element.getElementsByTagName(ADDRESS).item(0).getChildNodes().item(0).setNodeValue(contact.getAddress());
                         }
-                        if (!xmlContact.getMobilePhoneNumber().equals(contact.getMobilePhoneNumber())) {
-                            element.getElementsByTagName(MOBILE).item(0).getChildNodes().item(0).setNodeValue(contact.getMobilePhoneNumber());
+                        if (!xmlContact.getMobile().equals(contact.getMobile())) {
+                            element.getElementsByTagName(MOBILE).item(0).getChildNodes().item(0).setNodeValue(contact.getMobile());
                         }
-                        if (!xmlContact.getHomePhoneNumber().equals(contact.getHomePhoneNumber())) {
-                            element.getElementsByTagName(HOME).item(0).getChildNodes().item(0).setNodeValue(contact.getHomePhoneNumber());
+                        if (!xmlContact.getHome().equals(contact.getHome())) {
+                            element.getElementsByTagName(HOME).item(0).getChildNodes().item(0).setNodeValue(contact.getHome());
                         }
                         log.info("Contact edited");
                         return;
@@ -223,8 +223,8 @@ public class XMLContactDAO implements IContactDAO {
         contact.setPatronym(element.getElementsByTagName(PATRONYM).item(0).getChildNodes().item(0).getNodeValue());
         contact.setEmail(element.getElementsByTagName(EMAIL).item(0).getChildNodes().item(0).getNodeValue());
         contact.setAddress(element.getElementsByTagName(ADDRESS).item(0).getChildNodes().item(0).getNodeValue());
-        contact.setMobilePhoneNumber(element.getElementsByTagName(MOBILE).item(0).getChildNodes().item(0).getNodeValue());
-        contact.setHomePhoneNumber(element.getElementsByTagName(HOME).item(0).getChildNodes().item(0).getNodeValue());
+        contact.setMobile(element.getElementsByTagName(MOBILE).item(0).getChildNodes().item(0).getNodeValue());
+        contact.setHome(element.getElementsByTagName(HOME).item(0).getChildNodes().item(0).getNodeValue());
         contact.setUser(iUserDAO.findUserById(Long.parseLong(element.getElementsByTagName(USER_ID)
                 .item(0).getChildNodes().item(0).getNodeValue())));
         return contact;

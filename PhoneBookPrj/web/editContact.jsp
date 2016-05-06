@@ -30,11 +30,11 @@
                 <input type="text" name="patronym" style="background: #eae7e7" />
             </div>
             <div>
-                <h4>Mobile (<%=contact.getMobilePhoneNumber()%>) </h4>
+                <h4>Mobile (<%=contact.getMobile()%>) </h4>
                 <input type="text" name="mobile" style="background: #eae7e7" />
             </div>
             <div>
-                <h4>Home phone number(<%=contact.getHomePhoneNumber()%>) </h4>
+                <h4>Home phone number(<%=contact.getHome()%>) </h4>
                 <input type="text" name="home" style="background: #eae7e7;" />
             </div>
             <div>

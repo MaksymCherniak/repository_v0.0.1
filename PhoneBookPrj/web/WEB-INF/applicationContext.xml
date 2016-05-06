@@ -63,6 +63,27 @@
     <context:component-scan base-package="PhoneBook.*"/>
     <jpa:repositories base-package="PhoneBook.DAO.Repository"/>
 
+    <!-- ========================= Interceptors ======================== -->
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/register.do"/>
+            <bean class="PhoneBook.Interceptors.CheckRegistration"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/authorization.do" />
+            <bean class="PhoneBook.Interceptors.CheckAuthorization"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/addContact.do" />
+            <bean class="PhoneBook.Interceptors.CheckAddContact"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/editContact.do" />
+            <bean class="PhoneBook.Interceptors.CheckEditContact"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!-- ======================= DocumentBuilder ======================= -->
 
     <bean id="documentBuilderFactory"
