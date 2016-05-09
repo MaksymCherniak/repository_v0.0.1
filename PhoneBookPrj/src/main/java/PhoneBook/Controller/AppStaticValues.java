@@ -25,7 +25,6 @@ public interface AppStaticValues {
 
     // ------------------ Pages for Controller -------------------
 
-    String PAGE_ADD_CONTACT = "addContact";
     String PAGE_PRINT_ALL_CONTACTS = "printAllContacts";
     String PAGE_EDIT_CONTACT = "editContact";
     String PAGE_MAIN = "main";

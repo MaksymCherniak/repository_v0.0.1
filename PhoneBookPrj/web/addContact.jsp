@@ -1,5 +1,4 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page import="PhoneBook.Entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <script>
@@ -29,7 +28,7 @@
         }
     }
 </script>
-<% User user = (User) request.getAttribute("user");%>
+
 <head>
     <meta charset="utf-8">
     <title>Add contact</title>
@@ -40,7 +39,6 @@
 <div class="container">
     <section id="content" style="width: 550px">
         <form name="contact" action="addContact.do" method="post" onSubmit="return check()">
-            <input type="hidden" name="user_id" value="<%=user.getId()%>">
             <h1>Add contact form</h1>
             <div>
                 <h4>Enter contact surname: <b style="color: red">*</b> </h4>
@@ -80,7 +78,7 @@
         <br>
         <h1>Actions with user</h1>
         <div class="button">
-            <a href="authorization.do?login=<%=user.getLogin()%>&password=<%=user.getPassword()%>">User main page</a>
+            <a href="userMainPage.jsp">User main page</a>
         </div><!-- button -->
         <div class="button">
             <a href="#" onclick="logout('http://localhost:8080/logOut.do')">Logout</a>

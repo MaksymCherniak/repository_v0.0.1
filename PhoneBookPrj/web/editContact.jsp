@@ -55,7 +55,7 @@
         <br>
         <h1>Actions with user</h1>
         <div class="button">
-            <a href="authorization.do?login=<%=contact.getUser().getLogin()%>&password=<%=contact.getUser().getPassword()%>">User main page</a>
+            <a href="userMainPage.jsp">User main page</a>
         </div><!-- button -->
         <div class="button">
             <a href="#" onclick="logout('http://localhost:8080/logOut.do')">Logout</a>

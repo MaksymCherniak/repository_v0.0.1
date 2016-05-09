@@ -1,7 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page import="java.util.List" %>
 <%@ page import="PhoneBook.Entity.Contact" %>
-<%@ page import="PhoneBook.Entity.User" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,8 +27,7 @@
     }
 </script>
 
-<%  User user = (User) request.getAttribute("user");
-    List<Contact> listOfContacts = (List<Contact>) request.getAttribute("listOfContacts");%>
+<% List<Contact> listOfContacts = (List<Contact>) request.getAttribute("listOfContacts"); %>
 
 <body>
 <div class="container" style="width: 1380px">
@@ -73,13 +71,13 @@
         </table>
             </div>
         <div class="button">
-            <a href="#" onclick="location.href='http://localhost:8080/addContactGet.do?user_id=<%=user.getId()%>'">Add new contact</a>
+            <a href="addContact.jsp">Add new contact</a>
         </div><!-- button -->
         <% } %>
         <br>
         <h1>Actions with user</h1>
         <div class="button">
-            <a href="authorization.do?login=<%=user.getLogin()%>&password=<%=user.getPassword()%>">User main page</a>
+            <a href="userMainPage.jsp">User main page</a>
         </div><!-- button -->
         <div class="button">
             <a href="#" onclick="logout('http://localhost:8080/logOut.do')">Logout</a>

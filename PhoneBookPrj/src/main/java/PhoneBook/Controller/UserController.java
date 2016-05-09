@@ -9,24 +9,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class UserController implements AppStaticValues {
     @Autowired
     private IUserDAO iUserDAO;
 
     @RequestMapping(value = "/register.do", method = RequestMethod.POST)
-    public ModelAndView register(@ModelAttribute User user) {
+    public ModelAndView register(@ModelAttribute User user, HttpSession session) {
         iUserDAO.insertUser(user);
-        return new ModelAndView(PAGE_MAIN, INFO, "User " + user.toString() + " added");
+        session.setAttribute(USER, iUserDAO.findUserByLoginAndPassword(user.getLogin(), user.getPassword()));
+        return new ModelAndView(PAGE_USER_MAIN, INFO, "User " + user.toString() + " added. Welcome");
     }
 
     @RequestMapping(value = "/authorization.do", method = RequestMethod.GET)
-    public ModelAndView authorization(@ModelAttribute User user) {
-        return new ModelAndView(PAGE_USER_MAIN, USER, iUserDAO.findUserByLoginAndPassword(user.getLogin(), user.getPassword()));
+    public String authorization(@ModelAttribute User user, HttpSession session) {
+        session.setAttribute(USER, iUserDAO.findUserByLoginAndPassword(user.getLogin(), user.getPassword()));
+        return PAGE_USER_MAIN;
     }
 
     @RequestMapping(value = "/logOut.do", method = RequestMethod.GET)
-    public ModelAndView logout() {
-        return new ModelAndView(PAGE_MAIN);
+    public String logout(HttpSession session) {
+        session.setAttribute(USER, null);
+        return PAGE_MAIN;
     }
 }
