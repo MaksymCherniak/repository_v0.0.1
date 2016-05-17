@@ -5,7 +5,7 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "stations")
-public class Stations {
+public class Stations implements Comparable<Stations> {
     @Id
     @Column(name = "station_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,6 +21,10 @@ public class Stations {
     private Route route;
 
     public Stations() {
+    }
+
+    public long getId() {
+        return id;
     }
 
     public Route getRoute() {
@@ -58,5 +62,10 @@ public class Stations {
     @Override
     public String toString() {
         return "Stations: " + station + " || Arrival time: " + arrivalTime + " || Leaving time: " + leavingTime;
+    }
+
+    public int compareTo(Stations compareStations) {
+        int result = this.arrivalTime.compareTo((compareStations).getArrivalTime());
+        return result;
     }
 }

@@ -1,19 +1,19 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page import="BookingTool.Entity.Route" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Insert wagons</title>
+    <title>Select route</title>
     <spring:url value="/resources/css/main.css" var="mainCss" />
     <spring:url value="/resources/css/table.css" var="tableCss" />
-    <spring:url value="/resources/css/buttons.css" var="buttonsCss" />
     <link href="${mainCss}" rel="stylesheet" />
     <link href="${tableCss}" rel="stylesheet" />
-    <link href="${buttonsCss}" rel="stylesheet" />
 </head>
 
-<% Route route = (Route) request.getAttribute("route"); %>
+<% List<Route> listOfRoutes = (List<Route>) request.getAttribute("listOfRoutes"); %>
+
 <body>
 <br>
 <br>
@@ -47,24 +47,18 @@
 <br>
 <br>
 <table align="center">
-    <form name="insertWagon" action="insertWagon.do" method="post">
-        <input type="hidden" name="routeNumber" value="<%=route.getRouteNumber()%>">
-        <tr><h1 align="center">Add wagons</h1></tr>
+    <form action="routeActions.do">
         <tr>
-            <td width="250px"><h1 align="right">Enter comfortable wagon numbers: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="comfortableNumbers" style="width: 250px"></td>
-        </tr>
-        <tr>
-            <td width="250px"><h1 align="right">Enter compartment wagon numbers: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="compartmentNumbers" style="width: 250px"></td>
-        </tr>
-        <tr>
-            <td width="250px"><h1 align="right">Enter economy wagon numbers: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="economyNumbers" style="width: 250px"></td>
+            <td><h1 align="right">Select route number:</h1></td>
+            <td><select name="routeNumber" style="margin-bottom: 14px">
+                <% for (int i = 0; i < listOfRoutes.size(); i++) { %>
+                <option value="<%=listOfRoutes.get(i).getRouteNumber()%>"><%=listOfRoutes.get(i).getRouteNumber()%></option>
+                <% } %>
+            </select></td>
         </tr>
         <TABLE border="0" align="center">
             <tr>
-                <td><input type="submit" class="submit" value="Add wagons"></td>
+                <td><input type="submit" class="submit" value="Enter"></td>
             </tr>
         </TABLE>
     </form>

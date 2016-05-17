@@ -1,6 +1,6 @@
 package BookingTool.DAO.Repository;
 
-import BookingTool.Model.LocalModel.User;
+import BookingTool.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

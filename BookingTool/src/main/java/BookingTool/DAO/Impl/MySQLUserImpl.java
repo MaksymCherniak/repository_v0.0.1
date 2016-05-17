@@ -1,20 +1,20 @@
 package BookingTool.DAO.Impl;
 
 import BookingTool.DAO.Repository.UserRepository;
-import BookingTool.DAO.Service.IUserDAO;
-import BookingTool.Model.LocalModel.User;
+import BookingTool.DAO.Service.IUserService;
+import BookingTool.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MySQLUserDAO implements IUserDAO {
+public class MySQLUserImpl implements IUserService {
     @Autowired
     private UserRepository userRepository;
-    private static Logger log = Logger.getLogger(MySQLUserDAO.class.getName());
+    private static Logger log = Logger.getLogger(MySQLUserImpl.class.getName());
 
-    public MySQLUserDAO() {
+    public MySQLUserImpl() {
     }
 
     public boolean insertUser(User user) {

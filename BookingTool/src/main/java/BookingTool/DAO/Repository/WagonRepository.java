@@ -1,6 +1,6 @@
 package BookingTool.DAO.Repository;
 
-import BookingTool.Model.LocalModel.Wagon;
+import BookingTool.Entity.Wagon;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

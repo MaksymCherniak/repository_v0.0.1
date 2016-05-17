@@ -1,10 +1,10 @@
 package BookingTool.DAO.Service;
 
-import BookingTool.Model.LocalModel.User;
+import BookingTool.Entity.User;
 
 import java.util.List;
 
-public interface IUserDAO {
+public interface IUserService {
     boolean insertUser(User user);
 
     boolean deleteUser(User user);

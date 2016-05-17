@@ -1,10 +1,10 @@
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page import="BookingTool.Entity.Route" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Insert wagons</title>
+    <title>Route actions</title>
     <spring:url value="/resources/css/main.css" var="mainCss" />
     <spring:url value="/resources/css/table.css" var="tableCss" />
     <spring:url value="/resources/css/buttons.css" var="buttonsCss" />
@@ -14,6 +14,7 @@
 </head>
 
 <% Route route = (Route) request.getAttribute("route"); %>
+
 <body>
 <br>
 <br>
@@ -46,28 +47,20 @@
 
 <br>
 <br>
-<table align="center">
-    <form name="insertWagon" action="insertWagon.do" method="post">
-        <input type="hidden" name="routeNumber" value="<%=route.getRouteNumber()%>">
-        <tr><h1 align="center">Add wagons</h1></tr>
-        <tr>
-            <td width="250px"><h1 align="right">Enter comfortable wagon numbers: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="comfortableNumbers" style="width: 250px"></td>
-        </tr>
-        <tr>
-            <td width="250px"><h1 align="right">Enter compartment wagon numbers: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="compartmentNumbers" style="width: 250px"></td>
-        </tr>
-        <tr>
-            <td width="250px"><h1 align="right">Enter economy wagon numbers: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="economyNumbers" style="width: 250px"></td>
-        </tr>
-        <TABLE border="0" align="center">
-            <tr>
-                <td><input type="submit" class="submit" value="Add wagons"></td>
-            </tr>
-        </TABLE>
-    </form>
-</table>
+<h1 align="center">&nbsp;&nbsp;Actions with route <%=route.getRouteNumber()%></h1>
+<TABLE align="center" border="0">
+    <tr><td>
+        <button  class="submit" onclick="location.href='http://localhost:8080/insertTrain.do?routeNumber=<%=route.getRouteNumber()%>'"
+                 style="width: 250px;height: 60px;"><b>Add trains</b></button>
+    </td></tr>
+    <tr><td>
+        <button  class="submit" onclick="location.href='http://localhost:8080/insertWagon.do?routeNumber=<%=route.getRouteNumber()%>'"
+                 style="width: 250px;height: 60px;"><b>Add wagons</b></button>
+    </td></tr>
+    <tr><td>
+        <button  class="submit" onclick="location.href='http://localhost:8080/insertStation.do?routeNumber=<%=route.getRouteNumber()%>'"
+                 style="width: 250px;height: 60px;"><b>Add stations</b></button>
+    </td></tr>
+</TABLE>
 </body>
 </html>

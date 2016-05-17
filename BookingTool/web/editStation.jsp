@@ -1,10 +1,10 @@
-<%@ page import="BookingTool.Entity.Route" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page import="BookingTool.Entity.Stations" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Insert stations</title>
+    <title>Edit stations</title>
     <spring:url value="/resources/css/main.css" var="mainCss" />
     <spring:url value="/resources/css/table.css" var="tableCss" />
     <spring:url value="/resources/css/buttons.css" var="buttonsCss" />
@@ -13,7 +13,7 @@
     <link href="${buttonsCss}" rel="stylesheet" />
 </head>
 
-<% Route route = (Route) request.getAttribute("route"); %>
+<% Stations stations = (Stations) request.getAttribute("stations"); %>
 
 <body>
 <br>
@@ -48,44 +48,40 @@
 <br>
 <br>
 <table align="center">
-    <form name="insertStation" action="insertStation.do" method="post">
-        <input type="hidden" name="routeNumber" value="<%=route.getRouteNumber()%>">
-        <tr><h1 align="center">Add stations</h1></tr>
+    <form name="editStation" action="editStation.do" method="post">
+        <input type="hidden" name="station_id" value="<%=stations.getId()%>">
+        <tr><h1 align="center">Edit stations</h1></tr>
         <tr>
-            <td width="270px"><h1 align="right">Enter stations: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="station" style="width: 250px"></td>
-        <tr>
-            <td width="250px"><h1 align="right">Enter arrival time: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<select name="arrivalHH" style="margin-bottom: 14px">
-                <% for (int i = 0; i < 24; i++) { %>
-                <option value="<%=i%>"><%=i%></option>
-                <% } %></select>
-                <b style="margin-bottom: 14px"> : </b><select name="arrivalMM" style="margin-bottom: 14px">
-                    <% for (int i = 0; i < 60; i++) { %>
-                    <option value="<%=i%>"><%=i%></option>
-                    <% } %>
-                </select></td>
+            <td width="250px"><h1 align="right">Station(<%=stations.getStation()%>): </h1></td>
+            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="stations" style="width: 250px"></td>
         </tr>
         <tr>
-            <td width="250px"><h1 align="right">Enter leaving time: </h1></td>
+            <td width="250px"><h1 align="right">Arrival time(<%=stations.getArrivalTime()%>): </h1></td>
+            <td width="300px">&nbsp;&nbsp;<select name="arrivalHH" style="margin-bottom: 14px">
+                    <% for (int i = 0; i < 24; i++) { %>
+                        <option value="<%=i%>"><%=i%></option>
+                    <% } %></select>
+                    <b style="margin-bottom: 14px"> : </b><select name="arrivalMM" style="margin-bottom: 14px">
+                        <% for (int i = 0; i < 60; i++) { %>
+                             <option value="<%=i%>"><%=i%></option>
+                        <% } %>
+            </select></td>
+        </tr>
+        <tr>
+            <td width="250px"><h1 align="right">Leaving time(<%=stations.getLeavingTime()%>): </h1></td>
             <td width="300px">&nbsp;&nbsp;<select name="leavingHH" style="margin-bottom: 14px">
                 <% for (int i = 0; i < 24; i++) { %>
-                <option value="<%=i%>"><%=i%></option>
+                    <option value="<%=i%>"><%=i%></option>
                 <% } %></select>
                 <b style="margin-bottom: 14px"> : </b><select name="leavingMM" style="margin-bottom: 14px">
                     <% for (int i = 0; i < 60; i++) { %>
-                    <option value="<%=i%>"><%=i%></option>
+                        <option value="<%=i%>"><%=i%></option>
                     <% } %>
-                </select></td>
+            </select></td>
         </tr>
         <TABLE border="0" align="center">
             <tr>
-                <td><input type="submit" class="submit" value="Add stations"></td>
-            </tr>
-        </TABLE>
-        <TABLE border="0" align="center">
-            <tr>
-                <td><h1>${info}</h1></td>
+                <td><input type="submit" class="submit" value="Edit"></td>
             </tr>
         </TABLE>
     </form>

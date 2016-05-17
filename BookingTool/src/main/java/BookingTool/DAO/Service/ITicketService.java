@@ -4,7 +4,7 @@ import BookingTool.Entity.Ticket;
 
 import java.util.List;
 
-public interface ITicketDAO {
+public interface ITicketService {
     boolean insertTicket(Ticket ticket);
 
     Ticket findTicketByID(Long id);

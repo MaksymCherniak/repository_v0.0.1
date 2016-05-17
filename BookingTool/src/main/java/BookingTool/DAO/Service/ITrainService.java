@@ -7,7 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface ITrainDAO {
+public interface ITrainService {
     boolean insertTrain(Route route, LocalDate leavingDate, List<DayOfWeek> days);
 
     Train getTrainByDateAndRoute(LocalDate date, Route route);

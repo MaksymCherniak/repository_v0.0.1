@@ -1,12 +1,12 @@
 package BookingTool.Controller;
 
-import BookingTool.DAO.Service.IRouteDAO;
-import BookingTool.DAO.Service.ITrainDAO;
-import BookingTool.DAO.Service.IWagonDAO;
+import BookingTool.DAO.Service.IRouteService;
+import BookingTool.DAO.Service.ITrainService;
+import BookingTool.DAO.Service.IWagonService;
 import BookingTool.Entity.Route;
 import BookingTool.Entity.Seat;
 import BookingTool.Entity.Train;
-import BookingTool.Model.LocalModel.Wagon;
+import BookingTool.Entity.Wagon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +20,16 @@ import java.util.List;
 @Controller
 public class WagonController implements IControllerStaticValues {
     @Autowired
-    private IRouteDAO iRouteDAO;
+    private IRouteService iRouteService;
     @Autowired
-    private IWagonDAO iWagonDAO;
+    private IWagonService iWagonService;
     @Autowired
-    private ITrainDAO iTrainDAO;
+    private ITrainService iTrainService;
+
+    @RequestMapping(value = "/insertWagon.do", method = RequestMethod.GET)
+    public ModelAndView insertWagon(@RequestParam(value = ROUTE_NUMBER) String routeNumber) {
+        return new ModelAndView(PAGE_INSERT_WAGON, ROUTE, iRouteService.getRouteByNumber(Integer.parseInt(routeNumber)));
+    }
 
     @RequestMapping(value = "/insertWagon.do", method = RequestMethod.POST)
     public ModelAndView insertWagon(@RequestParam(value = ROUTE_NUMBER) String routeNumber,
@@ -32,26 +37,23 @@ public class WagonController implements IControllerStaticValues {
                                     @RequestParam(value = "compartmentNumbers") String compartmentNumbers,
                                     @RequestParam(value = "economyNumbers") String economyNumbers) {
 
-        ModelAndView modelAndView = new ModelAndView();
-        Route route = iRouteDAO.getRouteByNumber(Integer.parseInt(routeNumber));
-        List<Train> listOfTrains = iTrainDAO.getAllTrainsByRoute(route);
+        Route route = iRouteService.getRouteByNumber(Integer.parseInt(routeNumber));
+        List<Train> listOfTrains = iTrainService.getAllTrainsByRoute(route);
         List<Integer> listOfComfortableWagons = getListOfWagonsNumbers(comfortableNumbers.split(" "));
         List<Integer> listOfCompartmentWagons = getListOfWagonsNumbers(compartmentNumbers.split(" "));
         List<Integer> listOfEconomyWagons = getListOfWagonsNumbers(economyNumbers.split(" "));
         for (Train train : listOfTrains) {
             for (Integer number : listOfComfortableWagons) {
-                insertWagon(train, number, COMFORTABLE);
+                insertWagon(train, number, WAGON_COMFORTABLE);
             }
             for (Integer number : listOfCompartmentWagons) {
-                insertWagon(train, number, COMPARTMENT);
+                insertWagon(train, number, WAGON_COMPARTMENT);
             }
             for (Integer number : listOfEconomyWagons) {
-                insertWagon(train, number, ECONOMY);
+                insertWagon(train, number, WAGON_ECONOMY);
             }
         }
-        modelAndView.setViewName(PAGE_INFO);
-        modelAndView.addObject(INFO, "Wagons for route " + route.getRouteNumber() + " is initialize");
-        return modelAndView;
+        return new ModelAndView(PAGE_MAIN, INFO, "Wagons for route " + route.getRouteNumber() + " is initialize");
     }
 
     @RequestMapping(value = "/printWagon.do", method = RequestMethod.GET)
@@ -59,9 +61,9 @@ public class WagonController implements IControllerStaticValues {
                                    @RequestParam(value = TRAIN) String train_id) {
 
         ModelAndView modelAndView = new ModelAndView();
-        Wagon wagon = iWagonDAO.getWagonById(Long.parseLong(wagon_id));
-        Train train = iTrainDAO.getTrainById(Long.parseLong(train_id));
-        List<Seat> listOfSeats = iWagonDAO.getAllSeats(wagon);
+        Wagon wagon = iWagonService.getWagonById(Long.parseLong(wagon_id));
+        Train train = iTrainService.getTrainById(Long.parseLong(train_id));
+        List<Seat> listOfSeats = iWagonService.getAllSeats(wagon);
         modelAndView.setViewName(PAGE_PRINT_WAGON);
         modelAndView.addObject(TRAIN, train);
         modelAndView.addObject("listOfSeats", listOfSeats);
@@ -73,7 +75,7 @@ public class WagonController implements IControllerStaticValues {
         wagon.setTrain(train);
         wagon.setNumber(number);
         wagon.setWagonType(type);
-        iWagonDAO.insertWagon(wagon);
+        iWagonService.insertWagon(wagon);
     }
 
     private List<Integer> getListOfWagonsNumbers(String[] numbers) {

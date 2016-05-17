@@ -1,24 +1,64 @@
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page import="BookingTool.Entity.Route" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Booking Tool</title>
+    <meta charset="utf-8">
+    <title>Insert train</title>
+    <spring:url value="/resources/css/main.css" var="mainCss" />
+    <spring:url value="/resources/css/table.css" var="tableCss" />
+    <spring:url value="/resources/css/buttons.css" var="buttonsCss" />
+    <link href="${mainCss}" rel="stylesheet" />
+    <link href="${tableCss}" rel="stylesheet" />
+    <link href="${buttonsCss}" rel="stylesheet" />
 </head>
-<body bgcolor="#dcdcdc">
-<table align="center" bgcolor="#b0c4de" border="1" cellspacing="0" cellpadding="0" style="border-color: gray">
-    <caption><b>Insert train</b></caption>
+
+<% Route route = (Route) request.getAttribute("route"); %>
+
+<body>
+<br>
+<br>
+<br>
+<br>
+<div class="w3-container">
+    <ul class="navbar">
+        <li><a class="active" href="main.jsp">Home</a></li>
+        <li><a href="#">Actions with route</a>
+            <ul>
+                <li><a href="getRoute.jsp">Select route</a></li><br>
+                <li><a href="getAllRoutesGet.do">Print stations by route</a></li><br>
+            </ul>
+        </li>
+        <li><a href="#">Actions for admin</a>
+            <ul>
+                <li><a href="insertRoute.jsp">Insert new route</a></li><br>
+                <li><a href="getAllRoutesForAction.do">Actions with route</a></li><br>
+            </ul>
+        </li>
+        <li><a href="#">Actions for user</a>
+            <ul>
+                <li><a href="registration.jsp">Registration</a></li><br>
+                <li><a href="authorization.jsp">Authorization</a></li><br>
+            </ul>
+        </li>
+        <li style="float: right"><a href="authorization.jsp">Login</a></li>
+    </ul>
+</div>
+
+<br>
+<br>
+<table align="center">
     <form name="insertTrain" action="insertTrain.do" method="post">
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black">
-            <td style="width: 200px"><b>&nbsp;&nbsp;Enter route number:</b></td>
-            <td><input type="text" name="routeNumber" style="width: 206px"></td>
-        </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black">
-            <td style="width: 200px"><b>&nbsp;&nbsp;Enter start cruising date:</b></td>
-            <td><select name="startDD">
+        <input type="hidden" name="routeNumber" value="<%=route.getRouteNumber()%>">
+        <tr><h1 align="center">Add trains</h1></tr>
+        <tr>
+            <td width="270px"><h1 align="right">Enter start cruising date: </h1></td>
+            <td width="300px">&nbsp;&nbsp;<select name="startDD" style="margin-bottom: 14px">
                 <% for (int i = 1; i <= 31; i++) { %>
                 <option value="<%=i%>"><%=i%>
                 </option>
                 <% } %>
-            </select> - <select name="startMM">
+            </select><b style="margin-bottom: 14px"> - </b><select name="startMM" style="margin-bottom: 14px">
                 <option value="1">January</option>
                 <option value="2">February</option>
                 <option value="3">March</option>
@@ -31,15 +71,14 @@
                 <option value="10">October</option>
                 <option value="11">November</option>
                 <option value="12">December</option>
-            </select> - <select name="startYY">
+            </select><b style="margin-bottom: 14px"> - </b><select name="startYY" style="margin-bottom: 14px">
                 <option value="2016">2016</option>
                 <option value="2017">2017</option>
-            </select>
-            </td>
+            </select></td>
         </tr>
-        <tr align="left" style="font-size: 8pt;font-family: Tahoma;color: black">
-            <td style="width: 200px"><b>&nbsp;&nbsp;Select days cruising:</b></td>
-            <td><select size="8" multiple name="days">
+        <tr>
+            <td width="270px"><h1 align="right">Select days cruising: </h1></td>
+            <td width="300px">&nbsp;&nbsp;<select size="8" multiple name="days">
                 <option value="allDays">All days</option>
                 <option value="monday">Monday</option>
                 <option value="tuesday">Tuesday</option>
@@ -48,20 +87,14 @@
                 <option value="friday">Friday</option>
                 <option value="saturday">Saturday</option>
                 <option value="sunday">Sunday</option>
-            </select>
-            </td>
+            </select></td>
         </tr>
         <TABLE border="0" align="center">
             <tr>
-                <td><input type="submit" value="Enter"></td>
+                <td><input type="submit" class="submit" value="Add"></td>
             </tr>
         </TABLE>
     </form>
-    <TABLE border="0" align="center">
-        <tr>
-            <td><p><b><a href="main.jsp">Main page</a></b></p></td>
-        </tr>
-    </TABLE>
 </table>
 </body>
 </html>

@@ -1,9 +1,6 @@
-package BookingTool.Model.LocalModel;
+package BookingTool.Entity;
 
 import BookingTool.Entity.Enums.WagonType;
-import BookingTool.Entity.Seat;
-import BookingTool.Entity.Ticket;
-import BookingTool.Entity.Train;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -135,7 +132,7 @@ public class Wagon implements Comparable<Wagon>{
 
     public int compareTo(Wagon compareWagon) {
 
-        int compareNumber = ((Wagon) compareWagon).getNumber();
+        int compareNumber = (compareWagon).getNumber();
 
         //ascending order
         return this.number - compareNumber;

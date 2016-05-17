@@ -1,7 +1,7 @@
 package BookingTool.DAO.Impl;
 
 import BookingTool.DAO.Repository.TrainRepository;
-import BookingTool.DAO.Service.ITrainDAO;
+import BookingTool.DAO.Service.ITrainService;
 import BookingTool.Entity.Route;
 import BookingTool.Entity.Train;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MySQLTrainDAO implements ITrainDAO {
+public class MySQLTrainImpl implements ITrainService {
     @Autowired
     private TrainRepository trainRepository;
-    private static Logger log = Logger.getLogger(MySQLTrainDAO.class.getName());
+    private static Logger log = Logger.getLogger(MySQLTrainImpl.class.getName());
 
     public boolean insertTrain(Route route, LocalDate startDate, List<DayOfWeek> days) {
         try {

@@ -1,11 +1,11 @@
 package BookingTool.Controller;
 
-import BookingTool.DAO.Service.IRouteDAO;
-import BookingTool.DAO.Service.ITrainDAO;
-import BookingTool.DAO.Service.IWagonDAO;
+import BookingTool.DAO.Service.IRouteService;
+import BookingTool.DAO.Service.ITrainService;
+import BookingTool.DAO.Service.IWagonService;
 import BookingTool.Entity.Route;
 import BookingTool.Entity.Train;
-import BookingTool.Model.LocalModel.Wagon;
+import BookingTool.Entity.Wagon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,32 +22,32 @@ import java.util.List;
 @Controller
 public class TrainController implements IControllerStaticValues {
     @Autowired
-    private IRouteDAO iRouteDAO;
+    private IRouteService iRouteService;
     @Autowired
-    private ITrainDAO iTrainDAO;
+    private ITrainService iTrainService;
     @Autowired
-    private IWagonDAO iWagonDAO;
+    private IWagonService iWagonService;
+
+    @RequestMapping(value = "/insertTrain.do", method = RequestMethod.GET)
+    public ModelAndView insertTrain(@RequestParam(value = ROUTE_NUMBER) String routeNumber) {
+        return new ModelAndView(PAGE_INSERT_TRAIN, ROUTE, iRouteService.getRouteByNumber(Integer.parseInt(routeNumber)));
+    }
 
     @RequestMapping(value = "/insertTrain.do", method = RequestMethod.POST)
     public ModelAndView insertTrain(@RequestParam(value = ROUTE_NUMBER) String routeNumber,
-                                    @RequestParam(value = DAYS) String[] days,
-                                    @RequestParam(value = START_YEAR) String startYY,
-                                    @RequestParam(value = START_MONTH) String startMM,
-                                    @RequestParam(value = START_DAY) String startDD) {
+                                    @RequestParam(value = TRAIN_DAYS) String[] days,
+                                    @RequestParam(value = TRAIN_START_YEAR) String startYY,
+                                    @RequestParam(value = TRAIN_START_MONTH) String startMM,
+                                    @RequestParam(value = TRAIN_START_DAY) String startDD) {
 
-        ModelAndView modelAndView = new ModelAndView();
         List<DayOfWeek> daysOfWeek = getDaysOfWeekList(days);
-        Route route = iRouteDAO.getRouteByNumber(Integer.parseInt(routeNumber));
+        Route route = iRouteService.getRouteByNumber(Integer.parseInt(routeNumber));
         if (route != null && daysOfWeek != null) {
             LocalDate startDate = LocalDate.of(Integer.parseInt(startYY), Integer.parseInt(startMM), Integer.parseInt(startDD));
-            iTrainDAO.insertTrain(route, startDate, daysOfWeek);
-            modelAndView.addObject(INFO, "Trains added.");
-            modelAndView.setViewName(PAGE_INFO);
-            return modelAndView;
+            iTrainService.insertTrain(route, startDate, daysOfWeek);
+            return new ModelAndView(PAGE_MAIN, INFO, "Trains added.");
         } else {
-            modelAndView.addObject(INFO, "Wrong route number or date format.");
-            modelAndView.setViewName(PAGE_INFO);
-            return modelAndView;
+            return new ModelAndView(PAGE_MAIN, INFO, "Wrong route number or date format.");
         }
     }
 
@@ -55,8 +55,8 @@ public class TrainController implements IControllerStaticValues {
     public ModelAndView printTrain(@RequestParam(value = ID) String id) {
 
         ModelAndView modelAndView = new ModelAndView();
-        Train train = iTrainDAO.getTrainById(Long.parseLong(id));
-        List<Wagon> listOfWagons = iWagonDAO.getWagonsByTrain(train);
+        Train train = iTrainService.getTrainById(Long.parseLong(id));
+        List<Wagon> listOfWagons = iWagonService.getWagonsByTrain(train);
         Collections.sort(listOfWagons);
         modelAndView.setViewName(PAGE_PRINT_TRAIN);
         modelAndView.addObject(TRAIN, train);

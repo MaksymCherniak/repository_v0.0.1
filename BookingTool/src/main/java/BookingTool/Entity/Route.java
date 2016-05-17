@@ -22,7 +22,7 @@ public class Route {
     @Column
     private LocalTime leavingTime;
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Stations> stations;
+    private List<Stations> stationses;
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Train> train;
 
@@ -57,12 +57,12 @@ public class Route {
         this.leavingStation = leavingStation;
     }
 
-    public List<Stations> getStations() {
-        return stations;
+    public List<Stations> getStationses() {
+        return stationses;
     }
 
-    public void setStations(List<Stations> stations) {
-        this.stations = stations;
+    public void setStationses(List<Stations> stationses) {
+        this.stationses = stationses;
     }
 
     public List<Train> getTrain() {

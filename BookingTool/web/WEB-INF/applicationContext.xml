@@ -61,9 +61,10 @@
 
     <!-- ========================= Services =============================== -->
 
-    <bean id="IWagonDAO" class="BookingTool.DAO.Impl.MySQLWagonDAO"/>
-    <bean id="IUserDAO" class="BookingTool.DAO.Impl.MySQLUserDAO"/>
-    <bean id="ITicketDAO" class="BookingTool.DAO.Impl.MySQLTicketDAO"/>
-    <bean id="IRouteDAO" class="BookingTool.DAO.Impl.MySQLRouteDAO"/>
-    <bean id="ITrainDAO" class="BookingTool.DAO.Impl.MySQLTrainDAO"/>
+    <bean id="IStationService" class="BookingTool.DAO.Impl.MySQLStationImpl"/>
+    <bean id="IWagonService" class="BookingTool.DAO.Impl.MySQLWagonImpl"/>
+    <bean id="IUserService" class="BookingTool.DAO.Impl.MySQLUserImpl"/>
+    <bean id="ITicketService" class="BookingTool.DAO.Impl.MySQLTicketImpl"/>
+    <bean id="IRouteService" class="BookingTool.DAO.Impl.MySQLRouteImpl"/>
+    <bean id="ITrainService" class="BookingTool.DAO.Impl.MySQLTrainImpl"/>
 </beans>

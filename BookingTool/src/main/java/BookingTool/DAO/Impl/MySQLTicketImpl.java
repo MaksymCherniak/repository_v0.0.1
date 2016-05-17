@@ -1,19 +1,19 @@
 package BookingTool.DAO.Impl;
 
 import BookingTool.DAO.Repository.TicketRepository;
-import BookingTool.DAO.Service.ITicketDAO;
+import BookingTool.DAO.Service.ITicketService;
 import BookingTool.Entity.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.logging.Logger;
 
-public class MySQLTicketDAO implements ITicketDAO {
+public class MySQLTicketImpl implements ITicketService {
     @Autowired
     private TicketRepository ticketRepository;
-    private static Logger log = Logger.getLogger(MySQLTicketDAO.class.getName());
+    private static Logger log = Logger.getLogger(MySQLTicketImpl.class.getName());
 
-    public MySQLTicketDAO() {
+    public MySQLTicketImpl() {
     }
 
     public boolean insertTicket(Ticket ticket) {

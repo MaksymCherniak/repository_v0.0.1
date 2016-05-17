@@ -2,26 +2,26 @@ package BookingTool.DAO.Impl;
 
 import BookingTool.DAO.Repository.SeatRepository;
 import BookingTool.DAO.Repository.WagonRepository;
-import BookingTool.DAO.Service.IWagonDAO;
+import BookingTool.DAO.Service.IWagonService;
 import BookingTool.Entity.Enums.SeatStatus;
 import BookingTool.Entity.Seat;
 import BookingTool.Entity.Ticket;
 import BookingTool.Entity.Train;
-import BookingTool.Model.LocalModel.Wagon;
+import BookingTool.Entity.Wagon;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class MySQLWagonDAO implements IWagonDAO {
+public class MySQLWagonImpl implements IWagonService {
     @Autowired
     private WagonRepository wagonRepository;
     @Autowired
     private SeatRepository seatRepository;
-    private static Logger log = Logger.getLogger(MySQLWagonDAO.class.getName());
+    private static Logger log = Logger.getLogger(MySQLWagonImpl.class.getName());
 
-    public MySQLWagonDAO() {
+    public MySQLWagonImpl() {
     }
 
     public boolean updateSeat(Ticket ticket) {

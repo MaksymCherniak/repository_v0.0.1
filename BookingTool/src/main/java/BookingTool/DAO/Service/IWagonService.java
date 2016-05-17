@@ -4,11 +4,11 @@ package BookingTool.DAO.Service;
 import BookingTool.Entity.Seat;
 import BookingTool.Entity.Ticket;
 import BookingTool.Entity.Train;
-import BookingTool.Model.LocalModel.Wagon;
+import BookingTool.Entity.Wagon;
 
 import java.util.List;
 
-public interface IWagonDAO {
+public interface IWagonService {
     boolean updateSeat(Ticket ticket);
 
     boolean updateWagon(Ticket ticket);

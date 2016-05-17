@@ -1,7 +1,6 @@
 package BookingTool.Entity;
 
 import BookingTool.Entity.Enums.SeatStatus;
-import BookingTool.Model.LocalModel.Wagon;
 
 import javax.persistence.*;
 
