@@ -1,3 +1,4 @@
+<%@ page import="BookingTool.Entity.User" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -9,6 +10,19 @@
     <link href="${mainCss}" rel="stylesheet" />
     <link href="${tableCss}" rel="stylesheet" />
 </head>
+
+<script>
+    function logout(url) {
+        if (confirm(' Logout? ')) {
+            document.location=url;
+            return true;
+        }
+        return false;
+    }
+</script>
+
+<% User user = (User) request.getSession().getAttribute("user"); %>
+
 <body>
 <br>
 <br>
@@ -23,19 +37,19 @@
                 <li><a href="getAllRoutesGet.do">Print stations by route</a></li><br>
             </ul>
         </li>
+        <% if (user != null && user.getEmail().equals("admin@ukr.net")) { %>
         <li><a href="#">Actions for admin</a>
             <ul>
                 <li><a href="insertRoute.jsp">Insert new route</a></li><br>
                 <li><a href="getAllRoutesForAction.do">Actions with route</a></li><br>
             </ul>
         </li>
-        <li><a href="#">Actions for user</a>
-            <ul>
-                <li><a href="registration.jsp">Registration</a></li><br>
-                <li><a href="authorization.jsp">Authorization</a></li><br>
-            </ul>
-        </li>
+        <% } if (user == null) { %>
         <li style="float: right"><a href="authorization.jsp">Login</a></li>
+        <li style="float: right"><a href="registration.jsp">Registration</a></li>
+        <% } else { %>
+        <li style="float: right"><a href="#" onclick="logout('http://localhost:8080/logOut.do')">Logout</a></li>
+        <% } %>
     </ul>
 </div>
 
@@ -46,11 +60,11 @@
         <tr><h1 align="center">Select route</h1></tr>
         <tr>
             <td width="250px"><h1 align="right">Enter leaving stations: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="leavingStation" style="width: 250px"></td>
+            <td width="300px">&nbsp;&nbsp;<input type="text" required="" class="text" name="leavingStation" style="width: 250px"></td>
         </tr>
         <tr>
             <td width="250px"><h1 align="right">Enter arrival stations: </h1></td>
-            <td width="300px">&nbsp;&nbsp;<input type="text" class="text" name="arrivalStation" style="width: 250px"></td>
+            <td width="300px">&nbsp;&nbsp;<input type="text" required="" class="text" name="arrivalStation" style="width: 250px"></td>
         </tr>
         <tr>
             <td width="250px"><h1 align="right">Enter leaving date: </h1></td>
@@ -83,5 +97,10 @@
         </TABLE>
     </form>
 </table>
+<TABLE border="0" align="center">
+    <tr>
+        <td><h1>${info}</h1></td>
+    </tr>
+</TABLE>
 </body>
 </html>

@@ -9,7 +9,7 @@ public interface IUserService {
 
     boolean deleteUser(User user);
 
-    User findUserById(Long id);
+    User getUserById(Long id);
 
-    List getAllUsers();
+    User getUserByLoginAndPassword(String login, String password);
 }

@@ -3,8 +3,11 @@ package BookingTool.Controller;
 public interface IControllerStaticValues {
     // ------------------- User ---------------------
 
-    String NAME = "name";
-    String SURNAME = "surname";
+    String USER = "user";
+    String USER_NAME = "name";
+    String USER_SURNAME = "surname";
+    String USER_EMAIL = "email";
+    String USER_PASSWORD = "password";
     String ID = "id";
 
     // ------------------- Route --------------------
@@ -46,7 +49,6 @@ public interface IControllerStaticValues {
     // ------------------- PAGES --------------------
 
     String INFO = "info";
-    String PAGE_INFO = "pageInfo";
     String PAGE_PRINT_ROUTES = "printRoutes";
     String PAGE_BOOK_SEAT = "bookSeat";
     String PAGE_INSERT_STATION = "insertStation";
@@ -61,6 +63,11 @@ public interface IControllerStaticValues {
     String PAGE_INSERT_WAGON = "insertWagon";
     String PAGE_MAIN = "main";
     String PAGE_INSERT_ROUTE = "insertRoute";
+    String PAGE_AUTHORIZATION = "authorization";
 
     // ----------------------------------------------
+
+    String JSP_PAGE_GET_ROUTE = "getRoute.jsp";
+    String JSP_PAGE_REGISTRATION = "registration.jsp";
+    String JSP_PAGE_AUTHORIZATION = "authorization.jsp";
 }

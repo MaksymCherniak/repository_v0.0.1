@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.logging.Logger;
 
 @Controller
@@ -26,22 +27,29 @@ public class TicketController implements IControllerStaticValues {
     private ITicketService iTicketService;
 
     @RequestMapping(value = "/buyTicket.do", method = RequestMethod.POST)
-    public ModelAndView buyTicket(@RequestParam(value = SEAT) String seat_id,
-                                  @RequestParam(value = NAME) String name,
-                                  @RequestParam(value = SURNAME) String surname) {
+    public ModelAndView buyTicket(@RequestParam(value = SEAT) String seat_id, HttpSession session) {
+        User user = (User) session.getAttribute(USER);
+        Seat seat = (Seat) session.getAttribute(SEAT);
+        session.setAttribute(SEAT, null);
+        if (seat == null) {
+            seat = iWagonService.getSeatById(Long.parseLong(seat_id));
+        }
+        if (user == null) {
+            session.setAttribute(SEAT, seat);
+            return new ModelAndView(PAGE_AUTHORIZATION, INFO, "Please login for booking ticket");
+        }
 
-        ModelAndView modelAndView = new ModelAndView();
-        Seat seat = iWagonService.getSeatById(Long.parseLong(seat_id));
         Ticket ticket = new Ticket();
         ticket.setWagon(seat.getWagon());
         ticket.setSeat(seat.getNumber());
         ticket.setTrain(seat.getWagon().getTrain().getRoute().getRouteNumber());
-        User user = new User(name, surname);
+
         iUserService.insertUser(user);
         ticket.setUser(user);
         iTicketService.insertTicket(ticket);
         iWagonService.updateSeat(ticket);
 
+        ModelAndView modelAndView = new ModelAndView();
         log.info("Thanks for your order. Your seat is number " + seat.getNumber() + ", Ticket number: " + ticket.getIndex());
         modelAndView.addObject(INFO, "Thanks for your order. Your seat is number " + ticket.getSeat()
                 + ". Wagon number: " + ticket.getWagon().getNumber() + ". Train number: "

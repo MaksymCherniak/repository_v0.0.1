@@ -10,7 +10,7 @@ public interface IStationService {
 
     void deleteStation(long id);
 
-    Stations getStationsByRouteAndName(Route route, String station);
+    Stations getStationByName(String station);
 
     Stations getStationById(long id);
 

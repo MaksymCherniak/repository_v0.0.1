@@ -67,4 +67,22 @@
     <bean id="ITicketService" class="BookingTool.DAO.Impl.MySQLTicketImpl"/>
     <bean id="IRouteService" class="BookingTool.DAO.Impl.MySQLRouteImpl"/>
     <bean id="ITrainService" class="BookingTool.DAO.Impl.MySQLTrainImpl"/>
+
+    <!-- ======================= Interceptors ============================== -->
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/selectRoute.do"/>
+            <bean class="BookingTool.Interceptors.CheckStationName"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/registration.do"/>
+            <bean class="BookingTool.Interceptors.CheckUserRegistration"></bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/authorization.do"/>
+            <bean class="BookingTool.Interceptors.CheckUserAuthorization"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

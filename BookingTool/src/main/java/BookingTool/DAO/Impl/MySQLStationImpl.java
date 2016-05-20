@@ -33,8 +33,8 @@ public class MySQLStationImpl implements IStationService {
         stationRepository.delete(id);
     }
 
-    public Stations getStationsByRouteAndName(Route route, String station) {
-        return stationRepository.getStationsByRouteAndName(route.getId(), station);
+    public Stations getStationByName(String station) {
+        return stationRepository.getStationByName(station);
     }
 
     public Stations getStationById(long id) {

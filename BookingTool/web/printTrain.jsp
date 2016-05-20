@@ -2,6 +2,7 @@
 <%@ page import="BookingTool.Entity.Train" %>
 <%@ page import="BookingTool.Entity.Wagon" %>
 <%@ page import="java.util.List" %>
+<%@ page import="BookingTool.Entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -15,6 +16,17 @@
     <link href="${buttonsCss}" rel="stylesheet" />
 </head>
 
+<script>
+    function logout(url) {
+        if (confirm(' Logout? ')) {
+            document.location=url;
+            return true;
+        }
+        return false;
+    }
+</script>
+
+<% User user = (User) request.getSession().getAttribute("user"); %>
 <% Train train = (Train) request.getAttribute("train"); %>
 <% List<Wagon> listOfWagons = (List<Wagon>) request.getAttribute("listOfWagons"); %>
 
@@ -32,19 +44,19 @@
                 <li><a href="getAllRoutesGet.do">Print stations by route</a></li><br>
             </ul>
         </li>
+        <% if (user != null && user.getEmail().equals("admin@ukr.net")) { %>
         <li><a href="#">Actions for admin</a>
             <ul>
                 <li><a href="insertRoute.jsp">Insert new route</a></li><br>
                 <li><a href="getAllRoutesForAction.do">Actions with route</a></li><br>
             </ul>
         </li>
-        <li><a href="#">Actions for user</a>
-            <ul>
-                <li><a href="registration.jsp">Registration</a></li><br>
-                <li><a href="authorization.jsp">Authorization</a></li><br>
-            </ul>
-        </li>
+        <% } if (user == null) { %>
         <li style="float: right"><a href="authorization.jsp">Login</a></li>
+        <li style="float: right"><a href="registration.jsp">Registration</a></li>
+        <% } else { %>
+        <li style="float: right"><a href="#" onclick="logout('http://localhost:8080/logOut.do')">Logout</a></li>
+        <% } %>
     </ul>
 </div>
 
