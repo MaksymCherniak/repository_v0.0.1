@@ -1,5 +1,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <html>
 <script>
     function check(){
@@ -21,26 +22,30 @@
 </head>
 <body>
 <body>
+<span style="float: right;padding-right: 30px">
+        <a href="/?lang=en"><img src="/resources/images/us.gif"></a>
+        <a href="/?lang=ru"><img src="/resources/images/ru.gif"></a>
+    </span>
 <div class="container">
     <section id="content">
         <form name="loginForm" action="authorization.do" onSubmit="return check()">
-            <h1>Login Form</h1>
+            <h1><spring:message code="login form"/></h1>
             <div>
-                <input type="text" placeholder="Username" required="" name="login" id="username" />
+                <input type="text" placeholder="<spring:message code="username"/>" required="" name="login" id="username" />
             </div>
             <div>
-                <input type="password" placeholder="Password" required="" name="password" id="password" />
+                <input type="password" placeholder="<spring:message code="password"/>" required="" name="password" id="password" />
             </div>
             <div>
-                <input type="submit" value="Log in" />
-                <a href="registerPage.jsp">Register</a>
+                <input type="submit" value="<spring:message code="login"/>" />
+                <a href="registerPage.do"><spring:message code="registration"/></a>
             </div>
-        </form><!-- form -->
+        </form>
         <div class="button">
             ${info}
-        </div><!-- button -->
-    </section><!-- content -->
-</div><!-- container -->
+        </div>
+    </section>
+</div>
 </body>
 </body>
 </html>

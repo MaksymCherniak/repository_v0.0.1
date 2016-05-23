@@ -12,55 +12,59 @@
 <% Contact contact = (Contact) request.getAttribute("contact"); %>
 
 <body>
+<span style="float: right;padding-right: 30px">
+        <a href="editContactGet.do?contact_id=<%=contact.getId()%>&lang=en"><img src="/resources/images/us.gif"></a>
+        <a href="editContactGet.do?contact_id=<%=contact.getId()%>&lang=ru"><img src="/resources/images/ru.gif"></a>
+    </span>
 <div class="container">
-    <section id="content" style="width: 550px">
+    <section id="content" style="width: 650px">
         <form name="contact" action="editContact.do" method="post">
             <input type="hidden" name="contact_id" value="<%=contact.getId()%>">
-            <h1>Edit contact form</h1>
+            <h1><spring:message code="edit contact form"/></h1>
             <div>
-                <h4>Surname (<%=contact.getSurname()%>) </h4>
+                <h4><spring:message code="surname"/> (<%=contact.getSurname()%>) </h4>
                 <input type="text" name="surname" style="background: #eae7e7" />
             </div>
             <div>
-                <h4>Name (<%=contact.getName()%>) </h4>
+                <h4><spring:message code="name"/> (<%=contact.getName()%>) </h4>
                 <input type="text" name="name" style="background: #eae7e7" />
             </div>
             <div>
-                <h4>Patronym (<%=contact.getPatronym()%>) </h4>
+                <h4><spring:message code="patronym"/> (<%=contact.getPatronym()%>) </h4>
                 <input type="text" name="patronym" style="background: #eae7e7" />
             </div>
             <div>
-                <h4>Mobile (<%=contact.getMobile()%>) </h4>
+                <h4><spring:message code="mobile phone number"/> (<%=contact.getMobile()%>) </h4>
                 <input type="text" name="mobile" style="background: #eae7e7" />
             </div>
             <div>
-                <h4>Home phone number(<%=contact.getHome()%>) </h4>
+                <h4><spring:message code="home phone number"/>(<%=contact.getHome()%>) </h4>
                 <input type="text" name="home" style="background: #eae7e7;" />
             </div>
             <div>
-                <h4>Address (<%=contact.getAddress()%>) </h4>
+                <h4><spring:message code="address"/> (<%=contact.getAddress()%>) </h4>
                 <input type="text" name="address" style="background: #eae7e7" />
             </div>
             <div>
-                <h4>E-mail (<%=contact.getEmail()%>) </h4>
+                <h4><spring:message code="email"/> (<%=contact.getEmail()%>) </h4>
                 <input type="text" name="email" style="background: #eae7e7" />
             </div>
             <div>
-                <input type="submit" value="Edit contact" style="float: inherit" />
+                <input type="submit" value="<spring:message code="edit contact"/>" style="float: inherit;width: 135px" />
             </div>
-        </form><!-- form -->
+        </form>
         <div class="button">
             ${info}
-        </div><!-- button -->
+        </div>
         <br>
-        <h1>Actions with user</h1>
+        <h1><spring:message code="actions with user"/></h1>
         <div class="button">
-            <a href="userMainPage.jsp">User main page</a>
-        </div><!-- button -->
+            <a href="userMainPage.do"><spring:message code="user main page"/></a>
+        </div>
         <div class="button">
-            <a href="#" onclick="logout('http://localhost:8080/logOut.do')">Logout</a>
-        </div><!-- button -->
-    </section><!-- content -->
-</div><!-- container -->
+            <a href="#" onclick="logout('http://localhost:8080/logOut.do')"><spring:message code="logout"/></a>
+        </div>
+    </section>
+</div>
 </body>
 </html>

@@ -18,6 +18,11 @@ public class ContactController implements AppStaticValues {
     @Autowired
     private IContactDAO iContactDAO;
 
+    @RequestMapping(value = "/addContactGet.do", method = RequestMethod.GET)
+    public String addContact() {
+        return PAGE_ADD_CONTACT;
+    }
+
     @RequestMapping(value = "/addContact.do", method = RequestMethod.POST)
     public ModelAndView addContact(HttpSession session, @ModelAttribute Contact contact) {
         User user = (User) session.getAttribute(USER);

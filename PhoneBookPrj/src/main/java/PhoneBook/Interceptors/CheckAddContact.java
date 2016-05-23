@@ -1,17 +1,13 @@
 package PhoneBook.Interceptors;
 
 import PhoneBook.Controller.AppStaticValues;
-import PhoneBook.DAO.Service.IUserDAO;
 import PhoneBook.Entity.Validator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CheckAddContact extends HandlerInterceptorAdapter implements AppStaticValues {
-    @Autowired
-    private IUserDAO iUserDAO;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -41,7 +37,6 @@ public class CheckAddContact extends HandlerInterceptorAdapter implements AppSta
     }
 
     private void sendResponse(String attribute, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        request.setAttribute(USER, iUserDAO.findUserById(Long.parseLong(request.getParameter(USER_ID))));
         request.setAttribute(INFO, "Wrong " + attribute + " format.");
         request.getRequestDispatcher(JSP_PAGE_ADD_CONTACT).forward(request, response);
     }

@@ -2,6 +2,8 @@ package PhoneBook.Controller;
 
 public interface AppStaticValues {
 
+    String LANG = "lang";
+
     // ------------------------ Contact --------------------------
 
     String NAME = "name";
@@ -29,11 +31,13 @@ public interface AppStaticValues {
     String PAGE_EDIT_CONTACT = "editContact";
     String PAGE_MAIN = "main";
     String PAGE_USER_MAIN = "userMainPage";
+    String PAGE_ADD_CONTACT = "addContact";
+    String PAGE_REGISTRATION = "registerPage";
 
     // ----------------- Pages for Interceptors ------------------
 
-    String JSP_PAGE_EDIT_CONTACT = "editContact.jsp";
-    String JSP_PAGE_MAIN = "main.jsp";
-    String JSP_REGISTER_PAGE = "registerPage.jsp";
-    String JSP_PAGE_ADD_CONTACT = "addContact.jsp";
+    String JSP_PAGE_EDIT_CONTACT = "/WEB-INF/pages/editContact.jsp";
+    String JSP_PAGE_MAIN = "/WEB-INF/pages/main.jsp";
+    String JSP_REGISTER_PAGE = "/WEB-INF/pages/registerPage.jsp";
+    String JSP_PAGE_ADD_CONTACT = "/WEB-INF/pages/addContact.jsp";
 }
