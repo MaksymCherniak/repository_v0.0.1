@@ -1,0 +1,7 @@
+CREATE TABLE content
+(
+  content_id bigint NOT NULL,
+  content character varying(255),
+  creationdate character varying(255),
+  CONSTRAINT content_pkey PRIMARY KEY (content_id)
+)
