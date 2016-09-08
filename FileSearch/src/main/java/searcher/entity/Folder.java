@@ -25,13 +25,7 @@ public class Folder {
     }
 
     public static void setStartFolder(String url) {
-        File file = new File(url);
-        if (file.exists()) {
-            log.info("Success. Current start folder is " + url);
-            startFolder = file;
-        } else {
-            log.warn("Failed. " + url + " does not exist");
-        }
+        setFolder(url, "start");
     }
 
     public static File getProcessedFilesFolder() {
@@ -39,13 +33,7 @@ public class Folder {
     }
 
     public static void setProcessedFilesFolder(String url) {
-        File file = new File(url);
-        if (file.exists()) {
-            log.info("Success. Current processed files folder is " + url);
-            processedFilesFolder = file;
-        } else {
-            log.warn("Failed. " + url + " does not exist");
-        }
+        setFolder(url, "processed files");
     }
 
     public static File getFailedFolder() {
@@ -53,13 +41,7 @@ public class Folder {
     }
 
     public static void setFailedFolder(String url) {
-        File file = new File(url);
-        if (file.exists()) {
-            log.info("Success. Current start folder is " + url);
-            failedFolder = file;
-        } else {
-            log.warn("Failed. " + url + " does not exist");
-        }
+        setFolder(url, "failed");
     }
 
     public static long getMonitoringPeriod() {
@@ -100,6 +82,26 @@ public class Folder {
             return Long.parseLong(monitoringPeriod);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    private static void setFolder(String url, String folder) {
+        File file = new File(url);
+        if (file.exists() && file.isDirectory()) {
+            log.info("Success. Current " + folder + " folder is " + url);
+            switch (folder) {
+                case "start":
+                    startFolder = file;
+                    break;
+                case "processed files":
+                    processedFilesFolder = file;
+                    break;
+                case "failed":
+                    failedFolder = file;
+                    break;
+            }
+        } else {
+            log.warn("Failed. " + url + " does not exist or it is file");
         }
     }
 }

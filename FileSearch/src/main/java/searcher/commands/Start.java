@@ -77,7 +77,7 @@ public class Start extends Thread implements ICommand {
     private void operationsWithFile(File file) {
         XmlParser xmlParser = new XmlParser();
         if (xmlParser.checkXmlFileContent(file)) {
-            System.out.println(file.getAbsoluteFile().toString() + " found");
+            System.out.println("------------------------------------------------\n" + file.getAbsoluteFile().toString() + " found\n");
             xmlParser.addContentFromXmlFile(file);
             xmlParser.moveXmlFile(file, Folder.getProcessedFilesFolder());
         } else {
