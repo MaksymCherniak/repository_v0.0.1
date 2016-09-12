@@ -1,0 +1,7 @@
+--Write a single SELECT statement that returns all users (internal and
+--external) with their Employee ID, Username, Department, Location and Job--
+--title (where applicable) that work in a location managed by “Location
+--Manager Alpha”.
+
+SELECT employee_id, username, department, location, job_title FROM internal_users, external_users, locations
+WHERE locations.location LIKE '%“Location Manager Alpha”%'

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tasklist.controllers.MainController">
+   <children>
+      <HBox maxHeight="40.0" prefHeight="40.0" prefWidth="600.0">
+         <children>
+            <Pane prefHeight="40.0" prefWidth="606.0">
+               <children>
+                  <Button layoutX="14.0" layoutY="12.0" mnemonicParsing="false" onAction="#start" prefWidth="100.0" text="Start">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="125.0" layoutY="12.0" mnemonicParsing="false" onAction="#saveAs" text="Save into xml file">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="251.0" layoutY="12.0" mnemonicParsing="false" onAction="#loadFile" text="Load from xml file">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="382.0" layoutY="12.0" mnemonicParsing="false" onAction="#saveIntoExcel" text="Save into excel file">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <children>
+            <TableView fx:id="tableTasks" prefHeight="226.0" prefWidth="541.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                <TableColumn fx:id="columnName" prefWidth="222.0" text="Name" />
+                <TableColumn fx:id="columnPID" prefWidth="106.0" text="PID" />
+                  <TableColumn fx:id="columnUsedMemory" prefWidth="231.0" text="Used memory (KB)" />
+              </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+         <VBox.margin>
+            <Insets left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+      </AnchorPane>
+      <AnchorPane maxHeight="25.0" prefHeight="25.0" prefWidth="200.0">
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </VBox.margin>
+         <children>
+            <Label fx:id="countOfTasks" layoutX="19.0" layoutY="4.0" text="" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="totalUsedMemory" layoutX="356.0" layoutY="4.0" text="" AnchorPane.bottomAnchor="1.0" AnchorPane.rightAnchor="0.0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
