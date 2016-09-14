@@ -24,24 +24,21 @@ public class ContentImpl implements IContentService {
 
             ContentListWrapper wrapper = (ContentListWrapper) um.unmarshal(file);
 
-            List<Content> contentList = wrapper.getContents();
+            System.out.println("------------------------------------------------\n" + file.getAbsoluteFile().toString() + " found\n");
 
-            if (contentList != null) {
-                System.out.println("------------------------------------------------\n" + file.getAbsoluteFile().toString() + " found\n");
-                for (Content content : contentList) {
-                    if (getByContentAndDate(content.getContent(), content.getCreationDate()) == null) {
-                        contentRepository.saveAndFlush(content);
-                        log.info("\n" + content.toString() + "\nAdded to database\n------------------------------------------------");
-                    } else {
-                        log.warn("Failed add to database.\n" + content.toString() + "\nAlready exist\n------------------------------------------------");
-                    }
+            for (Content content : wrapper.getContents()) {
+                if (getByContentAndDate(content.getContent(), content.getCreationDate()) == null) {
+                    contentRepository.saveAndFlush(content);
+                    log.info("\n" + content.toString() + "\nAdded to database\n------------------------------------------------");
+                } else {
+                    log.warn("Failed add to database.\n" + content.toString() + "\nAlready exist\n------------------------------------------------");
                 }
-                return true;
             }
+
+            return true;
         } catch (Exception e) {
             log.warn("Error. Could not load data from file:\n" + file.getPath());
         }
-
         return false;
     }
 
