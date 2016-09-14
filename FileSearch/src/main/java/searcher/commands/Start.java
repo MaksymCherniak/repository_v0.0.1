@@ -1,8 +1,9 @@
 package searcher.commands;
 
 import org.apache.log4j.Logger;
+import searcher.dao.service.IContentService;
 import searcher.entity.Folder;
-import searcher.mainClasses.XmlParser;
+import searcher.mainClasses.ApplicationContext;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
@@ -10,6 +11,7 @@ import java.util.concurrent.Executors;
 
 public class Start extends Thread implements ICommand {
     private static Logger log = Logger.getLogger(Start.class.getName());
+    private IContentService iContentService = ApplicationContext.getCtx().getBean("IContentService", IContentService.class);
     private static ExecutorService service;
     private static final int DEFAULT_QUANTITY_THREADS = 50;
     private File currentDirectory;
@@ -43,7 +45,9 @@ public class Start extends Thread implements ICommand {
             public void run() {
                 try {
                     Thread.sleep(Folder.getMonitoringPeriod());
-                } catch (InterruptedException e) { e.printStackTrace(); }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 new Start().execute("start");
             }
         };
@@ -75,13 +79,10 @@ public class Start extends Thread implements ICommand {
     }
 
     private void operationsWithFile(File file) {
-        XmlParser xmlParser = new XmlParser();
-        if (xmlParser.checkXmlFileContent(file)) {
-            System.out.println("------------------------------------------------\n" + file.getAbsoluteFile().toString() + " found\n");
-            xmlParser.addContentFromXmlFile(file);
-            xmlParser.moveXmlFile(file, Folder.getProcessedFilesFolder());
+        if (iContentService.addContent(file)) {
+            file.renameTo(new File(Folder.getProcessedFilesFolder(), file.getName()));
         } else {
-            xmlParser.moveXmlFile(file, Folder.getFailedFolder());
+            file.renameTo(new File(Folder.getFailedFolder(), file.getName()));
         }
     }
 }

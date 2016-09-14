@@ -4,8 +4,12 @@ import org.apache.log4j.Logger;
 import searcher.dao.repository.ContentRepository;
 import searcher.dao.service.IContentService;
 import searcher.entity.Content;
+import searcher.entity.ContentListWrapper;
 import searcher.mainClasses.ApplicationContext;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+import java.io.File;
 import java.util.List;
 
 public class ContentImpl implements IContentService {
@@ -13,12 +17,31 @@ public class ContentImpl implements IContentService {
     private ContentRepository contentRepository = ApplicationContext.getCtx().getBean(ContentRepository.class);
 
     @Override
-    public boolean addContent(Content content) {
-        if (getByContentAndDate(content.getContent(), content.getCreationDate()) == null) {
-            contentRepository.saveAndFlush(content);
-            return true;
+    public boolean addContent(File file) {
+        try {
+            JAXBContext context = JAXBContext.newInstance(ContentListWrapper.class);
+            Unmarshaller um = context.createUnmarshaller();
+
+            ContentListWrapper wrapper = (ContentListWrapper) um.unmarshal(file);
+
+            List<Content> contentList = wrapper.getContents();
+
+            if (contentList != null) {
+                System.out.println("------------------------------------------------\n" + file.getAbsoluteFile().toString() + " found\n");
+                for (Content content : contentList) {
+                    if (getByContentAndDate(content.getContent(), content.getCreationDate()) == null) {
+                        contentRepository.saveAndFlush(content);
+                        log.info("\n" + content.toString() + "\nAdded to database\n------------------------------------------------");
+                    } else {
+                        log.warn("Failed add to database.\n" + content.toString() + "\nAlready exist\n------------------------------------------------");
+                    }
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            log.warn("Error. Could not load data from file:\n" + file.getPath());
         }
-        log.warn("Failed add to database.\n" + content.toString() + "\nAlready exist\n------------------------------------------------");
+
         return false;
     }
 
